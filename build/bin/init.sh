@@ -1,8 +1,10 @@
 #!/bin/bash
 
+# script directory
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 # list executable commands separated by space
 commandependencies=( php mysql npm grunt mocha docco testem compass )
-
 
 # show success message
 function msgsuccess() {
