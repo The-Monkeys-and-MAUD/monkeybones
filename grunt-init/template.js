@@ -19,7 +19,17 @@ exports.template = function(grunt, init, done) {
     init.prompt('licenses', 'MIT'),
     init.prompt('author_name', 'The Monkeys'),
     init.prompt('author_email', 'developers@themonkeys.com.au'),
-    init.prompt('author_url', 'http://themonkeys.com.au')
+    init.prompt('author_url', 'http://themonkeys.com.au'),
+        {
+          name: 'laravel',
+          message: 'Do you want to include Laravel on the build ?',
+          default: 'YES'
+        },
+        {
+          name: 'backbone',
+          message: 'Do you want to include Backbone.js on the build ?',
+          default: 'YES'
+        }
   ], function(err, props) {
 
     props.keywords = [];
@@ -49,5 +59,4 @@ exports.template = function(grunt, init, done) {
 
     done();
   });
-
 };
