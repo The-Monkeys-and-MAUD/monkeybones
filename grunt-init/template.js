@@ -11,9 +11,10 @@ exports.template = function(grunt, init, done) {
 
   init.process({}, [
     init.prompt('name'),
-    init.prompt('title', 'The monkeys project'),
-    init.prompt('description', 'Website'),
-    init.prompt('version', '0.1.0'), init.prompt('repository'),
+    init.prompt('title', 'The monkeys project'), 
+    init.prompt('description', 'Website'), 
+    init.prompt('version', '0.1.0'), 
+    init.prompt('repository'),
     init.prompt('homepage'),
     init.prompt('bugs'),
     init.prompt('licenses', 'MIT'),
