@@ -1,0 +1,20 @@
+{
+  "name": "project name goes in here",
+  "version": "0.0.1",
+  "description": "project description goes in here",
+  "main": "index.js",
+  "directories": {
+    "test": "test",
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": "project git repo goes in here",
+  "author": "themonkeys.com.au",
+  "license": "MIT",
+  "readmeFilename": "README.MD",
+  "devDependencies": {
+    "grunt": "~0.4.0"
+  }
+}
