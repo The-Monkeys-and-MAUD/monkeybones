@@ -1,4 +1,5 @@
-'use strict';
+
+"use strict";
 
 exports.description = 'The monkeys base project';
 
@@ -22,17 +23,22 @@ exports.template = function(grunt, init, done) {
     init.prompt('author_url', 'http://themonkeys.com.au'),
         {
           name: 'laravel',
-          message: 'Do you want to include Laravel on the build ?',
+          message: 'Do you want to include Laravel on the build ? (YES/NO)',
           default: 'YES'
         },
         {
           name: 'backbone',
-          message: 'Do you want to include Backbone.js on the build ?',
+          message: 'Do you want to include Backbone.js on the build ? (YES/NO)',
           default: 'YES'
         }
   ], function(err, props) {
 
     props.keywords = [];
+
+    var red   = '\u001b[31m',
+        blue  = '\u001b[34m',
+        green = '\u001b[32m',
+        reset = '\u001b[0m';
 
     var files = init.filesToCopy(props);
 
@@ -56,6 +62,22 @@ exports.template = function(grunt, init, done) {
         'grunt-contrib-clean': '~0.4.0',
       },
     });
+
+    if( props.laravel === "YES" ) {
+        process.stdout.write("\nSetting up laravel...");
+
+        // laravel commands will go in here
+        
+        process.stdout.write(green + "OK" + reset );
+    }
+
+    if( props.backbone === "YES" ) {
+        process.stdout.write("\nSetting up backbone...");
+
+        // backbone build commands will go in here
+        
+        process.stdout.write(green + "OK" + reset );
+    }
 
     done();
   });
