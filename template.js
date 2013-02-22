@@ -67,6 +67,9 @@ exports.template = function(grunt, init, done) {
         process.stdout.write("\nSetting up laravel...");
 
         // laravel commands will go in here
+        var module = require("./bin/laravel.js")
+
+        module.laravel().setup();
         
         process.stdout.write(green + "OK" + reset );
     }
@@ -75,7 +78,10 @@ exports.template = function(grunt, init, done) {
         process.stdout.write("\nSetting up backbone...");
 
         // backbone build commands will go in here
-        
+        var module = require("./bin/backbone.js")
+
+        module.backbone().setup();
+
         process.stdout.write(green + "OK" + reset );
     }
 
