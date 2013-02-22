@@ -1,0 +1,1 @@
+/* node script to setup laravel framework */
