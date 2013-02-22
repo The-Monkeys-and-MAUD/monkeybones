@@ -64,20 +64,26 @@ exports.template = function(grunt, init, done) {
     });
 
     if( props.laravel === "YES" ) {
-        process.stdout.write("\nSetting up laravel...");
+        process.stdout.write("\nSetting up Laravel...");
 
-        // laravel commands will go in here
         var module = require("./bin/laravel.js")
 
         module.laravel().setup();
         
         process.stdout.write(green + "OK" + reset );
+    } else {
+        process.stdout.write("\nSetting up HTML5 Boilerplate...");
+
+        var module = require("./bin/h5bp.js")
+
+        module.h5bp().setup();
+
+        process.stdout.write(green + "OK" + reset );
     }
 
     if( props.backbone === "YES" ) {
-        process.stdout.write("\nSetting up backbone...");
+        process.stdout.write("\nSetting up Backbonejs...");
 
-        // backbone build commands will go in here
         var module = require("./bin/backbone.js")
 
         module.backbone().setup();
