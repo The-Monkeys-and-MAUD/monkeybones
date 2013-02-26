@@ -53,7 +53,7 @@ function revertbuild() {
     : cleaning commands
 
     echo "Removing npm dependencies.."
-    rm -rf ${DIR}/node_modules
+    rm -rf ${DIR}/../node_modules
 }
 
 case "$1" in
