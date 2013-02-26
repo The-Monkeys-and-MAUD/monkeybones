@@ -92,6 +92,12 @@ module.exports = function(grunt) {
             //port: '8888'
         }   
     },
+    docco: {
+      all: {
+          src: ['<%= jshint.lib_test.src %>'],
+          dest: 'web/doc'
+      }   
+    },
     watch: {
       all: {
           files: ['web/scss/**/*.scss', 'jshint:lib_test', 'public/**/*.js', 'public/**/*.css'],
@@ -131,6 +137,9 @@ module.exports = function(grunt) {
 
   // reload
   grunt.loadNpmTasks('grunt-reload');
+
+  // docco
+  grunt.loadNpmTasks('grunt-docco');
 
   // watch tasks
   grunt.registerTask('dev',     ['reload', 'watch:all']);

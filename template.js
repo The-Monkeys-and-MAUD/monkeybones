@@ -62,6 +62,7 @@ exports.template = function(grunt, init, done) {
         'grunt-contrib-clean': '~0.4.0',
         'grunt-contrib-compass': '~0.1.2',
         'grunt-contrib-connect': '~0.1.2',
+        'grunt-docco': 'git://github.com/DavidSouther/grunt-docco.git',
         'grunt-reload': 'git://github.com/webxl/grunt-reload.git'
       },
     });
