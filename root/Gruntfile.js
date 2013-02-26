@@ -67,21 +67,25 @@ module.exports = function(grunt) {
     },
     compass: {  
         prod: {
-            sassDir: 'web/scss',
-            cssDir: 'public/css',
-            outputStyle: 'compressed',
-            relativeAssets: false,
-            noLineComments: false,
-            debugInfo: false,
-            environment: 'production'
+            options: {
+                sassDir: 'web/scss',
+                cssDir: 'public/css',
+                outputStyle: 'compressed',
+                relativeAssets: false,
+                noLineComments: false,
+                debugInfo: false,
+                environment: 'production'
+            }
         },
         dev: {
-            sassDir: 'web/scss',
-            cssDir: 'public/css',
-            relativeAssets: false,
-            noLineComments: false,
-            outputStyle: 'nested',
-            debugInfo: true
+            options: {
+                sassDir: 'web/scss',
+                cssDir: 'public/css',
+                relativeAssets: false,
+                noLineComments: false,
+                outputStyle: 'nested',
+                debugInfo: true
+            }
         }
     },
     reload: {
