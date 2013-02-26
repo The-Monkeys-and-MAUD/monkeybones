@@ -69,19 +69,17 @@ module.exports = function(grunt) {
         prod: {
             sassDir: 'web/scss',
             cssDir: 'public/css',
-            specify: 'web/scss/**/*.scss',
             outputStyle: 'compressed',
             relativeAssets: false,
-            noLineComments: 'false',
+            noLineComments: false,
             debugInfo: false,
             environment: 'production'
         },
         dev: {
             sassDir: 'web/scss',
             cssDir: 'public/css',
-            specify: 'web/scss/**/*.scss',
             relativeAssets: false,
-            noLineComments: 'false',
+            noLineComments: false,
             outputStyle: 'nested',
             debugInfo: true
         }
