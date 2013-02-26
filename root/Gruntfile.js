@@ -9,22 +9,27 @@ module.exports = function(grunt) {
       '<%= grunt.template.today("yyyy-mm-dd") %> */ \n',
     // Task configuration.
     concat: {
-      options: {
+      prod: {
+        src: ['web/js/vendor/*.js', 'web/js/vendor/**/*.js', 'web/js/lib/**/*.js', 'web/js/app/**/*.js' ],
+        dest: 'public/js/main.debug.js',
         banner: '<%= banner %>',
         stripBanners: true
       },
-      dist: {
-        src: ['web/js/vendor/*.js', 'web/js/vendor/**/*.js', 'web/js/lib/**/*.js', 'web/js/app/**/*.js' ],
-        dest: 'public/js/main.js'
+      dev: {
+        src: '<%= concat.prod.src %>',
+        dest: 'public/js/main.js',
+        banner: '<%= banner %>',
+        stripBanners: false
       }
     },
     uglify: {
       options: {
-        banner: '<%= banner %>'
+        banner: '<%= banner %>',
+        separtor: ';'
       },
       dist: {
-        src: '<%= concat.dist.dest %>',
-        dest: 'dist/main.js'
+        src: '<%= concat.prod.dest %>',
+        dest: 'public/js/main.js'
       }
     },
     jshint: {
@@ -41,26 +46,76 @@ module.exports = function(grunt) {
         boss: true,
         eqnull: true,
         browser: true,
-        globals: {}
+        globals: {
+            exports: true,
+            module: false,
+            jQuery: false,
+            '$': false,
+            console: false,
+            Modernizr:false
+        }
       },
       gruntfile: {
         src: 'Gruntfile.js'
       },
       lib_test: {
-        src: ['lib/**/*.js', 'test/**/*.js']
+        src: ['web/js/lib/**/*.js','web/js/app/**/*.js']
       }
     },
     nodeunit: {
         all: ['web/test/**/*_test.js']
     },
+    compass: {  
+        prod: {
+            options: {
+                sassDir: 'web/scss',
+                cssDir: 'public/css',
+                outputStyle: 'compressed',
+                relativeAssets: false,
+                noLineComments: 'false',
+                debugInfo: false,
+                environment: 'production'
+            }
+        },
+        dev: {
+            options: {
+                sassDir: 'web/scss',
+                cssDir: 'public/css',
+                relativeAssets: false,
+                noLineComments: 'false',
+                outputStyle: 'nested',
+                debugInfo: true
+            }
+        }
+    },
+    reload: {
+        port: 35729, // LR default
+        liveReload: {}, 
+        proxy: {
+            host: 'localhost'
+            //port: '8888'
+        }   
+    },
     watch: {
+      all: {
+          files: ['web/scss/**/*.scss', 'jshint:lib_test', '../public/**/*.js', '../public/**/*.css'],
+          tasks: ['compass:dev', 'concat:dev', 'reload']
+      },
+      css: {
+          files: '<%= compass.dev.options.sassDir %>',
+          tasks: ['compass:dev', 'reload']
+      },
+      js: {
+          files: ['<%= concat.prod.src %>'],
+          tasks: ['concat:dev', 'reload']
+      },
       gruntfile: {
         files: '<%= jshint.gruntfile.src %>',
         tasks: ['jshint:gruntfile']
       },
       lib_test: {
         files: '<%= jshint.lib_test.src %>',
-        tasks: ['jshint:lib_test', 'qunit']
+        tasks: ['jshint:lib_test', 'test']
       }
     }
   });
@@ -71,6 +126,20 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-compass');
+
+  // Better naming conventions
+  grunt.registerTask('lint', 'Lint javascript files with default validator', 'jshint');
+  grunt.registerTask('min',  'Minify files with default minifier', 'uglify');
+  grunt.registerTask('test', 'Unit testing on the command line with default testing framework', 'nodeunit');
+
+  // reload
+  grunt.loadNpmTasks('grunt-reload');
+
+  // watch tasks
+  grunt.registerTask('dev',     ['reload', 'watch:all']);
+  grunt.registerTask('dev:css', ['reload', 'watch:css']);
+  grunt.registerTask('dev:js',  ['reload', 'watch:js']);
 
   // Default task.
   grunt.registerTask('default', ['jshint', 'nodeunit', 'concat', 'uglify']);

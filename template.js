@@ -60,6 +60,9 @@ exports.template = function(grunt, init, done) {
         'grunt-contrib-uglify': '~0.1.1',
         'grunt-contrib-watch': '~0.2.0',
         'grunt-contrib-clean': '~0.4.0',
+        'grunt-contrib-compass': '~0.1.2',
+        'grunt-contrib-connect': '~0.1.2',
+        'grunt-reload': 'git://github.com/webxl/grunt-reload.git'
       },
     });
 
@@ -74,7 +77,7 @@ exports.template = function(grunt, init, done) {
     } else {
         process.stdout.write("\nSetting up HTML5 Boilerplate...");
 
-        var module = require("./bin/h5bp.js")
+        var module = require("./bin/h5bp.js");
 
         module.h5bp().setup();
 
@@ -84,7 +87,7 @@ exports.template = function(grunt, init, done) {
     if( props.backbone === "YES" ) {
         process.stdout.write("\nSetting up Backbonejs...");
 
-        var module = require("./bin/backbone.js")
+        var module = require("./bin/backbone.js");
 
         module.backbone().setup();
 
