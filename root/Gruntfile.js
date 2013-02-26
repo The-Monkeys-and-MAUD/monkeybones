@@ -67,25 +67,23 @@ module.exports = function(grunt) {
     },
     compass: {  
         prod: {
-            options: {
-                sassDir: 'web/scss',
-                cssDir: 'public/css',
-                outputStyle: 'compressed',
-                relativeAssets: false,
-                noLineComments: 'false',
-                debugInfo: false,
-                environment: 'production'
-            }
+            sassDir: 'web/scss',
+            cssDir: 'public/css',
+            specify: 'web/scss/**/*.scss',
+            outputStyle: 'compressed',
+            relativeAssets: false,
+            noLineComments: 'false',
+            debugInfo: false,
+            environment: 'production'
         },
         dev: {
-            options: {
-                sassDir: 'web/scss',
-                cssDir: 'public/css',
-                relativeAssets: false,
-                noLineComments: 'false',
-                outputStyle: 'nested',
-                debugInfo: true
-            }
+            sassDir: 'web/scss',
+            cssDir: 'public/css',
+            specify: 'web/scss/**/*.scss',
+            relativeAssets: false,
+            noLineComments: 'false',
+            outputStyle: 'nested',
+            debugInfo: true
         }
     },
     reload: {
@@ -98,11 +96,11 @@ module.exports = function(grunt) {
     },
     watch: {
       all: {
-          files: ['web/scss/**/*.scss', 'jshint:lib_test', '../public/**/*.js', '../public/**/*.css'],
+          files: ['web/scss/**/*.scss', 'jshint:lib_test', 'public/**/*.js', 'public/**/*.css'],
           tasks: ['compass:dev', 'concat:dev', 'reload']
       },
       css: {
-          files: '<%= compass.dev.options.sassDir %>',
+          files: '<%= compass.dev.sassDir %>',
           tasks: ['compass:dev', 'reload']
       },
       js: {
