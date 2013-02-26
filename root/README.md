@@ -5,7 +5,7 @@ Your Project Title Here
 
 Your project summary here
 
-Documenation
-------------
+Documentation
+-------------
 
 Link to your project's Monkeys wiki page here.
