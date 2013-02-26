@@ -35,7 +35,7 @@ function checkdependencies() {
 function build() {
     
     # install npm modules
-    echo "installing npm dependencies.."
+    echo "Installing npm dependencies.."
     npm install
 
     # run grunt default task
@@ -51,6 +51,9 @@ function build() {
 # commands to restore default state
 function revertbuild() {
     : cleaning commands
+
+    echo "Removing npm dependencies.."
+    rm -rf ${DIR}/node_modules
 }
 
 case "$1" in
