@@ -4,7 +4,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # list executable commands separated by space
-commandependencies=( php mysql npm grunt mocha docco testem compass )
+commandependencies=( php mysql npm grunt docco compass )
 
 # show success message
 function msgsuccess() {
@@ -33,7 +33,18 @@ function checkdependencies() {
 
 # Setup building process
 function build() {
-    : building commands
+    
+    # install npm modules
+    echo "installing npm dependencies.."
+    npm install
+
+    # run grunt default task
+    echo "Running grunt default task.."
+    grunt 
+
+    # generate documentation
+    echo "Generating documentation.."
+    grunt docco
 }
 
 
@@ -47,6 +58,7 @@ case "$1" in
         echo "Building.." 
         checkdependencies
         build
+        echo "done"
     ;;
     rebuild)
         echo "Cleaning.." 

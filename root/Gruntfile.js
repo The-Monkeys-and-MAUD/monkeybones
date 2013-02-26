@@ -95,7 +95,7 @@ module.exports = function(grunt) {
     docco: {
       all: {
           src: ['<%= jshint.lib_test.src %>'],
-          dest: 'web/doc'
+          dest: 'doc/javascript'
       }   
     },
     watch: {
