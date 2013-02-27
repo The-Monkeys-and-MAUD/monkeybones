@@ -104,7 +104,7 @@ module.exports = function(grunt) {
     },
     watch: {
       all: {
-          files: ['web/scss/**/*.scss', 'jshint:lib_test', 'public/**/*.js', 'public/**/*.css'],
+          files: ['web/scss/**/*.scss', 'jshint:lib_test'],
           tasks: ['compass:dev', 'concat:dev', 'reload']
       },
       css: {
@@ -146,9 +146,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-docco');
 
   // watch tasks
-  grunt.registerTask('dev',     ['reload', 'watch:all']);
-  grunt.registerTask('dev:css', ['reload', 'watch:css']);
-  grunt.registerTask('dev:js',  ['reload', 'watch:js']);
+  grunt.registerTask('dev',     ['watch:all']);
+  grunt.registerTask('dev:css', ['watch:css']);
+  grunt.registerTask('dev:js',  ['watch:js']);
 
   // Default task.
   grunt.registerTask('default', ['jshint', 'nodeunit', 'concat', 'uglify', 'compass:prod']);
