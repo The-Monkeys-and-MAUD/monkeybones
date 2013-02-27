@@ -1,23 +1,70 @@
+// # Writting tests
+// #### [nodeunite](https://github.com/caolan/nodeunit "Node unit on github")
 //
-//  Writting tests - nodeunite ( https://github.com/caolan/nodeunit )
+// -    **ok**(value, [message])     
+// Tests if value is a true value.
+//  
+// -    **equal**(actual, expected, [message])  
+// Tests shallow, coercive equality with the equal comparison operator ( == ).
 //
-//  ok(value, [message]) - Tests if value is a true value.
-//  equal(actual, expected, [message]) - Tests shallow, coercive equality with the equal comparison operator ( == ).
-//  notEqual(actual, expected, [message]) - Tests shallow, coercive non-equality with the not equal comparison operator ( != ).
-//  deepEqual(actual, expected, [message]) - Tests for deep equality.
-//  notDeepEqual(actual, expected, [message]) - Tests for any deep inequality.
-//  strictEqual(actual, expected, [message]) - Tests strict equality, as determined by the strict equality operator ( === )
-//  notStrictEqual(actual, expected, [message]) - Tests strict non-equality, as determined by the strict not equal operator ( !== )
-//  throws(block, [error], [message]) - Expects block to throw an error.
-//  doesNotThrow(block, [error], [message]) - Expects block not to throw an error.
-//  ifError(value) - Tests if value is not a false value, throws if it is a true value. Useful when testing the first argument, error in callbacks.
+// -    **notEqual**(actual, expected, [message])  
+// Tests shallow, coercive non-equality with the not equal comparison operator ( != ).
 //
-//  expect(amount) - Specify how many assertions are expected to run within a test. Very useful for ensuring that all your callbacks and assertions are run.
-//  done() - Finish the current test function, and move on to the next. ALL tests should call this!
+// -    **deepEqual**(actual, expected, [message])  
+// Tests for deep equality. 
 //
+// -    **notDeepEqual**(actual, expected, [message])  
+// Tests for any deep inequality.
+//
+// -    **strictEqual**(actual, expected, [message])   
+// Tests strict equality, as determined by the strict equality operator ( === ) 
+//
+// -    **notStrictEqual**(actual, expected, [message])    
+// Tests strict non-equality, as determined by the strict not equal operator ( !== )    
+//
+// -    **throws**(block, [error], [message])    
+// Expects block to throw an error.  
+//
+// -    **doesNotThrow**(block, [error], [message])    
+// Expects block not to throw an error. 
+//
+// -    **ifError**(value)  
+// Tests if value is not a false value, throws if it is a true value. Useful when testing the first argument, error in callbacks.
+//
+// -    **expect**(amount)  
+// Specify how many assertions are expected to run within a test. Very useful for ensuring that all your callbacks and assertions are run.
+//
+// -    **done**()  
+// Finish the current test function, and move on to the next. ALL tests should call this!
+//
+// ## Mocking values ##
+// #### [nodemock](https://github.com/arunoda/nodemock "Nodemock for mocking unit tests")
+// >    *Nodemock* will be used as a library     
+//      to aid on mocking for unit tests.
+// 
+// * * *
+/* Sample dummy test */
+
+/*
+ * '../js/app/dummy.js'
+ *
+ *(function(global) {    
+ *    
+ *    var APP = global.app = global.app || {},    
+ *       module = APP.dummy = APP.dummy || {};    
+ *    
+ *   module.dummy = function sample() {    
+ *       return 1;    
+ *   };    
+ *   
+ * }( typeof exports === 'object' && exports || this ));
+ */
+
+
+// 
 var dummy = require('../js/app/dummy.js');
 
-// this will allow us to mock modules and return values to aid on unit testing - https://github.com/arunoda/nodemock
+// In order to mock values we will include the npm library nodemock
 var nodemock = require("nodemock");
 
 module.exports = { 
@@ -63,4 +110,3 @@ module.exports = {
         test.done();
     }   
 };
-
