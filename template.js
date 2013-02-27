@@ -17,7 +17,7 @@ exports.template = function(grunt, init, done) {
     init.prompt('repository'),
     init.prompt('homepage'),
     init.prompt('bugs'),
-    init.prompt('licenses', 'MIT'),
+    //init.prompt('licenses', 'MIT'), //TODO we need a default Monkeys licence
     init.prompt('author_name', 'The Monkeys'),
     init.prompt('author_email', 'developers@themonkeys.com.au'),
     init.prompt('author_url', 'http://themonkeys.com.au'),
@@ -42,7 +42,7 @@ exports.template = function(grunt, init, done) {
 
     var files = init.filesToCopy(props);
 
-    init.addLicenseFiles(files, props.licenses);
+    //init.addLicenseFiles(files, props.licenses); //TODO reinstate once we've added a Monkeys licence to the list
 
     init.copyAndProcess(files, props);
 
