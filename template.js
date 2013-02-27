@@ -9,6 +9,19 @@ exports.warnOn = '*';
 
 exports.template = function(grunt, init, done) {
 
+  var fs = require('fs');
+  var S_IXUSR = parseInt('0000100', 8);
+  var grantExecutePermission = function(file) {
+    var stat = fs.statSync(file);
+    if (stat.mode & S_IXUSR) {
+      grunt.verbose.writeln('Owner execute bit already set on ' + file + '.');
+    } else {
+      grunt.verbose.write('Setting owner execute bit on ' + file + '...');
+      fs.chmodSync(file, stat.mode | S_IXUSR);
+      grunt.verbose.ok();
+    }
+  };
+
   init.process({}, [
     init.prompt('name'),
     init.prompt('title', 'The monkeys project'), 
@@ -30,15 +43,16 @@ exports.template = function(grunt, init, done) {
           name: 'backbone',
           message: 'Do you want to include Backbone.js on the build ? (YES/NO)',
           default: 'YES'
+        },
+        {
+          name: 'initsh',
+          message: 'Do you want me to automatically download dependencies and build after setting up your project ? (YES/NO)',
+          default: 'YES'
         }
+
   ], function(err, props) {
 
     props.keywords = [];
-
-    var red   = '\u001b[31m',
-        blue  = '\u001b[34m',
-        green = '\u001b[32m',
-        reset = '\u001b[0m';
 
     var files = init.filesToCopy(props);
 
@@ -68,34 +82,56 @@ exports.template = function(grunt, init, done) {
       }
     });
 
+    grantExecutePermission('bin/init.sh');
+
     if( props.laravel === "YES" ) {
-        process.stdout.write("\nSetting up Laravel...");
+      grunt.log.write("Setting up Laravel...");
 
-        var module = require("./bin/laravel.js");
+      var module = require("./bin/laravel.js");
 
-        module.laravel().setup();
-        
-        process.stdout.write(green + "OK" + reset );
+      module.laravel().setup();
+
+      grunt.log.ok();
     } else {
-        process.stdout.write("\nSetting up HTML5 Boilerplate...");
+      grunt.log.write("Setting up HTML5 Boilerplate...");
 
-        var module = require("./bin/h5bp.js");
+      var module = require("./bin/h5bp.js");
 
-        module.h5bp().setup();
+      module.h5bp().setup();
 
-        process.stdout.write(green + "OK" + reset );
+      grunt.log.ok();
     }
 
     if( props.backbone === "YES" ) {
-        process.stdout.write("\nSetting up Backbonejs...");
+      grunt.log.write("Setting up Backbonejs...");
 
-        var module = require("./bin/backbone.js");
+      var module = require("./bin/backbone.js");
 
-        module.backbone().setup();
+      module.backbone().setup();
 
-        process.stdout.write(green + "OK" + reset );
+      grunt.log.ok();
     }
 
-    done();
+    if( props.initsh === "YES" ) {
+      grunt.log.writeln('Running _./bin/init.sh_ ...');
+
+      var spawn = require('child_process').spawn;
+      var child = spawn('./bin/init.sh', [], {
+        stdio: 'inherit'
+      });
+      child.on('exit', function(code) {
+        if (code === 0) {
+          grunt.log.writeln().ok();
+        } else {
+          grunt.fail.warn('./bin/init.sh failed (status ' + code + ').');
+        }
+        done();
+      });
+
+    } else {
+      exports.after = 'Next, run _./bin/init.sh_ to download and install dependencies.';
+      done();
+    }
+
   });
 };
