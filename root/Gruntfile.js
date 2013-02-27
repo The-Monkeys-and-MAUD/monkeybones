@@ -151,6 +151,6 @@ module.exports = function(grunt) {
   grunt.registerTask('dev:js',  ['reload', 'watch:js']);
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'nodeunit', 'concat', 'uglify']);
+  grunt.registerTask('default', ['jshint', 'nodeunit', 'concat', 'uglify', 'compass:prod']);
 
 };
