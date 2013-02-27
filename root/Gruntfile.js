@@ -98,7 +98,7 @@ module.exports = function(grunt) {
     },
     docco: {
       all: {
-          src: ['<%= jshint.lib_test.src %>'],
+          src: ['<%= jshint.lib_test.src %>', 'web/test/**/*.js'],
           dest: 'doc/javascript'
       }   
     },
