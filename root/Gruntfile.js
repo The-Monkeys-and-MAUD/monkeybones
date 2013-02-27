@@ -84,7 +84,7 @@ module.exports = function(grunt) {
                 relativeAssets: false,
                 noLineComments: false,
                 outputStyle: 'nested',
-                debugInfo: true
+                debugInfo: false
             }
         }
     },
