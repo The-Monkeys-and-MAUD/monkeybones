@@ -10,6 +10,7 @@ exports.warnOn = '*';
 exports.template = function(grunt, init, done) {
 
   var fs = require('fs');
+  var http = require('http');
   var S_IXUSR = parseInt('0000100', 8);
   var grantExecutePermission = function(file) {
     var stat = fs.statSync(file);
@@ -42,6 +43,11 @@ exports.template = function(grunt, init, done) {
         {
           name: 'backbone',
           message: 'Do you want to include Backbone.js on the build ? (YES/NO)',
+          default: 'YES'
+        },
+        {
+          name: 'acceptanceFramework',
+          message: 'Do you want to include acceptanceFramework on the build ? (YES/NO)',
           default: 'YES'
         },
         {
@@ -109,6 +115,28 @@ exports.template = function(grunt, init, done) {
 
       module.backbone().setup();
 
+      grunt.log.ok();
+    }
+
+    if( props.acceptanceFramework === "YES" ) {
+      grunt.log.write("Setting up acceptanceFramework...");
+    
+      // folder where acceptance will be placed.
+      var acceptanceFolder = 'public/acceptance',
+          acceptanceUrl = 'https://github.com/TheMonkeys/QUnitRunnerAcceptanceTests/master.tar.gz'; 
+
+      if( !fs.existsSync( acceptanceFolder) ) {
+        grunt.log.write("Setting up acceptanceFramework...");
+
+
+        var request = http.get(acceptanceUrl, function(response) {
+
+              // TO DO - download file into the acceptanceFolder and tar zip it
+              // response.pipe( fs.mkdirSync(acceptanceFolder) );
+        });
+
+      }
+     
       grunt.log.ok();
     }
 
