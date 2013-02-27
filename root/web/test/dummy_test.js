@@ -16,27 +16,33 @@
 //  done() - Finish the current test function, and move on to the next. ALL tests should call this!
 //
 var dummy = require('../js/app/dummy.js');
-module.exports = {
+
+// this will allow us to mock modules and return values to aid on unit testing - https://github.com/arunoda/nodemock
+var nodemock = require("nodemock");
+
+module.exports = { 
 
     setUp: function( callback ) {   
         // setup initial values before any test, this will be called before each test.
         this._module = dummy.app.dummy; 
 
         callback();
-    },
+    },  
 
-    tearDown: function( callback ) {
+    tearDown: function( callback ) { 
         // revert any value that was overwritten on test cases that used setup values.
         // this will be called after each test is finished.
 
-
         callback();
-    },
+    },  
 
-    'Dummy test case': function( test ) {
-        
+    'Dummy test case': function( test ) { 
+
+        // create a mocked function that accepts only '10, [10, 20, 30]' as arguments and returns true
+        var mocked = nodemock.mock("mockedvalue").takes(10, [10, 20, 30]).returns(true);
+
         // number of expected tests to be run
-        test.expect(4);
+        test.expect(5);
 
         // should return true
         test.ok(this._module.dummy() , "Dummy should return true");
@@ -50,6 +56,11 @@ module.exports = {
         // this will test with the === operator
         test.strictEqual(this._module.dummy(), 1, "This should be true since 1 === 1");
 
+        // should return true
+        test.ok(mocked.mockedvalue( 10, [10, 20, 30 ] ) , "mocked should return true");
+
+        // this needs to be called after each test case
         test.done();
-    }
+    }   
 };
+
