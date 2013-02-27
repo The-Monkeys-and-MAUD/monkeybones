@@ -1,7 +1,9 @@
 ![The Monkeys](http://www.themonkeys.com.au/img/monkey_logo.png)
 
-Your Project Title Here
+{%= title %}
 =======================
+
+{%= description %}
 
 Your project summary here
 

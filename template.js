@@ -48,7 +48,7 @@ exports.template = function(grunt, init, done) {
 
     init.writePackageJSON('package.json', {
       name: props.name,
-      description: props.description,
+      description: props.title + (props.description ? ': ' + props.description : ''),
       version: props.version,
       repository: props.repository,
       npm_test: 'grunt test',
