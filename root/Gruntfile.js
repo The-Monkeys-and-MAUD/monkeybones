@@ -72,7 +72,7 @@ module.exports = function(grunt) {
                 cssDir: 'public/css',
                 outputStyle: 'compressed',
                 relativeAssets: false,
-                noLineComments: false,
+                noLineComments: true,
                 debugInfo: false,
                 environment: 'production'
             }
@@ -82,7 +82,7 @@ module.exports = function(grunt) {
                 sassDir: 'web/scss',
                 cssDir: 'public/css',
                 relativeAssets: false,
-                noLineComments: false,
+                noLineComments: true,
                 outputStyle: 'nested',
                 debugInfo: false
             }
