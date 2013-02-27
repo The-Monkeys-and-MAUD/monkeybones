@@ -1,0 +1,7 @@
+/* font definitions and web fonts */
+@mixin serif { 
+    font-family: times, "times new roman", serif;
+}
+@mixin san-serif {
+    font-family: arial, "helvetica nue", helvetica, san-serif;
+}  
