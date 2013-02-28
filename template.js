@@ -1,4 +1,3 @@
-
 "use strict";
 
 exports.description = 'The monkeys base project';
@@ -100,17 +99,14 @@ exports.template = function(grunt, init, done) {
     if( props.laravel === "YES" ) {
       grunt.log.write("Setting up Laravel...");
 
-      var module = require("./bin/laravel.js");
-
-      module.laravel().setup();
+      require("./bin/laravel.js").laravel().setup();
 
       grunt.log.ok();
+
     } else {
       grunt.log.write("Setting up HTML5 Boilerplate...");
 
-      var module = require("./bin/h5bp.js");
-
-      module.h5bp().setup();
+      require("./bin/h5bp.js").h5bp().setup();
 
       grunt.log.ok();
     }
@@ -118,31 +114,21 @@ exports.template = function(grunt, init, done) {
     if( props.backbone === "YES" ) {
       grunt.log.write("Setting up Backbonejs...");
 
-      var module = require("./bin/backbone.js");
-
       // this will set to the latest version
       projectDefaultjson.underscore = "";
 
       // this will set to the latest version
       projectDefaultjson.backbone = "";
       
-      module.backbone().setup();
+      require("./bin/backbone.js").backbone().setup();
 
       grunt.log.ok();
     }
 
     if( props.acceptanceFramework === "YES" ) {
       grunt.log.write("Setting up acceptanceFramework...");
-    
-      // folder where acceptance will be placed.
-      var acceptanceFolder = 'public/acceptance',
-          acceptanceUrl = 'https://github.com/TheMonkeys/QUnitRunnerAcceptanceTests/master.tar.gz'; 
 
-      if( !fs.existsSync( acceptanceFolder) ) {
-
-        fs.mkdirSync(acceptanceFolder)
-
-      }
+      require("./bin/acceptance.js").acceptance().setup();
      
       grunt.log.ok();
     }
