@@ -20,7 +20,7 @@
               tempbuild = 'tempbuild',
               tempfile = tempbuild + '/acceptance.tar.gz',
               acceptanceUrl = 'https://api.github.com/repos/TheMonkeys/QUnitRunnerAcceptanceTests/tarball', 
-              done = "OK".green,
+              ok = "OK".green,
               outputfile;
 
 
@@ -35,14 +35,14 @@
 
             outputfile = fs.createWriteStream(tempfile);
 
-            console.log(taskname, 'Preparing build..', done);
+            console.log(taskname, 'Preparing build..', ok);
 
             
             outputfile.on("close", function() {
-                console.log(taskname, "Downloading.." + acceptanceUrl, done );
+                console.log(taskname, "Downloading.." + acceptanceUrl, ok );
                 new targz().extract(tempfile, tempbuild, function() {
                     
-                    console.log(taskname, "Extracting..", done);
+                    console.log(taskname, "Extracting..", ok);
 
                     // deleting tempfile
                     fs.unlinkSync(tempfile);
@@ -56,7 +56,7 @@
                     // remove build folder
                     rimraf.sync(tempbuild);
 
-                    console.log(taskname, "Cleaning..", done);
+                    console.log(taskname, "Cleaning..", ok);
                 });
             });
 
