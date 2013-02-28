@@ -161,7 +161,35 @@ function template(grunt, init, done) {
 }
 
 function installDependencies(grunt, init, done) {
-  var npm = require('npm');
+  var npm;
+
+  try {
+    // as a global library, requiring npm needs NODE_PATH to be set, and it's often not set by default.
+    // in that case let's try to help the user a bit
+    npm = require('npm');
+
+  } catch (e) {
+    var suggestion = '';
+    var fs = require('fs');
+    if (typeof process.env.NODE_PATH === 'undefined') {
+      suggestion = ' Hint: environment variable *NODE_PATH* is not set.';
+
+      if (fs.existsSync('/usr/local/lib/node_modules/')) {
+        suggestion += ' Try setting it to _/usr/local/lib/node_modules/_.';
+
+        // why not just try loading it directly then?
+        try {
+          npm = require('/usr/local/lib/node_modules/npm/lib/npm');
+        } catch (e) {
+          // give up...
+        }
+      }
+    }
+    if (!npm) {
+      grunt.log.error('Cannot find module \'npm\'.' + suggestion);
+      return done();
+    }
+  }
 
   // first, use npm to get our dependencies
   grunt.log.writeln('_Using npm install to get template script dependencies._');
