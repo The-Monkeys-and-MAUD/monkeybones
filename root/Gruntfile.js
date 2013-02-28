@@ -1,4 +1,3 @@
-/*global module:false*/
 module.exports = function(grunt) {
 
   // Project configuration.
@@ -127,12 +126,23 @@ module.exports = function(grunt) {
     bowerful: {
         store: 'components',
         dest: 'web/js/vendor',
+        /*
         packages: {
-            jquery: '', 
-            underscore: '', 
-            backbone: ''
+            jquery: ''//, 
+            //underscore: '', 
+            //backbone: ''
         }   
-    } 
+        */
+        packages: grunt.file.readJSON('projectDefault.json')
+    }, 
+    clean: {
+        install: {
+            src: '<%= bowerful.store.src %>'
+        },
+        debug: {
+            src: '<%= concat.prod.dest %>'
+        }
+    }
   });
 
   // These plugins provide necessary tasks.
@@ -142,6 +152,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-compass');
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-bowerful');
 
   // Better naming conventions
@@ -161,9 +172,9 @@ module.exports = function(grunt) {
   grunt.registerTask('dev:js',  ['watch:js']);
 
   // install 
-  grunt.registerTask('install',  ['bowerful']);
+  grunt.registerTask('install', 'Install javascript components defined on Gruntfile',  ['bowerful', 'clean:install']);
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'nodeunit', 'concat', 'uglify', 'compass:prod']);
+  grunt.registerTask('default', ['jshint', 'nodeunit', 'concat', 'uglify', 'clean:debug', 'compass:prod']);
 
 };

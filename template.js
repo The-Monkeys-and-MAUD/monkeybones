@@ -91,6 +91,12 @@ exports.template = function(grunt, init, done) {
 
     grantExecutePermission('bin/init.sh');
 
+    // Here is where we going to specify which files should be downloaded
+    // by bower, default is only jquery.
+    var projectDefaultjson = {
+        jquery: ""
+    };
+
     if( props.laravel === "YES" ) {
       grunt.log.write("Setting up Laravel...");
 
@@ -113,6 +119,12 @@ exports.template = function(grunt, init, done) {
       grunt.log.write("Setting up Backbonejs...");
 
       var module = require("./bin/backbone.js");
+
+      projectDefaultjson.underscore = "";
+      projectDefaultjson.backbone = "";
+      
+      // create a project json file
+      fs.writeFile('projectDefault.json', JSON.stringify(projectDefaultjson));
 
       module.backbone().setup();
 
