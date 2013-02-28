@@ -120,12 +120,12 @@ exports.template = function(grunt, init, done) {
 
       var module = require("./bin/backbone.js");
 
+      // this will set to the latest version
       projectDefaultjson.underscore = "";
+
+      // this will set to the latest version
       projectDefaultjson.backbone = "";
       
-      // create a project json file
-      fs.writeFile('projectDefault.json', JSON.stringify(projectDefaultjson));
-
       module.backbone().setup();
 
       grunt.log.ok();
@@ -147,8 +147,12 @@ exports.template = function(grunt, init, done) {
       grunt.log.ok();
     }
 
+    // create a project json file on which projects will be read from
+    fs.writeFile('projectDefault.json', JSON.stringify(projectDefaultjson));
+
     if( props.initsh === "YES" ) {
       grunt.log.writeln('Running _./bin/init.sh_ ...');
+
 
       var spawn = require('child_process').spawn;
       var child = spawn('./bin/init.sh', [], {
