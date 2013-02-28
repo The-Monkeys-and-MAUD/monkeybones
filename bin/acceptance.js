@@ -15,13 +15,14 @@
         setup: function() {
 
           // folder where acceptance will be placed.
-          var acceptanceFolder = 'public/acceptance',
+          var taskname = "AcceptanceFramework",   
+              acceptanceFolder = 'public/acceptance',
               tempbuild = 'tempbuild',
               tempfile = tempbuild + '/acceptance.tar.gz',
               acceptanceUrl = 'https://api.github.com/repos/TheMonkeys/QUnitRunnerAcceptanceTests/tarball', 
+              done = "OK".green,
               outputfile;
 
-            console.log('Preparing build..');
 
             // if we have a build folder delete it before proceding.
             if( fs.existsSync(tempbuild) ) {
@@ -34,17 +35,14 @@
 
             outputfile = fs.createWriteStream(tempfile);
 
-            console.log("Done".green);
+            console.log(taskname, 'Preparing build..', done);
 
-            console.log("Downloading.. " + acceptanceUrl );
             
             outputfile.on("close", function() {
-                console.log("Done".green);
-                console.log("Extracting..");
+                console.log(taskname, "Downloading.." + acceptanceUrl, done );
                 new targz().extract(tempfile, tempbuild, function() {
                     
-                    console.log("Done".green);
-                    console.log("Cleaning..");
+                    console.log(taskname, "Extracting..", done);
 
                     // deleting tempfile
                     fs.unlinkSync(tempfile);
@@ -58,7 +56,7 @@
                     // remove build folder
                     rimraf.sync(tempbuild);
 
-                    console.log("Done".green);
+                    console.log(taskname, "Cleaning..", done);
                 });
             });
 

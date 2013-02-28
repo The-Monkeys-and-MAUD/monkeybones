@@ -126,11 +126,10 @@ function template(grunt, init, done) {
     }
 
     if( props.acceptanceFramework === "YES" ) {
-      grunt.log.write("Setting up acceptanceFramework...");
+      grunt.log.write("Setting up acceptanceFramework assync...");
+      grunt.log.ok();
 
       require("./bin/acceptance.js").acceptance().setup();
-     
-      grunt.log.ok();
     }
 
     // create a project json file on which projects will be read from
