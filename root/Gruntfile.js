@@ -123,7 +123,16 @@ module.exports = function(grunt) {
         files: '<%= jshint.lib_test.src %>',
         tasks: ['jshint:lib_test', 'test']
       }
-    }
+    },  
+    bowerful: {
+        store: 'components',
+        dest: 'web/js/vendor',
+        packages: {
+            jquery: '', 
+            underscore: '', 
+            backbone: ''
+        }   
+    } 
   });
 
   // These plugins provide necessary tasks.
@@ -133,6 +142,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-compass');
+  grunt.loadNpmTasks('grunt-bowerful');
 
   // Better naming conventions
   grunt.registerTask('lint', 'Lint javascript files with default validator', 'jshint');
@@ -149,6 +159,9 @@ module.exports = function(grunt) {
   grunt.registerTask('dev',     ['watch:all']);
   grunt.registerTask('dev:css', ['watch:css']);
   grunt.registerTask('dev:js',  ['watch:js']);
+
+  // install 
+  grunt.registerTask('install',  ['bowerful']);
 
   // Default task.
   grunt.registerTask('default', ['jshint', 'nodeunit', 'concat', 'uglify', 'compass:prod']);

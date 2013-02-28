@@ -38,6 +38,9 @@ function build() {
     echo "Installing npm dependencies.."
     npm install
 
+    echo "Installing basic javascript files"
+    grunt install
+
     # run grunt default task
     echo "Running grunt default task.."
     grunt 

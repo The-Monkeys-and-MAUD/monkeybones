@@ -11,6 +11,9 @@
 *~
 *.sass-cache
 
+# twitter bower default folder and files
+components
+
 # OS or Editor folders
 .DS_Store
 ._*

@@ -84,7 +84,8 @@ exports.template = function(grunt, init, done) {
         'grunt-contrib-connect': '~0.1.2',
         'grunt-docco': 'git://github.com/DavidSouther/grunt-docco.git',
         'grunt-reload': 'git://github.com/webxl/grunt-reload.git',
-        'nodemock': '~0.2.17'
+        'nodemock': '~0.2.17',
+        'grunt-bowerful': 'latest'
       }
     });
 
