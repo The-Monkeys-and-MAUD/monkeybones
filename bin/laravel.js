@@ -6,6 +6,7 @@
   exports.laravel = function() {
     return {
         setup: function() {
+          var request = require('request');
 
         }
     };

@@ -1,0 +1,26 @@
+{
+  "name": "project-scaffolding",
+  "version": "0.1.0",
+  "description": "The Monkeys project template",
+  "main": "template.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheMonkeys/project-scaffolding.git"
+  },
+  "keywords": [
+    "monkeys",
+    "scaffold",
+    "template",
+    "development",
+    "project"
+  ],
+  "author": "Mitermayer Reis and Pete Feltham",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "request": "~2.14.0"
+  }
+}
