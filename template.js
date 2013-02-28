@@ -1,5 +1,103 @@
 "use strict";
 
+function setupLaravel(grunt, init, done) {
+  runSetupScript('./bin/laravel.js', 'Laravel', grunt, init, done);
+}
+
+function setupHtml5Boilerplate(grunt, init, done) {
+  runSetupScript('./bin/h5bp.js', 'HTML5 Boilerplate', grunt, init, done);
+}
+
+function setupBackbone(grunt, init, done) {
+  // this will set to the latest version
+  projectDefaultjson.underscore = "";
+
+  // this will set to the latest version
+  projectDefaultjson.backbone = "";
+
+  runSetupScript('./bin/backbone.js', 'Backbonejs', grunt, init, done);
+}
+
+function setupAcceptanceFramework(grunt, init, done) {
+  runSetupScript('./bin/acceptance.js', 'Acceptance Testing Framework', grunt, init, done);
+}
+
+function runSetupScript(script, title, grunt, init, done) {
+  grunt.log.write("Setting up " + title + "...");
+
+  require(script).template().setup(grunt, init, function() {
+    grunt.log.ok();
+    done();
+  });
+}
+
+function installDependencies(grunt, init, done) {
+  var npm;
+
+  try {
+    // as a global library, requiring npm needs NODE_PATH to be set, and it's often not set by default.
+    // in that case let's try to help the user a bit
+    npm = require('npm');
+
+  } catch (e) {
+    var suggestion = '';
+    var fs = require('fs');
+    if (typeof process.env.NODE_PATH === 'undefined') {
+      suggestion = ' Hint: environment variable *NODE_PATH* is not set.';
+
+      if (fs.existsSync('/usr/local/lib/node_modules/')) {
+        suggestion += ' Try setting it to _/usr/local/lib/node_modules/_.';
+
+        // why not just try loading it directly then?
+        try {
+          npm = require('/usr/local/lib/node_modules/npm/lib/npm');
+        } catch (e) {
+          // give up...
+        }
+      }
+    }
+    if (!npm) {
+      grunt.log.error('Cannot find module \'npm\'.' + suggestion);
+      return done();
+    }
+  }
+
+  // first, use npm to get our dependencies
+  grunt.log.writeln('_Using npm install to get template script dependencies._');
+  var dir = process.cwd();
+  process.chdir(__dirname);
+
+  function installed(success, msg) {
+    process.chdir(dir);
+
+    if (!success) {
+      grunt.log.error(msg);
+      done();
+    } else {
+      grunt.log.ok();
+      template(grunt, init, done);
+    }
+  }
+
+  npm.load({}, function (er) {
+    if (er) {
+      installed(false, 'Error executing npm install: ' + er);
+    } else {
+      npm.commands.install([], function (er, data) {
+        if (er) {
+          installed(false, 'Error executing npm install: ' + er);
+        } else {
+          installed(true);
+        }
+      });
+      npm.on("log", function (message) {
+        grunt.log.writeln(message);
+      });
+    }
+  });
+}
+
+
 exports.description = 'The monkeys base project';
 
 exports.notes = 'By default we will create a Laravel backend with Backbone.js';
@@ -140,102 +238,4 @@ function template(grunt, init, done) {
     }
   });
 }
-
-function setupLaravel(grunt, init, done) {
-  runSetupScript('./bin/laravel.js', 'Laravel', grunt, init, done);
-}
-
-function setupHtml5Boilerplate(grunt, init, done) {
-  runSetupScript('./bin/h5bp.js', 'HTML5 Boilerplate', grunt, init, done);
-}
-
-function setupBackbone(grunt, init, done) {
-  // this will set to the latest version
-  projectDefaultjson.underscore = "";
-
-  // this will set to the latest version
-  projectDefaultjson.backbone = "";
-
-  runSetupScript('./bin/backbone.js', 'Backbonejs', grunt, init, done);
-}
-
-function setupAcceptanceFramework(grunt, init, done) {
-  runSetupScript('./bin/acceptance.js', 'Acceptance Testing Framework', grunt, init, done);
-}
-
-function runSetupScript(script, title, grunt, init, done) {
-  grunt.log.write("Setting up " + title + "...");
-
-  require(script).template().setup(grunt, init, function() {
-    grunt.log.ok();
-    done();
-  });
-}
-
-function installDependencies(grunt, init, done) {
-  var npm;
-
-  try {
-    // as a global library, requiring npm needs NODE_PATH to be set, and it's often not set by default.
-    // in that case let's try to help the user a bit
-    npm = require('npm');
-
-  } catch (e) {
-    var suggestion = '';
-    var fs = require('fs');
-    if (typeof process.env.NODE_PATH === 'undefined') {
-      suggestion = ' Hint: environment variable *NODE_PATH* is not set.';
-
-      if (fs.existsSync('/usr/local/lib/node_modules/')) {
-        suggestion += ' Try setting it to _/usr/local/lib/node_modules/_.';
-
-        // why not just try loading it directly then?
-        try {
-          npm = require('/usr/local/lib/node_modules/npm/lib/npm');
-        } catch (e) {
-          // give up...
-        }
-      }
-    }
-    if (!npm) {
-      grunt.log.error('Cannot find module \'npm\'.' + suggestion);
-      return done();
-    }
-  }
-
-  // first, use npm to get our dependencies
-  grunt.log.writeln('_Using npm install to get template script dependencies._');
-  var dir = process.cwd();
-  process.chdir(__dirname);
-
-  function installed(success, msg) {
-    process.chdir(dir);
-
-    if (!success) {
-      grunt.log.error(msg);
-      done();
-    } else {
-      grunt.log.ok();
-      template(grunt, init, done);
-    }
-  }
-
-  npm.load({}, function (er) {
-    if (er) {
-      installed(false, 'Error executing npm install: ' + er);
-    } else {
-      npm.commands.install([], function (er, data) {
-        if (er) {
-          installed(false, 'Error executing npm install: ' + er);
-        } else {
-          installed(true);
-        }
-      });
-      npm.on("log", function (message) {
-        grunt.log.writeln(message);
-      });
-    }
-  });
-}
-
 exports.template = installDependencies;
