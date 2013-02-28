@@ -6,11 +6,12 @@ exports.notes = 'By default we will create a Laravel backend with Backbone.js';
 
 exports.warnOn = '*';
 
-exports.template = function(grunt, init, done) {
+function template(grunt, init, done) {
 
   var fs = require('fs');
   var S_IXUSR = parseInt('0000100', 8);
   var grantExecutePermission = function(file) {
+    /*jshint bitwise: false*/
     var stat = fs.statSync(file);
     if (stat.mode & S_IXUSR) {
       grunt.verbose.writeln('Owner execute bit already set on ' + file + '.');
@@ -36,22 +37,22 @@ exports.template = function(grunt, init, done) {
         {
           name: 'laravel',
           message: 'Do you want to include Laravel on the build ? (YES/NO)',
-          default: 'YES'
+          'default': 'YES'
         },
         {
           name: 'backbone',
           message: 'Do you want to include Backbone.js on the build ? (YES/NO)',
-          default: 'YES'
+          'default': 'YES'
         },
         {
           name: 'acceptanceFramework',
           message: 'Do you want to include acceptanceFramework on the build ? (YES/NO)',
-          default: 'YES'
+          'default': 'YES'
         },
         {
           name: 'initsh',
           message: 'Do you want me to automatically download dependencies and build after setting up your project ? (YES/NO)',
-          default: 'YES'
+          'default': 'YES'
         }
 
   ], function(err, props) {
@@ -158,4 +159,44 @@ exports.template = function(grunt, init, done) {
     }
 
   });
-};
+}
+
+function installDependencies(grunt, init, done) {
+  var npm = require('npm');
+
+  // first, use npm to get our dependencies
+  grunt.log.writeln('_Using npm install to get template script dependencies._');
+  var dir = process.cwd();
+  process.chdir(__dirname);
+
+  function installed(success, msg) {
+    process.chdir(dir);
+
+    if (!success) {
+      grunt.log.error(msg);
+      done();
+    } else {
+      grunt.log.ok();
+      template(grunt, init, done);
+    }
+  }
+
+  npm.load({}, function (er) {
+    if (er) {
+      installed(false, 'Error executing npm install: ' + er);
+    } else {
+      npm.commands.install([], function (er, data) {
+        if (er) {
+          installed(false, 'Error executing npm install: ' + er);
+        } else {
+          installed(true);
+        }
+      });
+      npm.on("log", function (message) {
+        grunt.log.writeln(message);
+      });
+    }
+  });
+}
+
+exports.template = installDependencies;
