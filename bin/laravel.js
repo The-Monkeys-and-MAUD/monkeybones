@@ -1,3 +1,5 @@
+#!/usr/local/bin/node
+
 /* node script to setup laravel framework */
 (function(exports) {
 

@@ -1,3 +1,5 @@
+#!/usr/local/bin/node
+
 /* node script to setup backbone.js */
 (function(exports) {
 
