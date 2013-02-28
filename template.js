@@ -9,7 +9,6 @@ exports.warnOn = '*';
 exports.template = function(grunt, init, done) {
 
   var fs = require('fs');
-  var http = require('http');
   var S_IXUSR = parseInt('0000100', 8);
   var grantExecutePermission = function(file) {
     var stat = fs.statSync(file);
