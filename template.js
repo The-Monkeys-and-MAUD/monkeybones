@@ -126,14 +126,8 @@ exports.template = function(grunt, init, done) {
           acceptanceUrl = 'https://github.com/TheMonkeys/QUnitRunnerAcceptanceTests/master.tar.gz'; 
 
       if( !fs.existsSync( acceptanceFolder) ) {
-        grunt.log.write("Setting up acceptanceFramework...");
 
-
-        var request = http.get(acceptanceUrl, function(response) {
-
-              // TO DO - download file into the acceptanceFolder and tar zip it
-              // response.pipe( fs.mkdirSync(acceptanceFolder) );
-        });
+        fs.mkdirSync(acceptanceFolder)
 
       }
      
