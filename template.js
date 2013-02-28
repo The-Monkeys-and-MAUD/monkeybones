@@ -6,6 +6,13 @@ exports.notes = 'By default we will create a Laravel backend with Backbone.js';
 
 exports.warnOn = '*';
 
+// Here is where we going to specify which files should be downloaded
+// by bower, default is only jquery.
+var projectDefaultjson = {
+  jquery: ""
+};
+
+
 function template(grunt, init, done) {
 
   var fs = require('fs');
@@ -90,73 +97,78 @@ function template(grunt, init, done) {
 
     grantExecutePermission('bin/init.sh');
 
-    // Here is where we going to specify which files should be downloaded
-    // by bower, default is only jquery.
-    var projectDefaultjson = {
-        jquery: ""
-    };
-
     if( props.laravel === "YES" ) {
-      grunt.log.write("Setting up Laravel...");
-
-      require("./bin/laravel.js").laravel().setup();
-
-      grunt.log.ok();
-
+      setupLaravel(grunt, init, next);
     } else {
-      grunt.log.write("Setting up HTML5 Boilerplate...");
-
-      require("./bin/h5bp.js").h5bp().setup();
-
-      grunt.log.ok();
+      setupHtml5Boilerplate(grunt, init, next);
     }
 
-    if( props.backbone === "YES" ) {
-      grunt.log.write("Setting up Backbonejs...");
+    function next() {
+      if( props.backbone === "YES" ) {
+        setupBackbone(grunt, init, function() {
+          if( props.acceptanceFramework === "YES" ) {
+            setupAcceptanceFramework(grunt, init, function() {
 
-      // this will set to the latest version
-      projectDefaultjson.underscore = "";
+              // create a project json file on which projects will be read from
+              fs.writeFile('projectDefault.json', JSON.stringify(projectDefaultjson));
 
-      // this will set to the latest version
-      projectDefaultjson.backbone = "";
-      
-      require("./bin/backbone.js").backbone().setup();
+              if( props.initsh === "YES" ) {
+                grunt.log.writeln('Running _./bin/init.sh_ ...');
 
-      grunt.log.ok();
+                var spawn = require('child_process').spawn;
+                var child = spawn('./bin/init.sh', [], {
+                  stdio: 'inherit'
+                });
+                child.on('exit', function(code) {
+                  if (code === 0) {
+                    grunt.log.writeln().ok();
+                  } else {
+                    grunt.fail.warn('./bin/init.sh failed (status ' + code + ').');
+                  }
+                  done();
+                });
+
+              } else {
+                exports.after = 'Next, run _./bin/init.sh_ to download and install dependencies.';
+                done();
+              }
+
+            });
+          }
+        });
+      }
     }
+  });
+}
 
-    if( props.acceptanceFramework === "YES" ) {
-      grunt.log.write("Setting up acceptanceFramework assync...");
-      grunt.log.ok();
+function setupLaravel(grunt, init, done) {
+  runSetupScript('./bin/laravel.js', 'Laravel', grunt, init, done);
+}
 
-      require("./bin/acceptance.js").acceptance().setup();
-    }
+function setupHtml5Boilerplate(grunt, init, done) {
+  runSetupScript('./bin/h5bp.js', 'HTML5 Boilerplate', grunt, init, done);
+}
 
-    // create a project json file on which projects will be read from
-    fs.writeFile('projectDefault.json', JSON.stringify(projectDefaultjson));
+function setupBackbone(grunt, init, done) {
+  // this will set to the latest version
+  projectDefaultjson.underscore = "";
 
-    if( props.initsh === "YES" ) {
-      grunt.log.writeln('Running _./bin/init.sh_ ...');
+  // this will set to the latest version
+  projectDefaultjson.backbone = "";
 
+  runSetupScript('./bin/backbone.js', 'Backbonejs', grunt, init, done);
+}
 
-      var spawn = require('child_process').spawn;
-      var child = spawn('./bin/init.sh', [], {
-        stdio: 'inherit'
-      });
-      child.on('exit', function(code) {
-        if (code === 0) {
-          grunt.log.writeln().ok();
-        } else {
-          grunt.fail.warn('./bin/init.sh failed (status ' + code + ').');
-        }
-        done();
-      });
+function setupAcceptanceFramework(grunt, init, done) {
+  runSetupScript('./bin/acceptance.js', 'Acceptance Testing Framework', grunt, init, done);
+}
 
-    } else {
-      exports.after = 'Next, run _./bin/init.sh_ to download and install dependencies.';
-      done();
-    }
+function runSetupScript(script, title, grunt, init, done) {
+  grunt.log.write("Setting up " + title + "...");
 
+  require(script).template().setup(grunt, init, function() {
+    grunt.log.ok();
+    done();
   });
 }
 

@@ -2,11 +2,11 @@
 
 /* node script to setup backbone.js */
 (function(exports) {
-
-  exports.backbone = function() {
+  "use strict";
+  exports.template = function() {
     return {
-        setup: function() {
-
+        setup: function(grunt, init, done) {
+            done();
         }
     };
   };  

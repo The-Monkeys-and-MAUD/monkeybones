@@ -2,11 +2,11 @@
 
 /* node script to setup html5 boiler plate framework */
 (function(exports) {
-
-  exports.h5bp = function() {
+  "use strict";
+  exports.template = function() {
     return {
-        setup: function() {
-
+        setup: function(grunt, init, done) {
+            done();
         }
     };
   };  

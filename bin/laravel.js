@@ -2,15 +2,14 @@
 
 /* node script to setup laravel framework */
 (function(exports) {
-
-  exports.laravel = function() {
+  "use strict";
+  exports.template = function() {
     return {
-        setup: function() {
-          var request = require('request');
-
+        setup: function(grunt, init, done) {
+            done();
         }
     };
-  };  
+  };
 
 }(typeof exports === 'object' && exports || this));
 

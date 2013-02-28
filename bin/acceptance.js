@@ -2,17 +2,16 @@
 
 /* node script to setup acceptance testing framework */
 (function(exports) {
-
-  exports.acceptance = function() {
+  "use strict";
+  exports.template = function() {
 
     var fs = require('fs');
     var request = require('request');
     var targz = require('tar.gz');
     var rimraf = require('rimraf');
-    var colors = require('colors');
 
     return {
-        setup: function() {
+        setup: function(grunt, init, done) {
 
           // folder where acceptance will be placed.
           var taskname = "AcceptanceFramework",   
@@ -20,7 +19,6 @@
               tempbuild = 'tempbuild',
               tempfile = tempbuild + '/acceptance.tar.gz',
               acceptanceUrl = 'https://api.github.com/repos/TheMonkeys/QUnitRunnerAcceptanceTests/tarball', 
-              ok = "OK".green,
               outputfile;
 
 
@@ -35,15 +33,11 @@
 
             outputfile = fs.createWriteStream(tempfile);
 
-            console.log(taskname, 'Preparing build..', ok);
-
             
             outputfile.on("close", function() {
-                console.log(taskname, "Downloading.." + acceptanceUrl, ok );
+                grunt.verbose.ok();
+                grunt.verbose.write(taskname + ": extracting...");
                 new targz().extract(tempfile, tempbuild, function() {
-                    
-                    console.log(taskname, "Extracting..", ok);
-
                     // deleting tempfile
                     fs.unlinkSync(tempfile);
                     
@@ -53,14 +47,19 @@
                     // move new content to the folder
                     fs.renameSync(tempbuild + '/' + fs.readdirSync(tempbuild)[0], acceptanceFolder);
 
+                    grunt.verbose.ok();
+
+                    grunt.verbose.write(taskname + ": cleaning...");
                     // remove build folder
                     rimraf.sync(tempbuild);
 
-                    console.log(taskname, "Cleaning..", ok);
+                    grunt.verbose.ok();
+                    done();
                 });
             });
 
             // downloading file from git
+            grunt.verbose.write(taskname + ": downloading..." + acceptanceUrl);
             request(acceptanceUrl).pipe( outputfile);
 
         }
