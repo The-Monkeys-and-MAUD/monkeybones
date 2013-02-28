@@ -15,7 +15,7 @@
         setup: function() {
 
           // folder where acceptance will be placed.
-          var acceptanceFolder = 'acceptance',
+          var acceptanceFolder = 'public/acceptance',
               tempbuild = 'tempbuild',
               tempfile = tempbuild + '/acceptance.tar.gz',
               acceptanceUrl = 'https://api.github.com/repos/TheMonkeys/QUnitRunnerAcceptanceTests/tarball', 
