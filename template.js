@@ -70,12 +70,12 @@ function installDependencies(grunt, init, done) {
   function installed(success, msg) {
     process.chdir(dir);
 
-    if (!success) {
-      grunt.log.error(msg);
-      done();
-    } else {
+    if (success) {
       grunt.log.ok();
       template(grunt, init, done);
+    } else {
+      grunt.log.error(msg);
+      done();
     }
   }
 
@@ -195,47 +195,55 @@ function template(grunt, init, done) {
 
     grantExecutePermission('bin/init.sh');
 
+    var next = function() {
+      next = function() {
+        next = function() {
+          next = done;
+
+          // create a project json file on which projects will be read from
+          fs.writeFile('projectDefault.json', JSON.stringify(projectDefaultjson));
+
+          if( props.initsh === "YES" ) {
+            grunt.log.writeln('Running _./bin/init.sh_ ...');
+
+            var spawn = require('child_process').spawn;
+            var child = spawn('./bin/init.sh', [], {
+              stdio: 'inherit'
+            });
+            child.on('exit', function(code) {
+              if (code === 0) {
+                grunt.log.writeln().ok();
+              } else {
+                grunt.fail.warn('./bin/init.sh failed (status ' + code + ').');
+              }
+              next();
+            });
+
+          } else {
+            exports.after = 'Next, run _./bin/init.sh_ to download and install dependencies.';
+            next();
+          }
+        };
+
+        if( props.acceptanceFramework === "YES" ) {
+          setupAcceptanceFramework(grunt, init, next);
+        } else {
+          next();
+        }
+      };
+      if ( props.backbone === "YES" ) {
+        setupBackbone(grunt, init, next);
+      } else {
+        next();
+      }
+    };
+
     if( props.laravel === "YES" ) {
       setupLaravel(grunt, init, next);
     } else {
       setupHtml5Boilerplate(grunt, init, next);
     }
 
-    function next() {
-      if( props.backbone === "YES" ) {
-        setupBackbone(grunt, init, function() {
-          if( props.acceptanceFramework === "YES" ) {
-            setupAcceptanceFramework(grunt, init, function() {
-
-              // create a project json file on which projects will be read from
-              fs.writeFile('projectDefault.json', JSON.stringify(projectDefaultjson));
-
-              if( props.initsh === "YES" ) {
-                grunt.log.writeln('Running _./bin/init.sh_ ...');
-
-                var spawn = require('child_process').spawn;
-                var child = spawn('./bin/init.sh', [], {
-                  stdio: 'inherit'
-                });
-                child.on('exit', function(code) {
-                  if (code === 0) {
-                    grunt.log.writeln().ok();
-                  } else {
-                    grunt.fail.warn('./bin/init.sh failed (status ' + code + ').');
-                  }
-                  done();
-                });
-
-              } else {
-                exports.after = 'Next, run _./bin/init.sh_ to download and install dependencies.';
-                done();
-              }
-
-            });
-          }
-        });
-      }
-    }
   });
 }
 exports.template = installDependencies;
