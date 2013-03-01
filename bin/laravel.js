@@ -4,9 +4,17 @@
 (function(exports) {
   "use strict";
   exports.template = function() {
+    var dnz = require('./lib/download-and-unzip');
+
     return {
         setup: function(grunt, init, done) {
-            done();
+          dnz.downloadAndUnzip('https://github.com/laravel/laravel/archive/develop.zip', {
+            fromdir: 'laravel-develop/',
+            verbose: function(msg) {
+              grunt.verbose.writeln(msg);
+            },
+            complete: done
+          });
         }
     };
   };
