@@ -67,6 +67,10 @@
           if (fs.existsSync(file) && !options.overwrite) {
             verbose('File "' + file + '" already exists so will not extract.');
           } else {
+            var dir = path.dirname(file);
+            if (!fs.existsSync(dir)) {
+              fs.mkdirSync(dir);
+            }
             var fstream = fs.createWriteStream(file);
             entry.pipe(fstream);
             verbose('File "' + file + '" extracted.');

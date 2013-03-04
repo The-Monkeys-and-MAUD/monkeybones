@@ -71,7 +71,7 @@
 
             var url = window.$('a[href*="zipball"]:first').attr('href');
             grunt.verbose.writeln('Downloading HTML5Boilerplate from _' + url + '_...');
-            self.unzipBoilerplate(request(url), grunt, init, done);
+            self.unzipBoilerplate(request(url), grunt, init, function() { self.createLayout(grunt, init, done); });
           }
         );
       },
@@ -102,12 +102,20 @@
                 // to ensure the file is overwritten, pipe here and return null.
                 this.pipe(fs.createWriteStream(path.resolve('web/scss/_' + name + '.scss')));
               }
+            } else if (dir === 'js/vendor') {
+              if (file.indexOf('jquery') < 0) {
+                // copy everything except jquery to public/
+                return path.resolve('public/', file);
+              }
             }
 
             // ignore any other files not in the root directory
             return null;
           }
         });
+      },
+      createLayout: function(grunt, init, done) {
+        //TODO parse public/index.html and create a Laravel layout from it.
       }
     };
   };
