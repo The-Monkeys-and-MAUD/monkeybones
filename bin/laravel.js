@@ -5,6 +5,7 @@
   "use strict";
   exports.template = function() {
     var dnz = require('./lib/download-and-unzip');
+    var path = require('path');
 
     return {
         setup: function(grunt, init, done) {
@@ -13,7 +14,12 @@
             verbose: function(msg) {
               grunt.verbose.writeln(msg);
             },
-            complete: done
+            complete: done,
+            rename: function(file) {
+              if (path.basename(file).toLowerCase() === 'readme.md') {
+                return 'README-Laravel.md';
+              }
+            }
           });
         }
     };

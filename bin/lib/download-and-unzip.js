@@ -14,6 +14,9 @@
    * options.overwrite: if true, existing files will be overwritten by files from the zip
    * options.verbose: optional function to receive verbose logging statements
    * options.complete: callback function, called when the download is complete and all files have been extracted.
+   * options.rename: callback function, called for each file or directory in the zip before it is written; the
+   *   function can return an alternative path to which the file will be written; or may return null to skip the
+   *   file.
    *
    * @param url
    * @param options
@@ -26,6 +29,18 @@
         var file = options.fromdir ? path.relative(options.fromdir, entry.path) : entry.path;
         if (options.todir) {
           file = path.resolve(options.todir, file);
+        }
+        if (typeof options.rename === 'function') {
+          var renamed = options.rename.call(entry, file);
+          if (renamed) {
+            if (renamed !== file) {
+              verbose('Renaming "' + file + '" to "' + renamed + '".');
+              file = renamed;
+            }
+          } else {
+            verbose('Skipping "' + file + '.');
+            return;
+          }
         }
         if (entry.type === 'Directory') {
           if (file !== '') {
