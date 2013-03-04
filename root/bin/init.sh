@@ -8,12 +8,12 @@ commandependencies=( php mysql npm grunt docco compass composer )
 
 # show success message
 function msgsuccess() {
-    echo "$(tput setaf 2)success..$(tput sgr0)";
+    echo "$(tput setaf 2)OK$(tput sgr0)";
 }
 
 # show fail message and stop execution
 function msgfail() {
-    echo -e >&2 "$(tput setaf 1)fail..$(tput sgr0)"; exit 1;
+    echo -e >&2 "$(tput setaf 1)FAIL$(tput sgr0)"; exit 1;
 }
 
 # check executable is on env path
@@ -25,22 +25,34 @@ function checkcommand() {
 function checkdependencies() {
     for i in "${commandependencies[@]}"
     do
-        echo "Checking for executable $i..."
+        echo -n "Checking for executable $i..."
         checkcommand $i
         msgsuccess
     done
+
+    installdependencies
+}
+
+# check for project dependencies
+function installdependencies() {
+    # install npm modules
+    echo "Installing npm dependencies..."
+    npm install
+
+    # install composer modules
+    if [ -f composer.json ]
+    then
+        echo "Installing composer dependencies..."
+        composer install
+    fi
+
+    echo "Installing basic javascript files"
+    grunt install
 }
 
 # Setup building process
 function build() {
     
-    # install npm modules
-    echo "Installing npm dependencies.."
-    npm install
-
-    echo "Installing basic javascript files"
-    grunt install
-
     # run grunt default task
     echo "Running grunt default task.."
     grunt 
@@ -60,19 +72,18 @@ function revertbuild() {
 }
 
 case "$1" in
-    build|"")
-        echo "Building.." 
+    "")
         checkdependencies
         build
-        echo "done"
+    ;;
+    build)
+        build
     ;;
     rebuild)
-        echo "Cleaning.." 
         revertbuild
         build
     ;;
     check)
-        echo "Checking for dependencies.."
         checkdependencies
     ;;
 esac
