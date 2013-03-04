@@ -16,9 +16,11 @@
             },
             complete: done,
             rename: function(file) {
-              if (path.basename(file).toLowerCase() === 'readme.md') {
-                return 'README-Laravel.md';
+              var matches = /^(.*)\.md$/.exec(file);
+              if (matches) {
+                return matches[1] + '-Laravel.md';
               }
+              return file;
             }
           });
         }

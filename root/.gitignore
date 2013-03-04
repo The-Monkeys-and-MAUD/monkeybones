@@ -38,6 +38,7 @@ nbproject
 .CVS
 .idea
 node_modules
+/vendor
 dist
 doc
 
