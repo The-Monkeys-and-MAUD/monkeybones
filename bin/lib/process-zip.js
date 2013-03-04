@@ -1,7 +1,6 @@
 'use strict';
 
 (function(exports) {
-  var request = require('request');
   var unzip = require('unzip');
   var path = require('path');
   var fs = require('fs');
@@ -10,6 +9,8 @@
    * Available options:
    * options.fromdir: extract only files from this directory inside the zip. If not specified, all files will be
    *   extracted.
+   * options.depth: ignore the given number of path components of filenames within the zip. Filenames with
+   *   fewer than this number of path components will not be extracted at all.
    * options.todir: path to which files will be extracted. Defaults to the current working directory.
    * options.overwrite: if true, existing files will be overwritten by files from the zip
    * options.verbose: optional function to receive verbose logging statements
@@ -18,15 +19,26 @@
    *   function can return an alternative path to which the file will be written; or may return null to skip the
    *   file.
    *
-   * @param url
+   * @param stream
    * @param options
    */
-  exports.downloadAndUnzip = function(url, options) {
+  exports.processZip = function(stream, options) {
     var verbose = typeof options.verbose === 'function' ? options.verbose : function() { };
 
-    request(url).pipe(unzip.Parse().on("entry", function(entry) {
+    stream.pipe(unzip.Parse().on("entry", function(entry) {
       if (!options.fromdir || entry.path.indexOf(options.fromdir) === 0) {
         var file = options.fromdir ? path.relative(options.fromdir, entry.path) : entry.path;
+        if (options.depth) {
+          // strip this number of directories from the filename (starting from the left)
+          var components = file.split('/'); // zipfiles always use '/'
+          if (components.length < options.depth + 1) {
+            verbose('Skipping "' + file + '" because it is less than depth "' + options.depth + '".');
+            return;
+          } else {
+            components = components.slice(options.depth);
+            file = components.join('/');
+          }
+        }
         if (options.todir) {
           file = path.resolve(options.todir, file);
         }
@@ -38,7 +50,7 @@
               file = renamed;
             }
           } else {
-            verbose('Skipping "' + file + '.');
+            verbose('Skipping "' + file + '".');
             return;
           }
         }

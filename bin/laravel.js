@@ -4,12 +4,13 @@
 (function(exports) {
   "use strict";
   exports.template = function() {
-    var dnz = require('./lib/download-and-unzip');
+    var unzipper = require('./lib/process-zip');
+    var request = require('request');
     var path = require('path');
 
     return {
         setup: function(grunt, init, done) {
-          dnz.downloadAndUnzip('https://github.com/laravel/laravel/archive/develop.zip', {
+          unzipper.processZip(request('https://github.com/laravel/laravel/archive/develop.zip'), {
             fromdir: 'laravel-develop/',
             verbose: function(msg) {
               grunt.verbose.writeln(msg);

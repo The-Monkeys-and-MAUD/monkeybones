@@ -4,11 +4,12 @@
 (function(exports) {
   "use strict";
   exports.template = function() {
-    var dnz = require('./lib/download-and-unzip');
+    var unzipper = require('./lib/process-zip');
+    var request = require('request');
 
     return {
       setup: function(grunt, init, done) {
-        dnz.downloadAndUnzip('https://github.com/TheMonkeys/QUnitRunnerAcceptanceTests/archive/master.zip', {
+        unzipper.processZip(request('https://github.com/TheMonkeys/QUnitRunnerAcceptanceTests/archive/master.zip'), {
           fromdir: 'QUnitRunnerAcceptanceTests-master/',
           todir: 'public/acceptance/',
           verbose: function(msg) {
