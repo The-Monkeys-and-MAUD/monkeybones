@@ -54,6 +54,30 @@
     });
   }
 
+
+  function processBoilerplateHtml(stream) {
+    new Sink(stream).on('data', function(buffer) {
+      var html = buffer.toString();
+
+      // delete reference to normalize.css
+      html = html.replace(/<link[^>]+normalize\.css"[^>]*>\s*[\r\n]?/g, '');
+
+      // delete reference to jquery
+      html = html.replace(/<script.+jquery.+<\/script>\s*[\r\n]?/g, '');
+
+      // delete reference to plugins.js
+      html = html.replace(/<script.+plugins\.js.+<\/script>\s*[\r\n]?/g, '');
+
+      // make css and js urls relative to /
+      html = html.replace(/"((?!\/\/)[^"]+\.(?:css|js))"/g, '"/$1"');
+
+
+      // write to public/index.html
+      fs.writeFileSync('public/index.html', html);
+    });
+  }
+
+
   exports.template = function () {
     return {
       setup:function (grunt, init, done) {
@@ -71,7 +95,7 @@
 
             var url = window.$('a[href*="zipball"]:first').attr('href');
             grunt.verbose.writeln('Downloading HTML5Boilerplate from _' + url + '_...');
-            self.unzipBoilerplate(request(url), grunt, init, function() { self.createLayout(grunt, init, done); });
+            self.unzipBoilerplate(request(url), grunt, init, done);
           }
         );
       },
@@ -89,10 +113,12 @@
               var matches = /^(.*)\.md$/.exec(file);
               if (matches) {
                 return matches[1] + '-h5bp.md';
+              } else if (file === 'index.html') {
+                processBoilerplateHtml(this);
+              } else {
+                // write the file as-is
+                return path.resolve('public/', file);
               }
-
-              // write the file as-is
-              return path.resolve('public/', file);
             } else if (dir === 'css') {
               var name = path.basename(file, '.css');
               if (name === 'main') {
@@ -113,9 +139,6 @@
             return null;
           }
         });
-      },
-      createLayout: function(grunt, init, done) {
-        //TODO parse public/index.html and create a Laravel layout from it.
       }
     };
   };
