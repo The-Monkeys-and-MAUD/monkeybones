@@ -195,11 +195,10 @@ function template(grunt, init, done) {
 
     grantExecutePermission('bin/init.sh');
 
-    var tasks = [];
+    var tasks = [ setupHtml5Boilerplate ];
+
     if( props.laravel === "YES" ) {
       tasks.push(setupLaravel);
-    } else {
-      tasks.push(setupHtml5Boilerplate);
     }
     if ( props.backbone === "YES" ) {
       tasks.push(setupBackbone);

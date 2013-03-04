@@ -6,7 +6,8 @@
   exports.template = function() {
     var unzipper = require('./lib/process-zip');
     var request = require('request');
-    var path = require('path');
+    var fs = require('fs');
+    var Sink = require('pipette').Sink;
 
     return {
         setup: function(grunt, init, done) {
@@ -20,6 +21,17 @@
               var matches = /^(.*)\.md$/.exec(file);
               if (matches) {
                 return matches[1] + '-Laravel.md';
+              }
+              if (file === 'public/.htaccess') {
+                // need to append this file because it already exists (comes with h5bp)
+                new Sink(this).on('data', function(buffer) {
+                  var htaccess = '\n' +
+                    '# ----------------------------------------------------------------------\n' +
+                    '# Laravel framework\n' +
+                    '# ----------------------------------------------------------------------\n' +
+                    buffer.toString();
+                  fs.appendFileSync(file, htaccess);
+                });
               }
               return file;
             }

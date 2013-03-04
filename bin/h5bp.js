@@ -97,10 +97,10 @@
               var name = path.basename(file, '.css');
               if (name === 'main') {
                 processBoilerplateCss(this);
-                return null;
               } else {
                 // write verbatim to an _*.scss file
-                return path.resolve('web/scss/_' + name + '.scss');
+                // to ensure the file is overwritten, pipe here and return null.
+                this.pipe(fs.createWriteStream(path.resolve('web/scss/_' + name + '.scss')));
               }
             }
 
