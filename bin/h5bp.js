@@ -59,6 +59,12 @@
     new Sink(stream).on('data', function(buffer) {
       var html = buffer.toString();
 
+      // delete <meta X-UA-Compatible> because we'll use .htaccess
+      html = html.replace(/<meta[^>]+"X-UA-Compatible"[^>]+>\s*[\r\n]?/g, '');
+
+      // add <meta name="keywords" content=""> after meta "description"
+      html = html.replace(/(<meta[^>]+"description"[^>]+>\s*[\r\n]?)/g, '$1<meta name="keywords" content="">\n        ');
+
       // delete reference to normalize.css
       html = html.replace(/<link[^>]+normalize\.css"[^>]*>\s*[\r\n]?/g, '');
 

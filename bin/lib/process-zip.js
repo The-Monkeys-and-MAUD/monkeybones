@@ -4,6 +4,7 @@
   var unzip = require('unzip');
   var path = require('path');
   var fs = require('fs');
+  var mkdirp = require('mkdirp');
 
   /**
    * Available options:
@@ -69,7 +70,7 @@
           } else {
             var dir = path.dirname(file);
             if (!fs.existsSync(dir)) {
-              fs.mkdirSync(dir);
+              mkdirp.sync(dir);
             }
             var fstream = fs.createWriteStream(file);
             entry.pipe(fstream);
