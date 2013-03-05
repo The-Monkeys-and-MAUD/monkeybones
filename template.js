@@ -136,7 +136,6 @@ exports.warnOn = '*';
 
 
 function template(grunt, init, done) {
-  var templateArguments = arguments;
 
   var S_IXUSR = parseInt('0000100', 8);
   var grantExecutePermission = function(file) {
@@ -249,30 +248,23 @@ function template(grunt, init, done) {
     }
 
     (function next() {
-      // call with same arguments as template but replace done function
-      var args = grunt.util.toArray(templateArguments);
-      args[2] = function() {
+      (tasks.shift())(grunt, init, function() {
         if (tasks.length) {
           next();
         } else {
           done();
         }
-      };
-      (tasks.shift()).apply(exports, args);
+      });
     })();
   });
 }
 exports.template = function(grunt, init, done) {
-  var templateArguments = arguments;
-
-  var args = grunt.util.toArray(arguments);
-  args[2] = function() {
+  installDependencies(grunt, init, function() {
     if (grunt.task.current.errorCount) {
       done();
     } else {
       // dependencies were installed successfully, so proceed with template installation.
-      template.apply(exports, templateArguments);
+      template(grunt, init, done);
     }
-  };
-  installDependencies.apply(exports, args);
+  });
 }
