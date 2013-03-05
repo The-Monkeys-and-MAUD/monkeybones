@@ -102,7 +102,7 @@ function installDependencies(grunt, init, done) {
 
     if (success) {
       grunt.log.ok();
-      template(grunt, init, done);
+      done();
     } else {
       grunt.log.error(msg);
       done();
@@ -130,12 +130,13 @@ function installDependencies(grunt, init, done) {
 
 exports.description = 'The monkeys base project';
 
-exports.notes = 'By default we will create a Laravel backend with Backbone.js';
+exports.notes = 'A web project template with a ready-made Gruntfile to give you javascript minification, Sass compilation, unit testing and more, as well as optional Laravel 4.0, backbone.js and/or acceptance testing framework.';
 
 exports.warnOn = '*';
 
 
 function template(grunt, init, done) {
+  var templateArguments = arguments;
 
   var S_IXUSR = parseInt('0000100', 8);
   var grantExecutePermission = function(file) {
@@ -248,14 +249,30 @@ function template(grunt, init, done) {
     }
 
     (function next() {
-      (tasks.shift())(grunt, init, function() {
+      // call with same arguments as template but replace done function
+      var args = grunt.util.toArray(templateArguments);
+      args[2] = function() {
         if (tasks.length) {
           next();
         } else {
           done();
         }
-      });
+      };
+      (tasks.shift()).apply(exports, args);
     })();
   });
 }
-exports.template = installDependencies;
+exports.template = function(grunt, init, done) {
+  var templateArguments = arguments;
+
+  var args = grunt.util.toArray(arguments);
+  args[2] = function() {
+    if (grunt.task.current.errorCount) {
+      done();
+    } else {
+      // dependencies were installed successfully, so proceed with template installation.
+      template.apply(exports, templateArguments);
+    }
+  };
+  installDependencies.apply(exports, args);
+}
