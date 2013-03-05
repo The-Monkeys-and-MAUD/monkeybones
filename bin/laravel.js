@@ -40,7 +40,7 @@
         });
       },
       createLayout: function(grunt, init, done) {
-        grunt.log.write('Replacing public/index.html with app/views/hello.blade.php...');
+        grunt.verbose.writeln('Replacing public/index.html with app/views/hello.blade.php...');
 
         // parse public/index.html and create a Laravel layout from it.
         mkdirp.sync('app/views/layouts');
@@ -50,34 +50,34 @@
         layout = layout.replace(/<title>[^<]*<\/title>/, '<title>@yield(\'title\')</title>');
 
         // add a @yield for the meta description
-        layout = layout.replace(/(<meta[^>]+"description"[^>]+content=")("[^>]*>)/, '$1@yield(\'description\')$2');
+        layout = layout.replace(/(<meta[^>]+"description"[^>]+content=")("[^>]*>)/, '$1{{ trim($__env->yieldContent(\'description\')) }}$2');
 
         // add a @yield for the meta keywords
-        layout = layout.replace(/(<meta[^>]+"keywords"[^>]+content=")("[^>]*>)/, '$1@yield(\'keywords\')$2');
+        layout = layout.replace(/(<meta[^>]+"keywords"[^>]+content=")("[^>]*>)/, '$1{{ trim($__env->yieldContent(\'keywords\')) }}$2');
 
         // add default @sections for title, keywords, description
         layout = layout.replace(/(<head.*[\r\n])/, '$1' +
           '{{-- Default title --}}\n' +
           '@section(\'title\')\n' +
           '  {{-- TODO --}}\n' +
-          '@endsection\n' +
+          '@stop\n' +
           '\n' +
           '{{-- Default description --}}\n' +
           '@section(\'description\')\n' +
           '  {{-- TODO --}}\n' +
-          '@endsection\n' +
+          '@stop\n' +
           '\n' +
           '{{-- Default keywords --}}\n' +
           '@section(\'keywords\')\n' +
           '  {{-- TODO --}}\n' +
-          '@endsection\n' +
+          '@stop\n' +
           '\n');
 
         // add a yield at the end of the head
         layout = layout.replace(/(<\/head>\s*[\r\n]?)/g, '\n        @yield(\'head-append\')\n    $1');
 
         // add a default body class
-        layout = layout.replace('<body', '<body class="{{ @Request::route()->controller }}"');
+        layout = layout.replace('<body', '<body class="{{ trim($__env->yieldContent(\'body-class\')) }}"');
 
         // replace the placeholder '<!-- Add your site or application content here -->' with a @yield
         var match = /<!--[^\r\n]*content here[^\r\n]*-->\s*<p>.*<\/p>\s*[\r\n]/.exec(layout);
@@ -105,17 +105,20 @@
         if (fs.existsSync('app/views/hello.php')) {
           fs.unlinkSync('app/views/hello.php');
         }
-        fs.writeFileSync('app/views/hello.blade.php', '@layout(\'layouts.common\')\n\n' +
+        fs.writeFileSync('app/views/hello.blade.php', '@extends(\'layouts.common\')\n\n' +
           '@section(\'title\')\n' +
           '\tAdd your page title here\n' +
-          '@endsection\n\n' +
+          '@stop\n\n' +
+          '@section(\'body-class\')\n\n        ' +
+          '\thello\n' +
+          '@stop\n\n' +
           '@section(\'body\')\n\n        ' +
           placeholder +
-          '@endsection\n\n'
+          '@stop\n\n'
         );
 
         fs.unlinkSync('public/index.html');
-        grunt.log.ok();
+        grunt.verbose.ok();
 
         done();
       }
