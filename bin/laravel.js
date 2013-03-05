@@ -20,7 +20,9 @@
           },
           complete: function() {
             self.createLayout(grunt, init, function() {
-              self.configureEnvironments(grunt, init, done);
+              self.configureEnvironments(grunt, init, function() {
+                self.configureMail(grunt, init, done);
+              });
             });
           },
           rename: function(file) {
@@ -209,6 +211,45 @@
           '$2');
 
         fs.writeFileSync('bootstrap/start.php', start);
+
+        grunt.verbose.ok();
+        done();
+      },
+
+      configureMail: function(grunt, init, done) {
+        grunt.verbose.writeln('Configuring Laravel mail sender in app/config/mail.php...');
+
+        var config = fs.readFileSync('app/config/mail.php', 'utf-8');
+        config = config.replace(/(['"]host['"]\s*=>\s*['"])[^'"]+(['"])/, '$1smtp.gmail.com$2');
+        config = config.replace(/(['"]port['"]\s*=>\s*)\d+/, '$1465');
+        //'encryption' => 'ssl',
+        config = config.replace(/(['"]encryption['"]\s*=>\s*['"])[^'"]+(['"])/, '$1ssl$2');
+        config = config.replace(/(['"]username['"]\s*=>\s*)(?:null|['"][^'"]+['"])/, '$1\'smtp@themonkeys.com.au\'');
+        config = config.replace(/(['"]password['"]\s*=>\s*)(?:null|['"][^'"]+['"])/, '$1\'devbananas\'');
+        config = config.replace(/(['"]from['"][^\r\n]*['"]address['"]\s*=>\s*)(?:null|['"][^'"]+['"])/, '$1\'noreply@themonkeys.com.au\'');
+        // there's no sensible default for the name
+
+        fs.writeFileSync('app/config/mail.php', config);
+
+        // override from address in other environments
+        config =
+          '<?php\n' +
+          'return array(\n' +
+          '\t/*\n' +
+          '\t |--------------------------------------------------------------------------\n' +
+          '\t | Global "From" Address\n' +
+          '\t |--------------------------------------------------------------------------\n' +
+          '\t |\n' +
+          '\t | Name and address that is used globally for all e-mails that are sent by \n' +
+          '\t | the application.\n' +
+          '\t |\n' +
+          '\t */\n' +
+          '\t\'from\' => array(\'address\' => \'noreply@\' . Request::getHttpHost(), \'name\' => null),\n' +
+          ');';
+
+        fs.writeFileSync('app/config/stage/mail.php', config);
+        fs.writeFileSync('app/config/beta/mail.php', config);
+        fs.writeFileSync('app/config/live/mail.php', config);
 
         grunt.verbose.ok();
         done();
