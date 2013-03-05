@@ -46,6 +46,12 @@ function installdependencies() {
         composer install
     fi
 
+    if [ -f artisan ]
+    then
+        echo "Generating Laravel encryption key..."
+        php artisan key:generate
+    fi
+
     echo "Installing basic javascript files"
     grunt install
 }
