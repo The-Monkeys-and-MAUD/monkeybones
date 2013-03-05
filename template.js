@@ -141,23 +141,23 @@ function template(grunt, init, done) {
     init.prompt('author_url', 'http://themonkeys.com.au'),
         {
           name: 'laravel',
-          message: 'Do you want to include Laravel on the build ? (YES/NO)',
-          'default': 'YES'
+          message: 'Do you want to include Laravel on the build?',
+          'default': 'Y/n'
         },
         {
           name: 'backbone',
-          message: 'Do you want to include Backbone.js on the build ? (YES/NO)',
-          'default': 'YES'
+          message: 'Do you want to include Backbone.js on the build?',
+          'default': 'Y/n'
         },
         {
           name: 'acceptanceFramework',
-          message: 'Do you want to include acceptanceFramework on the build ? (YES/NO)',
-          'default': 'YES'
+          message: 'Do you want to include acceptanceFramework on the build?',
+          'default': 'Y/n'
         },
         {
           name: 'initsh',
-          message: 'Do you want me to automatically download dependencies and build after setting up your project ? (YES/NO)',
-          'default': 'YES'
+          message: 'Do you want me to automatically download dependencies and build after setting up your project?',
+          'default': 'Y/n'
         }
 
   ], function(err, props) {
@@ -197,20 +197,20 @@ function template(grunt, init, done) {
 
     var tasks = [ setupHtml5Boilerplate ];
 
-    if( props.laravel === "YES" ) {
+    if( /y/i.test( props.laravel ) ) {
       tasks.push(setupLaravel);
     }
-    if ( props.backbone === "YES" ) {
+    if ( /y/i.test( props.backbone ) ) {
       tasks.push(setupBackbone);
     }
-    if( props.acceptanceFramework === "YES" ) {
+    if( /y/i.test( props.acceptanceFramework ) ) {
       tasks.push(setupAcceptanceFramework);
     }
     tasks.push(function(grunt, init, done) {
       // create a project json file on which projects will be read from
       fs.writeFile('projectDefault.json', JSON.stringify(projectDefaultjson));
 
-      if( props.initsh === "YES" ) {
+      if( /y/i.test( props.initsh ) ) {
         grunt.log.writeln('Running _./bin/init.sh_ ...');
 
         var spawn = require('child_process').spawn;
