@@ -1,0 +1,9 @@
+{
+    "app/config/beta/app.php": false,
+    "app/config/beta/mail.php": false,
+    "app/config/live/app.php": false,
+    "app/config/live/mail.php": false,
+    "app/config/local/.gitignore": false,
+    "app/config/stage/app.php": false,
+    "app/config/stage/mail.php": false
+}

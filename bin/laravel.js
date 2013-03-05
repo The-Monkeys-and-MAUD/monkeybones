@@ -129,78 +129,10 @@
         done();
       },
       configureEnvironments: function(grunt, init, done) {
-        grunt.verbose.writeln('Configuring Laravel environments in app/config...');
-
-        mkdirp.sync('app/config/local');
-        fs.writeFileSync('app/config/local/.gitignore', '*');
-
-        mkdirp.sync('app/config/stage');
-        fs.writeFileSync('app/config/stage/app.php',
-          '<?php\n' +
-          '/**\n' +
-          ' * Configuration for staging server. Overrides defaults specified in ../app.php\n' +
-          ' */\n' +
-          'return array(\n' +
-            '\t/*\n' +
-            '\t |--------------------------------------------------------------------------\n' +
-            '\t | Application Debug Mode\n' +
-            '\t |--------------------------------------------------------------------------\n' +
-            '\t |\n' +
-            '\t | Disable detailed error messages on stage server so that a simple generic\n' +
-            '\t | error page is shown.\n' +
-            '\t |\n' +
-            '\t */\n' +
-            '\t\'debug\' => false\n' +
-          ');'
-        );
-
-        mkdirp.sync('app/config/beta');
-        fs.writeFileSync('app/config/beta/app.php',
-          '<?php\n' +
-            '/**\n' +
-            ' * Configuration for beta server. Overrides defaults specified in ../app.php\n' +
-            ' */\n' +
-            'return array(\n' +
-            '\t/*\n' +
-            '\t |--------------------------------------------------------------------------\n' +
-            '\t | Application Debug Mode\n' +
-            '\t |--------------------------------------------------------------------------\n' +
-            '\t |\n' +
-            '\t | Disable detailed error messages on beta server so that a simple generic\n' +
-            '\t | error page is shown.\n' +
-            '\t |\n' +
-            '\t */\n' +
-            '\t\'debug\' => false\n' +
-            ');'
-        );
-
-        mkdirp.sync('app/config/live');
-        fs.writeFileSync('app/config/live/app.php',
-          '<?php\n' +
-            '/**\n' +
-            ' * Configuration for live server. Overrides defaults specified in ../app.php\n' +
-            ' */\n' +
-            'return array(\n' +
-            '\t/*\n' +
-            '\t |--------------------------------------------------------------------------\n' +
-            '\t | Application Debug Mode\n' +
-            '\t |--------------------------------------------------------------------------\n' +
-            '\t |\n' +
-            '\t | Disable detailed error messages on live server so that a simple generic\n' +
-            '\t | error page is shown.\n' +
-            '\t |\n' +
-            '\t */\n' +
-            '\t\'debug\' => false\n' +
-            ');'
-        );
+        grunt.verbose.writeln('Configuring Laravel environments in bootstrap/start.php...');
 
         // write environment configuration to bootstrap/start.php
         var start = fs.readFileSync('bootstrap/start.php', 'utf-8');
-        /*
-         'local' => array('localhost', '*.dev', '*.dev:*'),
-         'stage' => array('your-stage-name.monkeylabs.com.au'),
-         'beta' => array('your-beta-name.monkeylabs.com.au'),
-         'live' => array('your-live-host.com')*/
 
         start = start.replace(/(detectEnvironment[^\r\n]+[\r\n])(?:.|[\n\r])*(\)\)\;)/g,
           '$1' +
@@ -230,26 +162,6 @@
         // there's no sensible default for the name
 
         fs.writeFileSync('app/config/mail.php', config);
-
-        // override from address in other environments
-        config =
-          '<?php\n' +
-          'return array(\n' +
-          '\t/*\n' +
-          '\t |--------------------------------------------------------------------------\n' +
-          '\t | Global "From" Address\n' +
-          '\t |--------------------------------------------------------------------------\n' +
-          '\t |\n' +
-          '\t | Name and address that is used globally for all e-mails that are sent by \n' +
-          '\t | the application.\n' +
-          '\t |\n' +
-          '\t */\n' +
-          '\t\'from\' => array(\'address\' => \'noreply@\' . Request::getHttpHost(), \'name\' => null),\n' +
-          ');';
-
-        fs.writeFileSync('app/config/stage/mail.php', config);
-        fs.writeFileSync('app/config/beta/mail.php', config);
-        fs.writeFileSync('app/config/live/mail.php', config);
 
         grunt.verbose.ok();
         done();

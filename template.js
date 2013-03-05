@@ -1,5 +1,13 @@
 "use strict";
 
+var fs = require('fs');
+
+// Here is where we going to specify which files should be downloaded
+// by bower, default is only jquery.
+var projectDefaultjson = {
+  jquery: ""
+};
+
 function setupLaravel(grunt, init, done) {
   runSetupScript('./bin/laravel.js', 'Laravel', grunt, init, done);
 }
@@ -22,11 +30,34 @@ function setupAcceptanceFramework(grunt, init, done) {
   runSetupScript('./bin/acceptance.js', 'Acceptance Testing Framework', grunt, init, done);
 }
 
+function setupProjectDefaultJson(grunt, init, done) {
+  // create a project json file on which projects will be read from
+  fs.writeFileSync('projectDefault.json', JSON.stringify(projectDefaultjson));
+  done();
+}
+
 function runSetupScript(script, title, grunt, init, done) {
   grunt.log.write("Setting up " + title + "...");
 
   require(script).template().setup(grunt, init, function() {
     grunt.log.ok();
+    done();
+  });
+}
+
+function runInitSh(grunt, init, done) {
+  grunt.log.writeln('Running _./bin/init.sh_ ...');
+
+  var spawn = require('child_process').spawn;
+  var child = spawn('./bin/init.sh', [], {
+    stdio: 'inherit'
+  });
+  child.on('exit', function(code) {
+    if (code === 0) {
+      grunt.log.writeln().ok();
+    } else {
+      grunt.fail.warn('./bin/init.sh failed (status ' + code + ').');
+    }
     done();
   });
 }
@@ -41,7 +72,6 @@ function installDependencies(grunt, init, done) {
 
   } catch (e) {
     var suggestion = '';
-    var fs = require('fs');
     if (typeof process.env.NODE_PATH === 'undefined') {
       suggestion = ' Hint: environment variable *NODE_PATH* is not set.';
 
@@ -104,16 +134,9 @@ exports.notes = 'By default we will create a Laravel backend with Backbone.js';
 
 exports.warnOn = '*';
 
-// Here is where we going to specify which files should be downloaded
-// by bower, default is only jquery.
-var projectDefaultjson = {
-  jquery: ""
-};
-
 
 function template(grunt, init, done) {
 
-  var fs = require('fs');
   var S_IXUSR = parseInt('0000100', 8);
   var grantExecutePermission = function(file) {
     /*jshint bitwise: false*/
@@ -164,6 +187,15 @@ function template(grunt, init, done) {
 
     props.keywords = [];
 
+    if( /y/i.test( props.laravel ) ) {
+      // Laravel is enabled so enable copying across files under app/
+      for (var src in init.renames) {
+        if (src.substr(0, 4) === 'app/') {
+          delete init.renames[src];
+        }
+      }
+    }
+
     var files = init.filesToCopy(props);
 
     //init.addLicenseFiles(files, props.licenses); //TODO reinstate once we've added a Monkeys licence to the list
@@ -206,31 +238,14 @@ function template(grunt, init, done) {
     if( /y/i.test( props.acceptanceFramework ) ) {
       tasks.push(setupAcceptanceFramework);
     }
-    tasks.push(function(grunt, init, done) {
-      // create a project json file on which projects will be read from
-      fs.writeFile('projectDefault.json', JSON.stringify(projectDefaultjson));
 
-      if( /y/i.test( props.initsh ) ) {
-        grunt.log.writeln('Running _./bin/init.sh_ ...');
+    tasks.push(setupProjectDefaultJson);
 
-        var spawn = require('child_process').spawn;
-        var child = spawn('./bin/init.sh', [], {
-          stdio: 'inherit'
-        });
-        child.on('exit', function(code) {
-          if (code === 0) {
-            grunt.log.writeln().ok();
-          } else {
-            grunt.fail.warn('./bin/init.sh failed (status ' + code + ').');
-          }
-          done();
-        });
-
-      } else {
-        exports.after = 'Next, run _./bin/init.sh_ to download and install dependencies.';
-        done();
-      }
-    });
+    if( /y/i.test( props.initsh ) ) {
+      tasks.push(runInitSh);
+    } else {
+      exports.after = 'Next, run _./bin/init.sh_ to download and install dependencies.';
+    }
 
     (function next() {
       (tasks.shift())(grunt, init, function() {
