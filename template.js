@@ -2,10 +2,49 @@
   "use strict";
 
   var fs = require('fs');
-  var h5bp = require('./lib/h5bp');
-  var laravel = require('./lib/laravel');
-  var backbone = require('./lib/backbone');
-  var acceptance = require('./lib/acceptance');
+  var subtemplates = {
+    h5bp: require('./lib/h5bp'),
+    laravel: require('./lib/laravel'),
+    backbone: require('./lib/backbone'),
+    acceptance: require('./lib/acceptance'),
+
+    writeProjectDefaultJson: {
+      prompt: false,
+      template: function(grunt, init, done) {
+        // create a project json file on which projects will be read from
+        fs.writeFileSync('projectDefault.json', JSON.stringify(init.projectDefaultjson));
+        done();
+      }
+    },
+
+    runInitSh: {
+      prompt: 'Do you want me to automatically download dependencies and build after setting up your project?',
+      template: function(grunt, init, done) {
+        grunt.log.writeln('Running _./bin/init.sh_ ...');
+
+        var spawn = require('child_process').spawn;
+        var child = spawn('./bin/init.sh', [], {
+          stdio: 'inherit'
+        });
+        child.on('exit', function(code) {
+          if (code === 0) {
+            grunt.log.writeln().ok();
+          } else {
+            grunt.fail.warn('./bin/init.sh failed (status ' + code + ').');
+          }
+          done();
+        });
+      }
+    }
+  };
+  var subtemplateOrder = [
+    'h5bp',
+    'laravel',
+    'backbone',
+    'acceptance',
+    'writeProjectDefaultJson',
+    'runInitSh'
+  ];
 
   var S_IXUSR = parseInt('0000100', 8);
   function grantExecutePermission(file) {
@@ -14,29 +53,6 @@
     if (!(stat.mode & S_IXUSR)) {
       fs.chmodSync(file, stat.mode | S_IXUSR);
     }
-  }
-
-  function writeProjectDefaultJson(grunt, init, done) {
-    // create a project json file on which projects will be read from
-    fs.writeFileSync('projectDefault.json', JSON.stringify(init.projectDefaultjson));
-    done();
-  }
-
-  function runInitSh(grunt, init, done) {
-    grunt.log.writeln('Running _./bin/init.sh_ ...');
-
-    var spawn = require('child_process').spawn;
-    var child = spawn('./bin/init.sh', [], {
-      stdio: 'inherit'
-    });
-    child.on('exit', function(code) {
-      if (code === 0) {
-        grunt.log.writeln().ok();
-      } else {
-        grunt.fail.warn('./bin/init.sh failed (status ' + code + ').');
-      }
-      done();
-    });
   }
 
   function installDependencies(grunt, init, done) {
@@ -120,7 +136,7 @@
     };
 
 
-    init.process({}, [
+    var prompts = [
       init.prompt('name'),
       init.prompt('title', 'The monkeys project'),
       init.prompt('description', 'Website'),
@@ -131,29 +147,21 @@
       //init.prompt('licenses', 'MIT'), //TODO we need a default Monkeys licence
       init.prompt('author_name', 'The Monkeys'),
       init.prompt('author_email', 'developers@themonkeys.com.au'),
-      init.prompt('author_url', 'http://themonkeys.com.au'),
-          {
-            name: 'laravel',
-            message: 'Do you want to include Laravel 4.0 on the build?',
-            'default': 'Y/n'
-          },
-          {
-            name: 'backbone',
-            message: 'Do you want to include Backbone.js on the build?',
-            'default': 'Y/n'
-          },
-          {
-            name: 'acceptanceFramework',
-            message: 'Do you want to include acceptanceFramework on the build?',
-            'default': 'Y/n'
-          },
-          {
-            name: 'initsh',
-            message: 'Do you want me to automatically download dependencies and build after setting up your project?',
-            'default': 'Y/n'
-          }
+      init.prompt('author_url', 'http://themonkeys.com.au')
+    ];
 
-    ], function(err, props) {
+    // add prompts to enable/disable subtemplates
+    subtemplateOrder.forEach(function(subtemplate) {
+      if (subtemplates[subtemplate].prompt) {
+        prompts.push({
+          name: subtemplate,
+          message: subtemplates[subtemplate].prompt,
+          'default': 'Y/n'
+        });
+      }
+    });
+
+    init.process({}, prompts, function(err, props) {
 
       props.keywords = [];
 
@@ -197,23 +205,18 @@
 
       grantExecutePermission('bin/init.sh');
 
-      var tasks = [ h5bp.template ];
+      var tasks = [];
+      props.h5bp = 'y'; // h5bp is always enabled
+      props.writeProjectDefaultJson = 'y'; // also always enabled
 
-      if( /y/i.test( props.laravel ) ) {
-        tasks.push(laravel.template);
-      }
-      if ( /y/i.test( props.backbone ) ) {
-        tasks.push(backbone.template);
-      }
-      if( /y/i.test( props.acceptanceFramework ) ) {
-        tasks.push(acceptance.template);
-      }
+      subtemplateOrder.forEach(function(subtemplate) {
+        if( /y/i.test( props[subtemplate] ) ) {
+          tasks.push(subtemplates[subtemplate].template);
+        }
+      });
 
-      tasks.push(writeProjectDefaultJson);
-
-      if( /y/i.test( props.initsh ) ) {
-        tasks.push(runInitSh);
-      } else {
+      // if user chose not to run init.sh automatically, remind them they'll need to run it later.
+      if( !/y/i.test( props.runInitSh ) ) {
         exports.after = 'Next, run _./bin/init.sh_ to download and install dependencies.';
       }
 
