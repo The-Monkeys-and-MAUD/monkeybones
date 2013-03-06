@@ -165,67 +165,68 @@
 
       props.keywords = [];
 
-      if( /y/i.test( props.laravel ) ) {
-        // Laravel is enabled so enable copying across files under app/
-        for (var src in init.renames) {
-          if (src.substr(0, 4) === 'app/') {
-            delete init.renames[src];
-          }
+      // give sub-templates a chance to modify init.renames prior to getting a list of files to copy
+      grunt.util.async.forEachSeries(subtemplateOrder, function(name, next) {
+        var subtemplate = subtemplates[name];
+        if ((!subtemplate.prompt || /y/i.test(props[name])) && typeof subtemplate.initTemplate === 'function') {
+          subtemplate.initTemplate(grunt, init, next);
+        } else {
+          next();
         }
-      }
+      }, function() {
+        var files = init.filesToCopy(props);
 
-      var files = init.filesToCopy(props);
+        //init.addLicenseFiles(files, props.licenses); //TODO reinstate once we've added a Monkeys licence to the list
 
-      //init.addLicenseFiles(files, props.licenses); //TODO reinstate once we've added a Monkeys licence to the list
+        init.copyAndProcess(files, props);
 
-      init.copyAndProcess(files, props);
-
-      init.writePackageJSON('package.json', {
-        name: props.name,
-        description: props.title + (props.description ? ': ' + props.description : ''),
-        version: props.version,
-        repository: props.repository,
-        npm_test: 'grunt test',
-        node_version: '>= 0.8.0',
-        devDependencies: {
-          'grunt-contrib-jshint': '~0.1.1',
-          'grunt-contrib-concat': '~0.1.2',
-          'grunt-contrib-nodeunit': '~0.1.2',
-          'grunt-contrib-uglify': '~0.1.1',
-          'grunt-contrib-watch': '~0.2.0',
-          'grunt-contrib-clean': '~0.4.0',
-          'grunt-contrib-compass': '~0.1.2',
-          'grunt-contrib-connect': '~0.1.2',
-          'grunt-docco': 'git://github.com/DavidSouther/grunt-docco.git',
-          'grunt-reload': 'git://github.com/webxl/grunt-reload.git',
-          'nodemock': '~0.2.17',
-          'grunt-bowerful': 'latest'
-        }
-      });
-
-      grantExecutePermission('bin/init.sh');
-
-      var tasks = [];
-      subtemplateOrder.forEach(function(subtemplate) {
-        if (!subtemplates[subtemplate].prompt || /y/i.test( props[subtemplate] ) ) {
-          tasks.push(subtemplates[subtemplate].template);
-        }
-      });
-
-      // if user chose not to run init.sh automatically, remind them they'll need to run it later.
-      if( !/y/i.test( props.runInitSh ) ) {
-        exports.after = 'Next, run _./bin/init.sh_ to download and install dependencies.';
-      }
-
-      (function next() {
-        (tasks.shift())(grunt, init, function() {
-          if (tasks.length) {
-            next();
-          } else {
-            done();
+        init.writePackageJSON('package.json', {
+          name: props.name,
+          description: props.title + (props.description ? ': ' + props.description : ''),
+          version: props.version,
+          repository: props.repository,
+          npm_test: 'grunt test',
+          node_version: '>= 0.8.0',
+          devDependencies: {
+            'grunt-contrib-jshint': '~0.1.1',
+            'grunt-contrib-concat': '~0.1.2',
+            'grunt-contrib-nodeunit': '~0.1.2',
+            'grunt-contrib-uglify': '~0.1.1',
+            'grunt-contrib-watch': '~0.2.0',
+            'grunt-contrib-clean': '~0.4.0',
+            'grunt-contrib-compass': '~0.1.2',
+            'grunt-contrib-connect': '~0.1.2',
+            'grunt-docco': 'git://github.com/DavidSouther/grunt-docco.git',
+            'grunt-reload': 'git://github.com/webxl/grunt-reload.git',
+            'nodemock': '~0.2.17',
+            'grunt-bowerful': 'latest'
           }
         });
-      })();
+
+        grantExecutePermission('bin/init.sh');
+
+        var tasks = [];
+        subtemplateOrder.forEach(function(subtemplate) {
+          if (!subtemplates[subtemplate].prompt || /y/i.test( props[subtemplate] ) ) {
+            tasks.push(subtemplates[subtemplate].template);
+          }
+        });
+
+        // if user chose not to run init.sh automatically, remind them they'll need to run it later.
+        if( !/y/i.test( props.runInitSh ) ) {
+          exports.after = 'Next, run _./bin/init.sh_ to download and install dependencies.';
+        }
+
+        (function next() {
+          (tasks.shift())(grunt, init, function() {
+            if (tasks.length) {
+              next();
+            } else {
+              done();
+            }
+          });
+        })();
+      });
     });
   }
 
