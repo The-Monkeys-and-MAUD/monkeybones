@@ -206,11 +206,8 @@
       grantExecutePermission('bin/init.sh');
 
       var tasks = [];
-      props.h5bp = 'y'; // h5bp is always enabled
-      props.writeProjectDefaultJson = 'y'; // also always enabled
-
       subtemplateOrder.forEach(function(subtemplate) {
-        if( /y/i.test( props[subtemplate] ) ) {
+        if (!subtemplates[subtemplate].prompt || /y/i.test( props[subtemplate] ) ) {
           tasks.push(subtemplates[subtemplate].template);
         }
       });
