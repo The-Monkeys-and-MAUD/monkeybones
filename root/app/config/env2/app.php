@@ -1,6 +1,6 @@
 <?php
 /**
- * Configuration for live server. Overrides defaults specified in ../app.php
+ * Configuration for {%= environments[2] %} server. Overrides defaults specified in ../app.php
  */
 return array(
 	/*
@@ -8,7 +8,7 @@ return array(
 	 | Application Debug Mode
 	 |--------------------------------------------------------------------------
 	 |
-	 | Disable detailed error messages on live server so that a simple generic
+	 | Disable detailed error messages on beta server so that a simple generic
 	 | error page is shown.
 	 |
 	 */

@@ -169,7 +169,11 @@
       grunt.util.async.forEachSeries(subtemplateOrder, function(name, next) {
         var subtemplate = subtemplates[name];
         if ((!subtemplate.prompt || /y/i.test(props[name])) && typeof subtemplate.initTemplate === 'function') {
-          subtemplate.initTemplate(grunt, init, next);
+          subtemplate.initTemplate(grunt, init, function() {
+            // merge template's props with our props
+            props = grunt.util._.extend(props, subtemplate.props);
+            next();
+          });
         } else {
           next();
         }
@@ -205,6 +209,8 @@
 
         grantExecutePermission('bin/init.sh');
 
+        // now call the template() entry point function for each subtemplate in order.
+        // first construct a queue of the enabled subtemplates
         var tasks = [];
         subtemplateOrder.forEach(function(subtemplate) {
           if (!subtemplates[subtemplate].prompt || /y/i.test( props[subtemplate] ) ) {
@@ -217,6 +223,7 @@
           exports.after = 'Next, run _./bin/init.sh_ to download and install dependencies.';
         }
 
+        // now work through the queue asynchronously
         (function next() {
           (tasks.shift())(grunt, init, function() {
             if (tasks.length) {
@@ -225,7 +232,7 @@
               done();
             }
           });
-        })();
+        }());
       });
     });
   }

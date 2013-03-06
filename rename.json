@@ -1,9 +1,13 @@
 {
-    "app/config/beta/app.php": false,
-    "app/config/beta/mail.php": false,
-    "app/config/live/app.php": false,
-    "app/config/live/mail.php": false,
     "app/config/local/.gitignore": false,
-    "app/config/stage/app.php": false,
-    "app/config/stage/mail.php": false
+    "app/config/env1/app.php": false,
+    "app/config/env1/mail.php": false,
+    "app/config/env2/app.php": false,
+    "app/config/env2/mail.php": false,
+    "app/config/env3/app.php": false,
+    "app/config/env3/mail.php": false,
+    "app/config/env4/app.php": false,
+    "app/config/env4/mail.php": false,
+    "app/config/env5/app.php": false,
+    "app/config/env5/mail.php": false
 }
