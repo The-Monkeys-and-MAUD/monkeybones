@@ -9,7 +9,7 @@ module.exports = function(grunt) {
     // Task configuration.
     concat: {
       prod: {
-        src: ['web/js/vendor/*.js', 'web/js/vendor/**/*.js', 'web/js/lib/**/*.js', 'web/js/app/**/*.js' ],
+        src: ['web/js/vendor/*.js', 'web/js/vendor/**/*.js', 'web/js/lib/**/*.js', 'web/js/app/**/*.js', 'web/js/*.js' ],
         dest: 'public/js/main.debug.js',
         banner: '<%= banner %>',
         stripBanners: true
@@ -58,7 +58,7 @@ module.exports = function(grunt) {
         src: 'Gruntfile.js'
       },
       lib_test: {
-        src: ['web/js/lib/**/*.js','web/js/app/**/*.js']
+        src: ['web/js/lib/**/*.js','web/js/app/**/*.js', 'web/js/*.js']
       }
     },
     nodeunit: {
@@ -103,7 +103,7 @@ module.exports = function(grunt) {
     },
     watch: {
       all: {
-          files: ['web/scss/**/*.scss', 'jshint:lib_test'],
+          files: ['web/scss/**/*.scss', '<%= jshint.lib_test.src %>'],
           tasks: ['compass:dev', 'concat:dev', 'reload']
       },
       css: {
