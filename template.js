@@ -16,120 +16,23 @@
     var _name, _prop, _index;
 
     if (!Array.isArray( template )) {
-
         _name = template.name || template;
         _prop = template.prop || prop;
         _index = template.index || index;
 
         // if we havent added the template yet
         if (typeof subtemplates[ _name ] === "undefined") {
-
-            // if no index is specified default to end of stack
             subtemplates.que.splice( _index || subtemplates.que.length, 0, _name );
-            
-            // add to subtemplate
             subtemplates[ _name ] = _prop;
         }
-
-    } else  {
-
-        // array of options
+    } else {
         for( var i=0, len=template.length; i<len; i++ ) {
-
             subtemplates.add(template[i]);
         }
     }
 
     return this;
-
   };
-
-  subtemplates
-  .add( 'h5bp',       require('./lib/h5bp') )
-  .add( 'laravel',    require('./lib/laravel') )
-  .add( 'backbone',   require('./lib/backbone') )
-  .add( 'acceptance', require('./lib/acceptance') )
-  .add([ 
-        {
-          name: 'writeProjectDefaultJson',
-          prop: {
-              prompt: false,
-              template: function(grunt, init, done) {
-                // create a project json file on which projects will be read from
-                fs.writeFileSync('projectDefault.json', JSON.stringify(init.projectDefaultjson));
-                done();
-              }
-         }
-      },
-      {
-          name: 'runInitSh',
-          prop: {
-              prompt: 'Do you want me to automatically download dependencies and build after setting up your project?',
-              template: function(grunt, init, done) {
-                grunt.log.writeln('Running _./bin/init.sh_ ...');
-
-                var spawn = require('child_process').spawn;
-                var child = spawn('./bin/init.sh', [], {
-                  stdio: 'inherit'
-                });
-                child.on('exit', function(code) {
-                  if (code === 0) {
-                    grunt.log.writeln().ok();
-                  } else {
-                    grunt.fail.warn('./bin/init.sh failed (status ' + code + ').');
-                  }
-                  done();
-                });
-              }
-          }
-      }
-  ]);
-
-  /*
-  var subtemplates = {
-    h5bp: require('./lib/h5bp'),
-    laravel: require('./lib/laravel'),
-    backbone: require('./lib/backbone'),
-    acceptance: require('./lib/acceptance'),
-
-    writeProjectDefaultJson: {
-      prompt: false,
-      template: function(grunt, init, done) {
-        // create a project json file on which projects will be read from
-        fs.writeFileSync('projectDefault.json', JSON.stringify(init.projectDefaultjson));
-        done();
-      }
-    },
-
-    runInitSh: {
-      prompt: 'Do you want me to automatically download dependencies and build after setting up your project?',
-      template: function(grunt, init, done) {
-        grunt.log.writeln('Running _./bin/init.sh_ ...');
-
-        var spawn = require('child_process').spawn;
-        var child = spawn('./bin/init.sh', [], {
-          stdio: 'inherit'
-        });
-        child.on('exit', function(code) {
-          if (code === 0) {
-            grunt.log.writeln().ok();
-          } else {
-            grunt.fail.warn('./bin/init.sh failed (status ' + code + ').');
-          }
-          done();
-        });
-      }
-    }
-  };
-  var subtemplates.que = [
-    'h5bp',
-    'laravel',
-    'backbone',
-    'acceptance',
-    'writeProjectDefaultJson',
-    'runInitSh'
-  ];
-  */
 
   var S_IXUSR = parseInt('0000100', 8);
   function grantExecutePermission(file) {
@@ -324,6 +227,47 @@
 
   exports.template = function(grunt, init, done) {
     installDependencies(grunt, init, function() {
+      subtemplates
+      .add( 'h5bp',       require('./lib/h5bp') )
+      .add( 'laravel',    require('./lib/laravel') )
+      .add( 'backbone',   require('./lib/backbone') )
+      .add( 'acceptance', require('./lib/acceptance') )
+      .add([ 
+            {
+              name: 'writeProjectDefaultJson',
+              prop: {
+                  prompt: false,
+                  template: function(grunt, init, done) {
+                    // create a project json file on which projects will be read from
+                    fs.writeFileSync('projectDefault.json', JSON.stringify(init.projectDefaultjson));
+                    done();
+                  }
+             }
+          },
+          {
+              name: 'runInitSh',
+              prop: {
+                  prompt: 'Do you want me to automatically download dependencies and build after setting up your project?',
+                  template: function(grunt, init, done) {
+                    grunt.log.writeln('Running _./bin/init.sh_ ...');
+
+                    var spawn = require('child_process').spawn;
+                    var child = spawn('./bin/init.sh', [], {
+                      stdio: 'inherit'
+                    });
+                    child.on('exit', function(code) {
+                      if (code === 0) {
+                        grunt.log.writeln().ok();
+                      } else {
+                        grunt.fail.warn('./bin/init.sh failed (status ' + code + ').');
+                      }
+                      done();
+                    });
+                  }
+              }
+          }
+      ]);
+
       if (grunt.task.current.errorCount) {
         done();
       } else {
