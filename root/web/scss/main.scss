@@ -4,9 +4,10 @@
  */
 @import "compass";
 
-// import html5 boilerplate's main.css. A single Sass @import has been added to import _base.scss which is the start
-// of our application css.
-@import "html5boilerplate";
 
 // html5 boilerplate's normalize.css
 @import "normalize";
+
+// import html5 boilerplate's main.css. A single Sass @import has been added to import _base.scss which is the start
+// of our application css.
+@import "html5boilerplate";
