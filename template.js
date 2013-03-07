@@ -2,6 +2,90 @@
   "use strict";
 
   var fs = require('fs');
+
+
+  // Add a template
+  //subtemplates.add([{ name: foo, prop = bar, index = n },..])
+  //subtemplates.add({ name: foo, prop = bar, index = n })
+  //subtemplates.add( name, prop, index )
+  var 
+  subtemplates = {};
+  subtemplates.que = [];
+  subtemplates.add = function( template, prop, index ) {
+
+    var _name, _prop, _index;
+
+    if (!Array.isArray( template )) {
+
+        _name = template.name || template;
+        _prop = template.prop || prop;
+        _index = template.index || index;
+
+        // if we havent added the template yet
+        if (typeof subtemplates[ _name ] === "undefined") {
+
+            // if no index is specified default to end of stack
+            subtemplates.que.splice( _index || subtemplates.que.length, 0, _name );
+            
+            // add to subtemplate
+            subtemplates[ _name ] = _prop;
+        }
+
+    } else  {
+
+        // array of options
+        for( var i=0, len=template.length; i<len; i++ ) {
+
+            subtemplates.add(template[i]);
+        }
+    }
+
+    return this;
+
+  };
+
+  subtemplates
+  .add( 'h5bp',       require('./lib/h5bp') )
+  .add( 'laravel',    require('./lib/laravel') )
+  .add( 'backbone',   require('./lib/backbone') )
+  .add( 'acceptance', require('./lib/acceptance') )
+  .add([ 
+        {
+          name: 'writeProjectDefaultJson',
+          prop: {
+              prompt: false,
+              template: function(grunt, init, done) {
+                // create a project json file on which projects will be read from
+                fs.writeFileSync('projectDefault.json', JSON.stringify(init.projectDefaultjson));
+                done();
+              }
+         }
+      },
+      {
+          name: 'runInitSh',
+          prop: {
+              prompt: 'Do you want me to automatically download dependencies and build after setting up your project?',
+              template: function(grunt, init, done) {
+                grunt.log.writeln('Running _./bin/init.sh_ ...');
+
+                var spawn = require('child_process').spawn;
+                var child = spawn('./bin/init.sh', [], {
+                  stdio: 'inherit'
+                });
+                child.on('exit', function(code) {
+                  if (code === 0) {
+                    grunt.log.writeln().ok();
+                  } else {
+                    grunt.fail.warn('./bin/init.sh failed (status ' + code + ').');
+                  }
+                  done();
+                });
+              }
+          }
+      }
+  ]);
+
+  /*
   var subtemplates = {
     h5bp: require('./lib/h5bp'),
     laravel: require('./lib/laravel'),
@@ -37,7 +121,7 @@
       }
     }
   };
-  var subtemplateOrder = [
+  var subtemplates.que = [
     'h5bp',
     'laravel',
     'backbone',
@@ -45,6 +129,7 @@
     'writeProjectDefaultJson',
     'runInitSh'
   ];
+  */
 
   var S_IXUSR = parseInt('0000100', 8);
   function grantExecutePermission(file) {
@@ -151,7 +236,7 @@
     ];
 
     // add prompts to enable/disable subtemplates
-    subtemplateOrder.forEach(function(subtemplate) {
+    subtemplates.que.forEach(function(subtemplate) {
       if (subtemplates[subtemplate].prompt) {
         prompts.push({
           name: subtemplate,
@@ -166,7 +251,7 @@
       props.keywords = [];
 
       // give sub-templates a chance to modify init.renames prior to getting a list of files to copy
-      grunt.util.async.forEachSeries(subtemplateOrder, function(name, next) {
+      grunt.util.async.forEachSeries(subtemplates.que, function(name, next) {
         var subtemplate = subtemplates[name];
         if ((!subtemplate.prompt || /y/i.test(props[name])) && typeof subtemplate.initTemplate === 'function') {
           subtemplate.initTemplate(grunt, init, function() {
@@ -212,7 +297,7 @@
         // now call the template() entry point function for each subtemplate in order.
         // first construct a queue of the enabled subtemplates
         var tasks = [];
-        subtemplateOrder.forEach(function(subtemplate) {
+        subtemplates.que.forEach(function(subtemplate) {
           if (!subtemplates[subtemplate].prompt || /y/i.test( props[subtemplate] ) ) {
             tasks.push(subtemplates[subtemplate].template);
           }
@@ -248,4 +333,4 @@
     });
   };
 
-}(typeof exports === 'object' && exports || this));
+}(typeof exports === 'templateect' && exports || this));
