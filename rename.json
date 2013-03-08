@@ -11,9 +11,9 @@
     "app/config/env5/app.php": false,
     "app/config/env5/mail.php": false,
     "web/js/backbonemain.js": false,
-    "web/js/app/app.js": false,
-    "web/js/app/router.js": false,
-    "web/js/app/view": false,
-    "web/js/app/model": false,
-    "web/js/app/collection": false
+    "web/js/app.js": false,
+    "web/js/router.js": false,
+    "web/js/sampleview.js": false,
+    "web/js/samplemodel.js": false,
+    "web/js/samplecollection.js": false
 }
