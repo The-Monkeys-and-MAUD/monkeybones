@@ -9,5 +9,11 @@
     "app/config/env4/app.php": false,
     "app/config/env4/mail.php": false,
     "app/config/env5/app.php": false,
-    "app/config/env5/mail.php": false
+    "app/config/env5/mail.php": false,
+    "web/js/backbonemain.js": false,
+    "web/js/app/app.js": false,
+    "web/js/app/router.js": false,
+    "web/js/app/view": false,
+    "web/js/app/model": false,
+    "web/js/app/collection": false
 }
