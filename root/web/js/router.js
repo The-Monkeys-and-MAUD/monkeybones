@@ -5,19 +5,29 @@
     
     var APP = global.app = global.app || {};
    
-    APP.router = new Backbone.Router.extend({
-        routes: {
-            '*filter': 'setFilter'
-        },
+    APP.router = Backbone.Router.extend({
 
-        setFilter: function (param) {
-            // Set the current filter to be used
-            app.TodoFilter = param.trim() || '';
+      initialize: function() {
+          this.messageModel = new APP.DummyModel();
+          this.mainView = new APP.DummyAppView({ model: this.messageModel });  
+          
+          Backbone.history.start();
+      },
+    
+      routes: {
+        "/*": "home",
+        "message/:message":     "message"
+      },
+      
+      home: function() {
+            //console.log("home");
+      },
 
-            // Trigger a collection filter event, causing hiding/unhiding
-            // of Todo view items
-            app.Todos.trigger('filter');
-        }
+      message: function( message ) {
+        
+        this.messageModel.set("message", message);
+      }
+
     });
     
 }( typeof exports === 'object' && exports || this ));

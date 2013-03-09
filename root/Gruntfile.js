@@ -50,6 +50,8 @@ module.exports = function(grunt) {
             module: false,
             jQuery: false,
             '$': false,
+            '_': false,
+            'Backbone': false,
             console: false,
             Modernizr:false
         }

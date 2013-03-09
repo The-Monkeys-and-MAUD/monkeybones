@@ -7,27 +7,31 @@
 
     APP.DummyView = Backbone.View.extend({
 
-        tagName:  'body',
+        tagName:  'h1',
         
-        template: "<h1>Hello world with backbone</h1>",
+        template: _.template("<%= message %>"),
 
         events: {
             'click': 'helloWorld'
         },
 
         initialize: function () {
-            this.$el.css("background", "red");
-            this.render();
+                                         
+            this.render();            
+            this.listenTo(this.model, "change", this.render);
         },
 
         render: function() {
-            this.$el.html( this.template );
+            
+            this.$el.html(this.template(this.model.attributes));
             return this;
         },
 
         helloWorld: function() {
-            alert("Hello world from backbone view");
-            this.$el.css("background", "blue");
+        
+            var message = global.prompt("New message:");
+            
+            global.location.href = '/#/message/' + message;
         }
     });
         

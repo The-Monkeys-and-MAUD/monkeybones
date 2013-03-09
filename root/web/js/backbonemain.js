@@ -4,7 +4,9 @@
     "use strict";
     
     var APP = global.app = global.app || {};
-   
-    new app.DummyView();
+    
+    // Start application  
+    new APP.router();
+    
     
 }( typeof exports === 'object' && exports || this ));
