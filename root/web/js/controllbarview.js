@@ -15,9 +15,7 @@
             '<label> Message: </label>' +
             '<input name="message" type="text" value="<%= message %>" />' +
             '<label> size: </label>' +
-            '<input name="size" type="text" value="<%= size %>" />' +
-            '<label> speed: </label>' +
-            '<input name="speed" type="text" value="<%= speed %>" />'
+            '<input name="size" type="text" value="<%= size %>" />'
         ].join()),
 
         events: {
