@@ -43,20 +43,36 @@
 //      to aid on mocking for unit tests.
 // 
 // * * *
-/* Sample dummy test */
+//
+/* Sample backbone model test */
 
 /*
- * '../js/app/dummy.js'
+ * '../app/model/samplemodel.js'
  *
- *(function(global) {    
+ * (function(global) {    
+ *
+ *    "use strict";
  *    
- *    var APP = global.app = global.app || {},    
- *       module = APP.dummy = APP.dummy || {};    
- *    
- *   module.dummy = function sample() {    
- *       return 1;    
- *   };    
+ *    var APP = global.app = global.app || {};
  *   
+ *    APP.DummyModel = Backbone.Model.extend({
+ *
+ *        defaults: function() {
+ *          return {
+ *            name: "Dummy",
+ *            message: "Hello world from Backbone",
+ *            speed: 100,
+ *            size: 20,
+ *            visible: false
+ *          };
+ *        },
+ *
+ *        initialize: function() {         
+ *            //console.log( this.defaults().name, ' Model created.' );
+ *        }
+ *
+ *  });
+ *    
  * }( typeof exports === 'object' && exports || this ));
  */
 
@@ -86,14 +102,13 @@ var context = {
 context.Backbone.$ = jQuery;
 context._.$ = jQuery;
 
-// require the tested file and mock global context
-var testsrc = requireincontext( path.join( __dirname, '../js/app/dummy.js'), context );
+var testsrc = requireincontext( path.join( __dirname, '../js/app/model/samplemodel.js'), context );
 
 module.exports = { 
 
     setUp: function( callback ) {   
         // setup initial values before any test, this will be called before each test.
-        this._module = testsrc.app.dummy; 
+        this._module = testsrc.app.DummyModel;
 
         callback();
     },  
@@ -107,26 +122,32 @@ module.exports = {
 
     'Dummy test case': function( test ) { 
 
-        // create a mocked function that accepts only '10, [10, 20, 30]' as arguments and returns true
-        var mocked = nodemock.mock("mockedvalue").takes(10, [10, 20, 30]).returns(true);
-
         // number of expected tests to be run
-        test.expect(5);
+        test.expect(6);
 
-        // should return true
-        test.ok(this._module.dummy() , "Dummy should return true");
+        var fixture = new this._module({ message: "bom dia" });
 
+        // mock a function 
+        var fixture2 = nodemock.mock("get").takes("name").returns("Surprise");
+
+        // When model is created with an argument should overwritte defaults
+        test.equal( fixture.get("message"), "bom dia", "Model message should be 'bom dia'" );
+        
         // this will test with the == operator
-        test.equal(this._module.dummy(), true, "This should be true since 1 == true");
+        test.equal( fixture.get("visible"), 0, "Visible should be set to false by default");
+        
+        // should return true
+        fixture.set("visible", true); // updating model value
+        test.ok( fixture.get("visible"), "Visible property should be now set to true");
 
         // this will test with the !== operator
-        test.notStrictEqual(this._module.dummy(), true, "This should be false since 1 !== true");
+        test.notStrictEqual( fixture.get("name") , "undefined", "Name property should be defined by default");
 
         // this will test with the === operator
-        test.strictEqual(this._module.dummy(), 1, "This should be true since 1 === 1");
+        test.strictEqual( fixture.get("size"), 20, "Default size should be 20");
 
-        // should return true
-        test.ok(mocked.mockedvalue( 10, [10, 20, 30 ] ) , "mocked should return true");
+        // should return 'Surpise'
+        test.strictEqual( fixture2.get("name"), "Surprise", "Mocked fixture function get should return 'Surprise'");
 
         // this needs to be called after each test case
         test.done();
