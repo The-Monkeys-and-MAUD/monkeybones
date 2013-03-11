@@ -11,7 +11,7 @@
 
         initialize: function () {
         
-            console.log("Main app loaded");
+            //console.log("Main app loaded");
                         
             this.render( this.model );
         },
