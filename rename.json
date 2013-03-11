@@ -14,6 +14,7 @@
     "web/js/app.js": false,
     "web/js/router.js": false,
     "web/js/sampleview.js": false,
+    "web/js/controllbarview.js": false,
     "web/js/samplemodel.js": false,
     "web/js/samplecollection.js": false,
     "web/js/backbonemodel_test.js": false

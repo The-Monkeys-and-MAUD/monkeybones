@@ -16,22 +16,30 @@
         },
 
         initialize: function () {
-                                         
             this.render();            
             this.listenTo(this.model, "change", this.render);
+            this.listenTo(this.model,"change:message", this.updateHash);
         },
 
         render: function() {
-            
+
             this.$el.html(this.template(this.model.attributes));
+
+            this.$el.css({
+                fontSize: this.model.get("size") + "px"
+            });
+                
             return this;
         },
 
         helloWorld: function() {
         
-            var message = global.prompt("New message:");
-            
-            global.location.href = '/#/message/' + message;
+            this.model.set("message", global.prompt("New message:") ); 
+        },
+
+        updateHash: function() {
+
+            global.location.href = '/#/message/' + this.model.get("message");
         }
     });
         
