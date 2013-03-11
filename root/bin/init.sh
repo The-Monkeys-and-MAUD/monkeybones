@@ -37,6 +37,9 @@ function checkdependencies() {
 function installdependencies() {
     # install npm modules
     echo "Installing npm dependencies..."
+
+    cd ${DIR}/../
+
     npm install
 
     # install composer modules
@@ -54,11 +57,15 @@ function installdependencies() {
 
     echo "Installing basic javascript files"
     grunt install
+
+    cd ${OLDPWD}
 }
 
 # Setup building process
 function build() {
     
+    cd ${DIR}/../
+
     # run grunt default task
     echo "Running grunt default task.."
     grunt 
@@ -66,6 +73,8 @@ function build() {
     # generate documentation
     echo "Generating documentation.."
     grunt docco
+
+    cd ${OLDPWD}
 }
 
 

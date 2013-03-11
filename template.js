@@ -190,8 +190,12 @@
             'grunt-contrib-connect': '~0.1.2',
             'grunt-docco': 'git://github.com/DavidSouther/grunt-docco.git',
             'grunt-reload': 'git://github.com/webxl/grunt-reload.git',
+            "requireincontext": "0.0.2",
             'nodemock': '~0.2.17',
-            'grunt-bowerful': 'latest'
+            'grunt-bowerful': 'latest',
+            "backbone": "latest",
+            "underscore": "latest",
+            "jquery": "latest"
           }
         });
 
