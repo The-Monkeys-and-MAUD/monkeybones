@@ -172,7 +172,7 @@
 
         init.copyAndProcess(files, props);
 
-        init.writePackageJSON('package.json', {
+        init.writePackageJSON('build/package.json', {
           name: props.name,
           description: props.title + (props.description ? ': ' + props.description : ''),
           version: props.version,
@@ -199,7 +199,7 @@
           }
         });
 
-        grantExecutePermission('bin/init.sh');
+        grantExecutePermission('init.sh');
 
         // now call the template() entry point function for each subtemplate in order.
         // first construct a queue of the enabled subtemplates
@@ -212,7 +212,7 @@
 
         // if user chose not to run init.sh automatically, remind them they'll need to run it later.
         if( !/y/i.test( props.runInitSh ) ) {
-          exports.after = 'Next, run _./bin/init.sh_ to download and install dependencies.';
+          exports.after = 'Next, run _./init.sh_ to download and install dependencies.';
         }
 
         // now work through the queue asynchronously
@@ -243,7 +243,7 @@
                   prompt: false,
                   template: function(grunt, init, done) {
                     // create a project json file on which projects will be read from
-                    fs.writeFileSync('projectDefault.json', JSON.stringify(init.projectDefaultjson));
+                    fs.writeFileSync('build/projectDefault.json', JSON.stringify(init.projectDefaultjson));
                     done();
                   }
              }
@@ -253,17 +253,17 @@
               prop: {
                   prompt: 'Do you want me to automatically download dependencies and build after setting up your project?',
                   template: function(grunt, init, done) {
-                    grunt.log.writeln('Running _./bin/init.sh_ ...');
+                    grunt.log.writeln('Running _./init.sh_ ...');
 
                     var spawn = require('child_process').spawn;
-                    var child = spawn('./bin/init.sh', [], {
+                    var child = spawn('./init.sh', [], {
                       stdio: 'inherit'
                     });
                     child.on('exit', function(code) {
                       if (code === 0) {
                         grunt.log.writeln().ok();
                       } else {
-                        grunt.fail.warn('./bin/init.sh failed (status ' + code + ').');
+                        grunt.fail.warn('./init.sh failed (status ' + code + ').');
                       }
                       done();
                     });

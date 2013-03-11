@@ -1,0 +1,13 @@
+/**
+ * This file compiles down into the single css file used by the site. Here we just include compass and the
+ * HTML5Boilerplate css template. The rest of our css is included at the appropriate place
+ */
+@import "compass";
+
+
+// html5 boilerplate's normalize.css
+@import "normalize";
+
+// import html5 boilerplate's main.css. A single Sass @import has been added to import _base.scss which is the start
+// of our application css.
+@import "html5boilerplate";
