@@ -55,6 +55,12 @@ function installdependencies() {
         php artisan key:generate
     fi
 
+    if [ -d app/storage ]
+    then
+        echo "Update storage folder permissions"
+        sudo chmod 777 -R app/storage
+    fi
+
     echo "Installing basic javascript files"
     grunt install
 
