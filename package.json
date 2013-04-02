@@ -1,6 +1,6 @@
 {
   "name": "project-scaffolding",
-  "version": "0.1.0",
+  "version": "0.9.1",
   "description": "The Monkeys project template",
   "main": "template.js",
   "scripts": {
