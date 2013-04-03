@@ -192,7 +192,8 @@
             'grunt-reload': 'git://github.com/webxl/grunt-reload.git',
             "requireincontext": "0.0.2",
             'nodemock': '~0.2.17',
-            'grunt-bowerful': 'latest',
+            //'grunt-bowerful': 'latest',
+            'grunt-bowerful': 'git://github.com/mitermayer/grunt-bowerful.git',
             "backbone": "latest",
             "underscore": "latest",
             "jquery": "latest"
