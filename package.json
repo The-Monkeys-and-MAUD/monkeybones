@@ -1,0 +1,31 @@
+{
+  "name": "monkeybones",
+  "version": "0.9.3",
+  "description": "The Monkeys project template",
+  "main": "template.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheMonkeys/monkeybones.git"
+  },
+  "keywords": [
+    "monkeys",
+    "scaffold",
+    "template",
+    "development",
+    "project"
+  ],
+  "author": "Mitermayer Reis and Pete Feltham",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "request": "2.16.6",
+    "unzip": "0.1.6",
+    "glob": "3.1.21",
+    "pipette": "0.9.3",
+    "chmodr": "0.1.0",
+    "mkdirp": "0.3.5"
+  }
+}
