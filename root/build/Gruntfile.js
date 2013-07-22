@@ -225,9 +225,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-phpdocumentor');
 
   // watch tasks
-  grunt.registerTask('dev',     ['watch:all']);
-  grunt.registerTask('dev:css', ['watch:css']);
-  grunt.registerTask('dev:js',  ['watch:js']);
+  grunt.registerTask('dev',     ['reload', 'watch:all']);
+  grunt.registerTask('dev:css', ['reload', 'watch:css']);
+  grunt.registerTask('dev:js',  ['reload', 'watch:js']);
 
   // generate all docs
   grunt.registerTask('docs',    ['dox', 'phpdocumentor']);
