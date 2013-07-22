@@ -42,6 +42,21 @@ function installdependencies() {
 
     npm install
 
+    # need to run composer in the workbench first
+    if [ -d workbench ]
+    then
+        for c in `find ${DIR}/build/workbench -name composer.json`; do
+            d=`dirname $c`
+            if ! `echo $d | grep -q /vendor/`; then
+                echo "Installing composer dependencies in $d..."
+                cd $d
+                composer install
+            fi
+        done
+    fi
+
+    cd ${DIR}/build/
+
     # install composer modules
     if [ -f composer.json ]
     then
@@ -58,7 +73,13 @@ function installdependencies() {
     if [ -d app/storage ]
     then
         echo "Update storage folder permissions"
-        sudo chmod 777 -R app/storage
+        chmod -R 777 app/storage
+    fi
+
+    if [ -d public/silverstripe/assets/Uploads ]
+    then
+        echo "Update Uploads folder permissions"
+        chmod -R 777 public/silverstripe/assets
     fi
 
     echo "Installing basic javascript files"
