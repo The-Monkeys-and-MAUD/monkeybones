@@ -126,16 +126,16 @@
 
     var prompts = [
       init.prompt('name'),
-      init.prompt('title', 'My awesome project'),
-      init.prompt('description', 'Website'),
-      init.prompt('version', '0.1.0'),
+      init.prompt('title'),
+      init.prompt('description'),
+      init.prompt('version'),
       init.prompt('repository'),
       init.prompt('homepage'),
       init.prompt('bugs'),
-      init.prompt('licenses', 'MIT'),
-      init.prompt('author_name', 'My name'),
-      init.prompt('author_email', 'myemail@domain.com'),
-      init.prompt('author_url', 'http://domain.com')
+      init.prompt('licenses'),
+      init.prompt('author_name'),
+      init.prompt('author_email'),
+      init.prompt('author_url')
     ];
 
     // add prompts to enable/disable subtemplates
