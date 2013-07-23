@@ -1,5 +1,3 @@
-![The Monkeys](http://www.themonkeys.com.au/img/monkey_logo.png)
-
 {%= title %}
 =======================
 
@@ -10,35 +8,98 @@ Your project summary here
 Documentation
 -------------
 
-Link to your project's Monkeys wiki page here.
+Your project-specific documentation here
 
 Requirements
 ------------
-See [Setting up a Developer Machine][1] in the Monkeys wiki for the basic prerequisites you'll need to work on this
-project; then follow the instructions in [Joining a project][2].
 
-In particular, if you didn't have the grunt hook enabled on your machine then you'll need to run init.sh manually:
+### Apache 2
 
-    cd build/
-    ./init.sh
+If you're on Mac OS X you can use MAMP for this if you like. However you set it up, you'll need to be able to edit your
+virtual host configuration.
 
-[1]: https://wiki.monkeylabs.com.au/doku.php?id=howtos:development_procedures:setting_up_a_developer_machine
-[2]: https://wiki.monkeylabs.com.au/doku.php?id=howtos:development_procedures:joining_a_project
+### Ruby
+
+The version of Ruby that comes preinstalled on Mac OS X is fine; if you don't have Ruby 1.8 installed
+then follow the instructions at [http://www.ruby-lang.org/en/downloads/](http://www.ruby-lang.org/en/downloads/).
+
+### NodeJS
+
+Follow NodeJS install instructions at [http://nodejs.org/download/](http://nodejs.org/download/).
+
+Then install the build system's requirements like so:
+
+```bash
+sudo easy_install Pygments &&
+    sudo npm install -g grunt-cli mocha testem livereload docco &&
+    sudo gem install compass
+```
+
+Note that that also installed the Ruby module `compass`.
+
+Setting up your development environment
+---------------------------------------
+
+Once you have the above requirements installed, you can set up your development server.
+
+### Bootstrap your build environment
+
+If you're on a unix-like environment, you can run:
+
+```bash
+./init.sh
+```
+
+Otherwise you'll need to do it manually:
+
+```bash
+cd build/
+npm install
+```
+
+### Run a front-end production build
+
+```
+grunt
+```
+
+### Apache
+
+Edit your /etc/hosts file (something like C:/Windows/System32/drivers/etc/hosts on Windows):
+
+```
+127.0.0.1       yoursite.dev
+```
+
+Then add a virtual host to your Apache configuration:
+
+```
+<VirtualHost *>
+    DocumentRoot "/path/to/your-project/build/public/"
+    ServerName yoursite.dev
+    <Directory /path/to/your-project/build/public/>
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+    </Directory>
+</VirtualHost>
+
+```
+
+### Test
+
+Visit [http://yoursite.dev/](http://yoursite.dev/) and you should see the home page. Check your browser's error console
+for any load errors or javascript errors.
 
 Building
 --------
+
 In development, run the following command to have the grunt watcher build your sass and js as you work:
 
+    cd build/
     grunt dev
 
-Prior to checkin, run a full grunt build to ensure the linter is happy with your code and all tests pass:
-
-    grunt
-
-Building a Release
-------------------
-The deployment server should run the following to build the js and css prior to deploying to staging or prod:
+Prior to checkin or release, run a full grunt build to ensure the linter is happy with your code and all tests pass:
 
     cd build/
-    ./init.sh
-
+    grunt
