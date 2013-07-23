@@ -1,6 +1,9 @@
 Deployment
 ===================
 
+When you've set up a deployment mechanism, replace the contents of this file with instructions for your development
+team describing how to deploy to each environment.
+
 A great way to make deployment to your servers easy is:
 
 1. Put a deployment script, say `deploy.sh`, in this folder

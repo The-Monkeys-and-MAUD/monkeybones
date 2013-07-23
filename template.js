@@ -109,7 +109,7 @@
   }
 
 
-  exports.description = 'The monkeys base project';
+  exports.description = 'Monkeybones website project template';
 
   exports.notes = 'A web project template with a ready-made Gruntfile to give you javascript minification, Sass compilation, unit testing and more, as well as optional Laravel 4.0, backbone.js and/or acceptance testing framework.';
 
