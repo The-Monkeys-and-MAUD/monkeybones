@@ -218,6 +218,8 @@
           exports.after = 'Next, run _./init.sh_ to download and install dependencies.';
         }
 
+        init.props = props;
+
         // now work through the queue asynchronously
         (function next() {
           (tasks.shift())(grunt, init, function() {

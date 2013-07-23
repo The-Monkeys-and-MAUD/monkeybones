@@ -68,16 +68,16 @@ grunt
 Edit your /etc/hosts file (something like C:/Windows/System32/drivers/etc/hosts on Windows):
 
 ```
-127.0.0.1       yoursite.dev
+127.0.0.1       {%= name %}.dev
 ```
 
 Then add a virtual host to your Apache configuration:
 
 ```
 <VirtualHost *>
-    DocumentRoot "/path/to/your-project/build/public/"
-    ServerName yoursite.dev
-    <Directory /path/to/your-project/build/public/>
+    DocumentRoot "/path/to/{%= name %}/build/public/"
+    ServerName {%= name %}.dev
+    <Directory /path/to/{%= name %}/build/public/>
         AllowOverride All
         Order allow,deny
         Allow from all
@@ -88,7 +88,7 @@ Then add a virtual host to your Apache configuration:
 
 ### Test
 
-Visit [http://yoursite.dev/](http://yoursite.dev/) and you should see the home page. Check your browser's error console
+Visit [http://{%= name %}.dev/](http://{%= name %}.dev/) and you should see the home page. Check your browser's error console
 for any load errors or javascript errors.
 
 Building

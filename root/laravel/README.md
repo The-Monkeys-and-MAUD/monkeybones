@@ -92,16 +92,16 @@ grunt
 Edit your /etc/hosts file (something like C:/Windows/System32/drivers/etc/hosts on Windows):
 
 ```
-127.0.0.1       yoursite.dev
+127.0.0.1       {%= name %}.dev
 ```
 
 Then add a virtual host to your Apache configuration:
 
 ```
 <VirtualHost *>
-    DocumentRoot "/path/to/your-project/build/public/"
-    ServerName yoursite.dev
-    <Directory /path/to/your-project/build/public/>
+    DocumentRoot "/path/to/{%= name %}/build/public/"
+    ServerName {%= name %}.dev
+    <Directory /path/to/{%= name %}/build/public/>
         AllowOverride All
         Order allow,deny
         Allow from all
@@ -112,9 +112,9 @@ Then add a virtual host to your Apache configuration:
 
 ### MySQL
 
-To avoid any extra configuration, create a database called `<your-default-db-name>` and a user called
-`<your-default-db-name>` with password `<your-default-db-name>` with `SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER`
-permissions on the `pauls` database, with access from localhost.
+To avoid any extra configuration, create a database called `{%= name %}` and a user called
+`{%= name %}` with password `{%= name %}` with `SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER`
+permissions on the `{%= name %}` database, with access from localhost.
 
 If you must use a different configuration, then create a file `build/app/config/local/database.php` using the one in
 `build/app/config/database.php` as a template (you only need to include settings that differ from those in
@@ -134,7 +134,7 @@ php artisan migrate --env=local --seed
 
 ### Test
 
-Visit [http://yoursite.dev/](http://yoursite.dev/) and you should see the home page. Check your browser's error console
+Visit [http://{%= name %}.dev/](http://{%= name %}.dev/) and you should see the home page. Check your browser's error console
 for any load errors or javascript errors.
 
 Building
