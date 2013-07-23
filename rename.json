@@ -5,6 +5,7 @@
     "laravel/build/app/config/env3/app.php": false,
     "laravel/build/app/config/env4/app.php": false,
     "laravel/build/app/config/env5/app.php": false,
+    "laravel/build/app/config/server.php": false,
     "laravel/README.md": false,
     "backbone/build/web/js/backbonemain.js": false,
     "backbone/build/web/js/app/app.js": false,
