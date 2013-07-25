@@ -76,26 +76,25 @@ module.exports = function(grunt) {
             configuration: 'phpunit.xml'
         }   
     }, 
-    compass: {  
+    compass: {
+        options: {
+            sassDir: 'web/scss',
+            cssDir: 'public/css',
+            imagesDir: 'public/img',
+            raw: 'http_images_path = "/img"',
+            relativeAssets: false,
+            noLineComments: true,
+            debugInfo: false
+        },
         prod: {
             options: {
-                sassDir: 'web/scss',
-                cssDir: 'public/css',
                 outputStyle: 'compressed',
-                relativeAssets: false,
-                noLineComments: true,
-                debugInfo: false,
                 environment: 'production'
             }
         },
         dev: {
             options: {
-                sassDir: 'web/scss',
-                cssDir: 'public/css',
-                relativeAssets: false,
-                noLineComments: true,
-                outputStyle: 'nested',
-                debugInfo: false
+                outputStyle: 'nested'
             }
         }
     },
