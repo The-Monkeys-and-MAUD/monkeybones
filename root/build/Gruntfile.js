@@ -185,6 +185,16 @@ module.exports = function(grunt) {
             unescape_strings: false
         }   
     },  
+    monkeytestjs: {
+      url: {
+        options: {
+          urls: [
+            // this will later on point to the monkeytestJS web demo page
+            'http://prototype.dev/tests/index.html'
+          ]   
+        }   
+      }   
+    },
     clean: {
         install: {
             src: '<%= bowerful.dist.store.src %>'
@@ -203,12 +213,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-monkeytestjs');
   grunt.loadNpmTasks('grunt-bowerful');
 
   // Better naming conventions
   grunt.registerTask('lint', 'Lint javascript files with default validator', 'jshint');
   grunt.registerTask('min',  'Minify files with default minifier', 'uglify');
   grunt.registerTask('test', 'Unit testing on the command line with default testing framework', 'nodeunit');
+  grunt.registerTask('itest', 'Integration testing on the command line using monkeytestjs', 'monkeytestjs');
 
   // reload
   grunt.loadNpmTasks('grunt-reload');
