@@ -185,15 +185,33 @@ module.exports = function(grunt) {
             unescape_strings: false
         }   
     },  
+    connect: {
+        server: {
+          options: {
+            port: 9000,
+            // this will allow tasks like the W3C validation to be tested to bypass X domain assync.
+            middleware: require('./tasks/monkeytestjs.js').proxy,
+            base: 'public'
+          }   
+        }   
+    }, 
     monkeytestjs: {
-      url: {
+      onlineUrl: {
         options: {
           urls: [
-            // this will later on point to the monkeytestJS web demo page
-            'http://prototype.dev/tests/index.html'
-          ]   
-        }   
-      }   
+            // you can test external urls
+            'http://themonkeys.github.io/MonkeytestJS/tests/index.html'
+          ]
+        }
+      },
+      localFileServerUrl: {
+        options: {
+          urls: [
+            // you can run a server to test local files
+            'http://localhost:9000/tests/index.html'
+          ]
+        }
+      }
     },
     clean: {
         install: {
@@ -213,6 +231,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-monkeytestjs');
   grunt.loadNpmTasks('grunt-bowerful');
 
@@ -220,7 +239,10 @@ module.exports = function(grunt) {
   grunt.registerTask('lint', 'Lint javascript files with default validator', 'jshint');
   grunt.registerTask('min',  'Minify files with default minifier', 'uglify');
   grunt.registerTask('test', 'Unit testing on the command line with default testing framework', 'nodeunit');
-  grunt.registerTask('itest', 'Integration testing on the command line using monkeytestjs', 'monkeytestjs');
+
+  grunt.registerTask('localUrl', ['connect', 'monkeytestjs:localFileServerUrl']);
+  grunt.registerTask('test', ['monkeytestjs:onlineUrl', 'localUrl']);
+  grunt.registerTask('itest', 'Integration testing on the command line using monkeytestjs', ['connect', 'monkeytestjs']);
 
   // reload
   grunt.loadNpmTasks('grunt-reload');
@@ -247,6 +269,6 @@ module.exports = function(grunt) {
   grunt.registerTask('install', 'Install javascript components defined on Gruntfile',  ['bowerful', 'clean:install']);
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'nodeunit', 'concat', 'jsbeautifier', 'uglify', 'clean:debug', 'compass:prod']);
+  grunt.registerTask('default', ['jshint', 'nodeunit', 'concat', 'jsbeautifier', 'uglify', 'clean:debug', 'compass:prod', 'itest']);
 
 };
