@@ -190,25 +190,27 @@ module.exports = function(grunt) {
           options: {
             port: 9000,
             // this will allow tasks like the W3C validation to be tested to bypass X domain assync.
-            middleware: require('./tasks/monkeytestjs.js').proxy,
+            middleware: require('grunt-monkeytestjs/tasks/monkeytestjs.js').proxy,
+            // if you want to run your own personal server uncomment this line
+            //keepalive: true,
             base: 'public'
           }   
         }   
     }, 
     monkeytestjs: {
-      onlineUrl: {
-        options: {
-          urls: [
-            // you can test external urls
-            'http://themonkeys.github.io/MonkeytestJS/tests/index.html'
-          ]
-        }
-      },
       localFileServerUrl: {
         options: {
           urls: [
             // you can run a server to test local files
             'http://localhost:9000/tests/index.html'
+          ]
+        }
+      },
+      onlineUrl: {
+        options: {
+          urls: [
+            // you can test external urls
+            'http://themonkeys.github.io/MonkeytestJS/tests/index.html'
           ]
         }
       }
