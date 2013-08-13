@@ -271,6 +271,6 @@ module.exports = function(grunt) {
   grunt.registerTask('install', 'Install javascript components defined on Gruntfile',  ['bowerful', 'clean:install']);
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'nodeunit', 'concat', 'jsbeautifier', 'uglify', 'clean:debug', 'compass:prod', 'itest']);
+  grunt.registerTask('default', ['jshint', 'nodeunit', 'concat', 'jsbeautifier', 'uglify', 'clean:debug', 'compass:prod']);
 
 };
