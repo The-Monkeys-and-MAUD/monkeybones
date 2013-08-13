@@ -60,6 +60,10 @@ function installdependencies() {
     # install composer modules
     if [ -f composer.json ]
     then
+
+        echo "Updating composer"
+        composer self-update
+
         echo "Installing composer dependencies..."
         composer install
     fi
