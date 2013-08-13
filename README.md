@@ -20,18 +20,18 @@ To make the project template available for use via grunt-init, you need to insta
 
 It's recommended that you use git to clone the template into that directory like so:
 
-`
-git clone git@github.com:TheMonkeys/monkeybones.git ~/.grunt-init/monkeybones
-`
+  ```
+  git clone git@github.com:TheMonkeys/monkeybones.git ~/.grunt-init/monkeybones
+  ```
 
 ## Step 2: Execute grunt-init
 
 Execute the following commands:
 
-`
-cd /path/to/project
-grunt-init monkeybones
-`
+  ```
+  cd /path/to/project
+  grunt-init monkeybones
+  ```
 
 Note that the template generates files in the current directory, so be sure to change to a new directory first. If there are any existing files in the current directory, grunt-init will fail with the message Warning: Existing files may be overwritten! Use –force to continue.
 
@@ -48,15 +48,15 @@ By default init.sh will only make changes if all executable dependencies have be
 
 If your project need any extra executable other than the defaults just edit the file ./init.sh and edit this line:
 
-`
-commandependencies=( php mysql npm grunt mocha docco testem compass composer )
-`
+  ```
+  commandependencies=( php mysql npm grunt mocha docco testem compass composer )
+  ```
 
 by adding the new command to the end of the list, for example:
 
-`
-commandependencies=( php mysql npm grunt mocha docco testem compass composer newexeccommand )
-`
+  ```
+  commandependencies=( php mysql npm grunt mocha docco testem compass composer newexeccommand )
+  ```
 
 [1]: https://github.com/gruntjs/grunt-init
 [2]: http://www.themonkeys.com.au/
