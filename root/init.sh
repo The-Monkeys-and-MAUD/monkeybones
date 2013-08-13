@@ -38,6 +38,9 @@ function installdependencies() {
     # install npm modules
     echo "Installing npm dependencies..."
 
+    echo "Updating composer"
+    composer self-update
+
     cd ${DIR}/build/
 
     npm install
@@ -60,10 +63,6 @@ function installdependencies() {
     # install composer modules
     if [ -f composer.json ]
     then
-
-        echo "Updating composer"
-        composer self-update
-
         echo "Installing composer dependencies..."
         composer install
     fi
