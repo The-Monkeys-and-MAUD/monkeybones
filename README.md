@@ -48,15 +48,15 @@ By default init.sh will only make changes if all executable dependencies have be
 
 If your project need any extra executable other than the defaults just edit the file ./init.sh and edit this line:
 
-'
+`
 commandependencies=( php mysql npm grunt mocha docco testem compass composer )
-'
+`
 
 by adding the new command to the end of the list, for example:
 
-'
+`
 commandependencies=( php mysql npm grunt mocha docco testem compass composer newexeccommand )
-'
+`
 
 [1]: https://github.com/gruntjs/grunt-init
 [2]: http://www.themonkeys.com.au/
