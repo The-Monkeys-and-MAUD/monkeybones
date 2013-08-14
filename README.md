@@ -1,4 +1,4 @@
-[![The Monkeys](http://www.themonkeys.com.au/img/monkey_logo.png)](http://www.themonkeys.com.au/)
+[![MonkeyBones](http://monkeybones.io/img/logo_mb_small.png)](http://monkeybones.io/)
 
 Monkeybones
 ===========
@@ -66,3 +66,7 @@ by adding the new command to the end of the list, for example:
 [6]: http://gruntjs.com/
 [7]: http://four.laravel.com/
 [8]: http://qunitjs.com/
+
+[![The Monkeys](http://www.themonkeys.com.au/img/monkey_logo.png)](http://www.themonkeys.com.au/)
+
+Monkeybones is created and maintained by [The Monkeys](http://www.themonkeys.com.au/).
