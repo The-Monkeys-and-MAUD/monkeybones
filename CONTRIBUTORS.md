@@ -1,7 +1,7 @@
 Contributors
 ============
 
-These people have contributed to the design and implementation of MonkeyBones and associated assets
+These people have contributed to the design and implementation of MonkeyBones and associated assets:
 
   * Mitermayer Reis
   * Peter Feltham
