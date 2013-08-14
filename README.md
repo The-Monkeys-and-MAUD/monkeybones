@@ -69,4 +69,6 @@ by adding the new command to the end of the list, for example:
 
 
 
-Monkeybones is created and maintained by [![The Monkeys](http://www.themonkeys.com.au/img/monkey_logo.png)](http://www.themonkeys.com.au/)
+Monkeybones is created and maintained by:
+
+[![The Monkeys](http://www.themonkeys.com.au/img/monkey_logo.png)](http://www.themonkeys.com.au/)
