@@ -1,18 +1,37 @@
-[![MonkeyBones](http://monkeybones.io/img/logo_mb_small.png)](http://monkeybones.io/)
+[![MonkeyBones](http://monkeybones.io/img/logo_mb_small.png)][10]
 
 Monkeybones
 ===========
-## The bones of a productive web project
+## For the bones of a productive web project
 
-Monkeybones is a [grunt-init][1] project template developed and used by [The Monkeys][2] that brings together the best
-of our ideas about web development done well.
+Monkeybones is a [grunt-init][1] project template developed and used by
+[The Monkeys][2] whenever it's time to set up a new project.
 
-Based on your answers to a few questions about your project, Monkeybones will generate a project scaffold for you
-complete with the mod cons we think are essential to doing the best possible work. Those include [h5bp][3],
-[Modernizr][4], [Compass][5], [Grunt][6], [Laravel 4.0][7] and an acceptance testing framework built on [qunit][8].
+The Problem
+-----------
 
-Getting Started
----------------
+There's been a seizemic shift in front end web development happening over the last few years. As [Rebecca Murphey blogged recently][9]:
+
+  >...I think we’re seeing the emphasis shift from valuing trivia to valuing tools. There’s a new set of baseline skills required in order to be successful as a front-end developer, and developers who don’t meet this baseline are going to start feeling more and more left behind as those who are sharing their knowledge start to assume that certain things go without saying.
+
+We're talking about everything from boilerplates like [h5bp][3] to frameworks like [Compass][5] and [Backbone.js][11] to build tools like [Grunt][6] to tesing frameworks like [Mocha][12].
+
+The problem is that using these tools takes work and time. They come with a learning curve and they're all updated regularly. We have to spend time learning how to use them, keeping them up to date, managing dependencies and finding out about new tools that come online.
+
+The temptation is not to use tools for small jobs or when developers join our team for a short stint. For a three day build, is it really feasible to make a new developer spend a day or two getting set up with a suite of tools and learning how to use them? In reality, it often isn't
+
+The Solution
+------------
+
+MonkeyBones automates the setup of new projects, which are complete with all the tools and a system for getting new developers up to speed very quickly.
+
+If you're setting up a new project, MonkeyBones will ask you questions about the tools you want to use, and will generate a project scaffold based on your answers.
+
+Once the project is set up and checked into git, another developer can clone it and run a script to configure their environemtn and install the tools they need for the project.
+
+
+Getting Started: Setting up a new MonkeyBones project
+------------------------------------------------------
 
 ## Step 1: Clone the project template
 
@@ -37,26 +56,17 @@ Note that the template generates files in the current directory, so be sure to c
 
 After you've answered all of grunt-init's questions and grunt-init has finished, you'll have a project structure ready to go in your current directory. Open the folder in your IDE and have a look!
 
-Next, you'll need to download the build dependencies (development tools) by: bash ./init.sh
+## Step 3: Check your project into git
 
-Because the project is currently an exact copy of the template, only the core dependencies used by all projects (like grunt, compass, a js unit testing framework, html5boilerplate scss and html) will be downloaded by init.sh at this stage.
+You know how to do that, right?
 
 
-## Step 3: Update init.sh
+Getting Other Developers Up To Speed
+------------------------------------
 
-By default init.sh will only make changes if all executable dependencies have been met.
+This is where we talk about running init.sh
 
-If your project need any extra executable other than the defaults just edit the file ./init.sh and edit this line:
 
-  ```
-  commandependencies=( php mysql npm grunt mocha docco testem compass composer )
-  ```
-
-by adding the new command to the end of the list, for example:
-
-  ```
-  commandependencies=( php mysql npm grunt mocha docco testem compass composer newexeccommand )
-  ```
 
 [1]: https://github.com/gruntjs/grunt-init
 [2]: http://www.themonkeys.com.au/
@@ -66,6 +76,10 @@ by adding the new command to the end of the list, for example:
 [6]: http://gruntjs.com/
 [7]: http://four.laravel.com/
 [8]: http://qunitjs.com/
+[9]: http://rmurphey.com/blog/2012/04/12/a-baseline-for-front-end-developers/
+[10]: http://monkeybones.io/
+[11]: http://backbonejs.org/
+[12]: http://visionmedia.github.io/mocha/
 
 
 
