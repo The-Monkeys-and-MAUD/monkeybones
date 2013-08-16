@@ -72,7 +72,7 @@ You should see a directory called "monkeybones". There's a bunch of stuff in the
 Setting up a new web project with MonkeyBones
 ---------------------------------------------
 
-## Step 1: Make a new directory for your now project
+## Step 1: Make a new directory for your project
 
 MonkeyBones will generate the files in the current directory, so be sure to make a new directory and then cd into it.
 
@@ -138,14 +138,12 @@ Please answer the following:
 
 MonkeyBones takes guesses and provides you with default answers. As the message said earlier, "pressing return without answering a question will automatically choose the default option". If you don't like the default, type in another answer and press return.
 
-[?] Project git repository (git://github.com/presentation/MyProject.git) 
-
 Most of the questions should be pretty self explanatory. One thing that's worth noting is that
 MonkeyBones assumes that you're using git (and suggests a repo name):
 
-'''
+```
 [?] Project git repository (git://github.com/presentation/MyProject.git) 
-'''
+```
 
 You should probably make sure that the repo you specify exists. Your project will be set up to reference the repo so that you can just commit and push to it straight away.
 
@@ -166,22 +164,37 @@ Writing README.md...OK
 And so on.
 
 
-## Step 3: View your new project in a browser
+## Step 3: Get familiar with the folder structure and view your new project in a browser
 
-After you've answered all of grunt-init's questions and grunt-init has finished, you'll have a brand new project ready to go in your current directory.
+After you've answered all of grunt-init's questions and grunt-init has finished,
+you'll have a brand new project ready to go in your current directory.
 
+Your project will obviously need to be served up using whatever webserver you usually use in your
+local dev environment. You'll need to know which folder to set as your webroot. You might also
+be new to some of the tools (like Grunt), so it's worth clarifying what's what.
 
+If you open the project directory in your IDE, you'll see different folders and files depending on the tools you opted for.
+A basic front end project might look something like the image below if you're using Sublime.
 
+SCREENSHOT: Showing top level directories, "build", "prototype" and "deployment"
 
-If you open the project directory in your IDE, you'll see different folders and files depending on the tools you opted for. A basic front end project might look something like the image below if you're using Sublime.
+As you can see, on the top level there are three directories: "build", "prototype" and "deployment". We use "prototype"
+for any early prototypes of the project so that they're in the same repo as the project. The "deployment" directory is
+used for our deployment script, part of our CI process. You can ignore both folders if you like - or delete them.
 
+The "build" folder is where your project files live:
+
+SCREENSHOT: Showing the build directory open in an IDE
+
+Basically, you work in the "/build/web" directory, and then Grunt compiles everything into the "/build/public" directory.
+So your webroot is the "/build/public" directory.
 
 
 
 Getting Other Developers Up To Speed
 ------------------------------------
 
-This is where we talk about running init.sh
+(This is where we talk about cloning the repo for a project that was created with MonkeyBones and then running init.sh)
 
 
 
