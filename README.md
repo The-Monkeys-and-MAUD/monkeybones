@@ -1,36 +1,58 @@
 [![MonkeyBones](http://monkeybones.io/img/logo_mb_small.png)][10]
 
+
+
 Monkeybones
 ===========
 
-## For the bones of a productive web project
+### For the bones of a productive web project
 
-Monkeybones is a [grunt-init][1] project template developed and used by
-[The Monkeys][2] whenever it's time to set up a new project.
+Monkeybones is a [grunt-init][1] template developed and used by
+[The Monkeys][2] when it's time to set up a new project.
+
+[From now on, when we say "MonkeyBones", we mean "grunt-init, using the monkeybones
+template".]
+
+MonkeyBones automates the setup of all the tools we like to use and makes it easier
+for developers to checkout the new project and get up to speed quickly.
+
+Maybe an example would be good.
+
+While every project is different, some things are the same across all our projects. We always
+start with [HTML5Boilerplate][3] and we always use [Compass][5]. One of the things Monkeybones
+does for every new project is to split up the boilerplate CSS across the appropriate SASS
+templates in Compass.
+
+For a new project, MonkeyBones will ask you questions about the tools you want and will
+generate a project scaffold based on your answers. 
+
+Once the project is set up and checked into git, another developer can clone it
+and run a script ("init.sh") to configure their environment and install the tools
+they need for the project.
 
 
-The Problem
------------
+#### Background:
 
-There has been a seizemic shift happening in front end web development over the last few years. As [Rebecca Murphey blogged a while back][9]:
+There has been a seizemic shift happening in front end web development over the last
+few years. In a nutshell, ["we’re seeing the emphasis shift from valuing trivia to valuing
+tools"][9].
 
-  >...I think we’re seeing the emphasis shift from valuing trivia to valuing tools.
+The tools we're talking about are everything from boilerplates like [h5bp][3] to
+frameworks like [Compass][5] and [Backbone.js][11] to build tools like [Grunt][6]
+to tesing frameworks like [Mocha][12].
 
-The tools we're talking about are everything from boilerplates like [h5bp][3] to frameworks like [Compass][5] and [Backbone.js][11] to build tools like [Grunt][6] to tesing frameworks like [Mocha][12].
+The problem is that using these tools takes work and time. They come with a learning
+curve and they're updated regularly. We have to spend time learning how to use them,
+keeping them up to date, managing dependencies and finding out about new tools that
+come online.
 
-The problem is that using these tools takes work and time. They come with a learning curve and they're updated regularly. We have to spend time learning how to use them, keeping them up to date, managing dependencies and finding out about new tools that come online.
-
-That's fine if you're working on a few projects a year, but we do dozens of projects every year and some of them are very small. The temptation is to not use all the tools for small jobs especially with new developers. For a three day front end build, is it really feasible for a new developer to spend the time getting up and running with a suite of unfamiliar tools? Unfortunately for the developers who have to maintain or extend that project later, it usually isn't.
-
-
-The Solution
-------------
-
-MonkeyBones automates the setup of new projects - projects which are complete with all the tools we like to use and a system for getting new developers up to speed very quickly.
-
-If you're setting up a new project, MonkeyBones will ask you questions about the tools you want, and will generate a project scaffold based on your answers.
-
-Once the project is set up and checked into git, another developer can clone it and run a script ("init.sh") to configure their environment and install the tools they need for the project.
+That's fine if you're working on a few projects a year, but we do dozens of
+projects every year and some of them are very small. The temptation is to not
+use all the tools for small jobs especially with new developers. For a three
+day front end build, is it really feasible for a new developer to spend the
+time getting up and running with a suite of unfamiliar tools? Unfortunately
+for the developers who have to maintain or extend that project later, it usually
+isn't. But with MonkeyBones, it is.
 
 
 Getting MonkeyBones
@@ -38,7 +60,7 @@ Getting MonkeyBones
 
 You install MonkeyBones once on your development machine and thereafter you can use it to start new project.
 
-## Step 1: Make sure you have what you need to run MonkeyBones
+#### Step 1: Make sure you have what you need to run MonkeyBones
 
 MonkeyBones uses [grunt][1], which uses [node][13] and the node package manager [npm][14].
 
@@ -48,7 +70,7 @@ If you don't already have them installed, find the instructions for your platfor
 [Grunt](http://gruntjs.com/getting-started)
 
 
-## Step 2: Clone the MonkeyBones repo from GitHub
+#### Step 2: Clone the MonkeyBones repo from GitHub
 
 To make the project template available for use via grunt-init, you need to install it into your ~/.grunt-init/ directory (%USERPROFILE%\.grunt-init\ on Windows).
 
@@ -58,7 +80,7 @@ The simplest approach is to use git to clone the template into that directory, i
   git clone git@github.com:TheMonkeys/monkeybones.git ~/.grunt-init/monkeybones
   ```
 
-## Step 3: There isn't really a step 3
+#### Step 3: There isn't really a step 3
 
 That's it, MonkeyBones is all set up. To make sure, have a look in your .grunt-init directory:
 
@@ -69,10 +91,12 @@ ls ~/.grunt-init/
 You should see a directory called "monkeybones". There's a bunch of stuff in there which you can look at one day when you have to look busy. For now, just rest assured that the installation of MonkeyBones has all gone according to plan.
 
 
+
+
 Setting up a new web project with MonkeyBones
 ---------------------------------------------
 
-## Step 1: Make a new directory for your project
+#### Step 1: Make a new directory for your project
 
 MonkeyBones will generate the files in the current directory, so be sure to make a new directory and then cd into it.
 
@@ -81,23 +105,29 @@ MonkeyBones will generate the files in the current directory, so be sure to make
   cd /path/to/MyProject
   ```
 
-## Step 2: Run grunt-init, specifying MonkeyBones as the project template
+#### Step 2: Run grunt-init, specifying MonkeyBones as the project template
 
   ```
   grunt-init monkeybones
   ```
 
-You'll see a standard message:
+You'll see some standard messages eg (at the time of writing this):
 
 ```
 Running "init:monkeybones" (init) task
 This task will create one or more files in the current directory, based on the
 environment and the answers to a few questions. Note that answering "?" to any
-question will show question-specific help and pressing return without answering
-a question will automatically choose the default option.
+question will show question-specific help and answering "none" to most questions
+will leave its value blank.
+
+"monkeybones" template notes:
+A web project template with a ready-made Gruntfile to give you javascript
+minification, Sass compilation, unit testing and more, as well as optional
+Laravel 4.0, backbone.js and/or acceptance testing framework.
+Using npm install to get template script dependencies.
 ```
 
-Note that  If there are any existing files in the current directory, grunt-init will fail and you will see this message:
+Note that if there are any existing files in the current directory, grunt-init will fail and you will see this message:
 
 ```
 Warning: Existing files may be overwritten! Use –force to continue.
@@ -136,7 +166,7 @@ Please answer the following:
 [?] Project name (MyProject)
 ```
 
-MonkeyBones takes guesses and provides you with default answers. As the message said earlier, "pressing return without answering a question will automatically choose the default option". If you don't like the default, type in another answer and press return.
+MonkeyBones takes guesses and provides you with default answers. Pressing return without answering a question will automatically choose the default option. If you don't like the default, type in another answer and press return.
 
 Most of the questions should be pretty self explanatory. One thing that's worth noting is that
 MonkeyBones assumes that you're using git (and suggests a repo name):
@@ -145,15 +175,20 @@ MonkeyBones assumes that you're using git (and suggests a repo name):
 [?] Project git repository (git://github.com/presentation/MyProject.git) 
 ```
 
-You should probably make sure that the repo you specify exists. Your project will be set up to reference the repo so that you can just commit and push to it straight away.
+You should probably make sure that the repo you specify exists when you get to that point.
 
 When you get to this one, if you don't have a strong opinion about that then the correct answer is probably yes (which is the default):
 
 ```
 [?] Do you want me to automatically download dependencies and build after setting up your project? (Y/n)
 ```
+If you amswer "Y", MonkeyBones will run the "init.sh" script automatically after the project is set up. This script checks that you have all the system dependencies that are required to run the tools that MonkeyBones has just downloaded. If you choose not to run init.sh automatically, you should run it manually:
 
-Finally, MonkeyBones will start setting up your new project based on the answers you gave. It will update you with progress, eg:
+```
+bash ./init.sh
+```
+
+Once you're done with all the questions, MonkeyBones will start setting up your new project based on the answers you gave. It will go off into the internetz and get the packages you need, install them and maybe do a bit of jiggery and pokery to integrate into your project. You'll get progress updates, eg:
 
 ```
 Writing .gitattributes...OK
@@ -163,38 +198,53 @@ Writing README.md...OK
 
 And so on.
 
+#### Step 3: Tidying up
 
-## Step 3: Get familiar with the folder structure and view your new project in a browser
+There are probably a few things that you'll want to tweak before you and others start working on your new project.
 
-After you've answered all of grunt-init's questions and grunt-init has finished,
-you'll have a brand new project ready to go in your current directory.
+At the very least, you'll check the new project into Git, eg:
+
+```
+git init
+git remote add origin git://github.com/presentation/MyProject.git
+```
+
+
+Working on a MonkeyBones project
+--------------------------------
+
+There are two ways that you might come into posession of a project that has been set up with MonkeyBones - either you set one up using MonkeyBones, or you cloned a git repo. Either way, once you have it, working on it is the same.
 
 Your project will obviously need to be served up using whatever webserver you usually use in your
-local dev environment. You'll need to know which folder to set as your webroot. You might also
+local dev environment so you'll need to know which folder to set as your webroot. You might also
 be new to some of the tools (like Grunt), so it's worth clarifying what's what.
 
-If you open the project directory in your IDE, you'll see different folders and files depending on the tools you opted for.
-A basic front end project might look something like the image below if you're using Sublime.
+If you open the project directory in your IDE, you'll see different folders and files depending
+on the tools you opted for. A basic front end project might look something like the image below
+if you're using Sublime.
 
 SCREENSHOT: Showing top level directories, "build", "prototype" and "deployment"
 
-As you can see, on the top level there are three directories: "build", "prototype" and "deployment". We use "prototype"
-for any early prototypes of the project so that they're in the same repo as the project. The "deployment" directory is
-used for our deployment script, part of our CI process. You can ignore both folders if you like - or delete them.
+As you can see, on the top level there are three directories: "build", "prototype" and "deployment".
+We use "prototype" for any early prototypes of the project so that they're in the same repo as the
+project. The "deployment" directory is used for our deployment script, part of our CI process.
+You can ignore both folders if you like - or delete them.
 
 The "build" folder is where your project files live:
 
 SCREENSHOT: Showing the build directory open in an IDE
 
-Basically, you work in the "/build/web" directory, and then Grunt compiles everything into the "/build/public" directory.
+Basically, you work in the "/build/web" directory and Grunt compiles everything into the "/build/public" directory.
+
 So your webroot is the "/build/public" directory.
 
+Before you start working, especially if you didn't set up the project, run init.sh to make sure that you have everything you need installed on your machine.
 
+```
+bash ./init.sh
+```
 
-Getting Other Developers Up To Speed
-------------------------------------
-
-(This is where we talk about cloning the repo for a project that was created with MonkeyBones and then running init.sh)
+If you don't have what you need, you'll soon know about it.
 
 
 
