@@ -56,7 +56,7 @@ isn't. But with MonkeyBones, it is.
 Getting MonkeyBones
 -------------------
 
-You install MonkeyBones once on your development machine and thereafter you can use it to start new project.
+You install MonkeyBones once on your development machine and thereafter you can use it to start new projects.
 
 #### Step 1: Make sure you have what you need to run MonkeyBones
 
@@ -117,12 +117,6 @@ This task will create one or more files in the current directory, based on the
 environment and the answers to a few questions. Note that answering "?" to any
 question will show question-specific help and answering "none" to most questions
 will leave its value blank.
-
-"monkeybones" template notes:
-A web project template with a ready-made Gruntfile to give you javascript
-minification, Sass compilation, unit testing and more, as well as optional
-Laravel 4.0, backbone.js and/or acceptance testing framework.
-Using npm install to get template script dependencies.
 ```
 
 Note that if there are any existing files in the current directory, grunt-init will fail and you will see this message:
