@@ -10,18 +10,16 @@ Monkeybones
 Monkeybones is a [grunt-init][1] template developed and used by
 [The Monkeys][2] when it's time to set up a new project.
 
-[From now on, when we say "MonkeyBones", we mean "grunt-init, using the monkeybones
-template".]
+*NOTE: From now on, when we say "MonkeyBones", we mean "grunt-init, using the monkeybones
+template".*
 
 MonkeyBones automates the setup of all the tools we like to use and makes it easier
 for developers to checkout the new project and get up to speed quickly.
 
-Maybe an example would be good.
-
-While every project is different, some things are the same across all our projects. We always
-start with [HTML5Boilerplate][3] and we always use [Compass][5]. One of the things Monkeybones
-does for every new project is to split up the boilerplate CSS across the appropriate SASS
-templates in Compass.
+Maybe an example would be good. While every project is different, some things are the same across
+all our projects. We always start with [HTML5Boilerplate][3] and we always use [Compass][5]. One
+of the things Monkeybones does for every new project is to split up the boilerplate CSS across the
+appropriate SASS templates in Compass.
 
 For a new project, MonkeyBones will ask you questions about the tools you want and will
 generate a project scaffold based on your answers. 
@@ -31,7 +29,7 @@ and run a script ("init.sh") to configure their environment and install the tool
 they need for the project.
 
 
-#### Background:
+#### Background
 
 There has been a seizemic shift happening in front end web development over the last
 few years. In a nutshell, ["we’re seeing the emphasis shift from valuing trivia to valuing
