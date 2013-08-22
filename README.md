@@ -1,7 +1,6 @@
 [![MonkeyBones](http://monkeybones.io/img/logo_mb_small.png)][10]
 
 
-
 Monkeybones
 ===========
 
@@ -13,11 +12,22 @@ Monkeybones is a [grunt-init][1] template developed and used by
 *NOTE: From now on, when we say "MonkeyBones", we mean "grunt-init, using the monkeybones
 template".*
 
-MonkeyBones automates the setup of all the tools we like to use and makes it easier
-for developers to checkout the new project and get up to speed quickly.
+MonkeyBones automates the setup of tools and packages we like to use and makes it easier
+for new developers to get up to speed with them quickly.
 
-Maybe an example would be good. While every project is different, some things are the same across
-all our projects. We always start with [HTML5Boilerplate][3] and we always use [Compass][5]. One
+Some tools and packages we always use and MonkeyBones will include them in every new project:
+
+[HTML5Boilerplate][3]
+[Compass][5]
+[Grunt][8]
+
+Others are optional:
+
+[Laravel][7]
+[MonkeyTest][19]
+etc.
+
+For example, we always start with [HTML5Boilerplate][3] and we always use [Compass][5]. One
 of the things Monkeybones does for every new project is to split up the boilerplate CSS across the
 appropriate SASS templates in Compass.
 
@@ -51,6 +61,11 @@ day front end build, is it really feasible for a new developer to spend the
 time getting up and running with a suite of unfamiliar tools? Unfortunately
 for the developers who have to maintain or extend that project later, it usually
 isn't. But with MonkeyBones, it is.
+
+#### Roadmap
+
+MonkeyBones supports the packages that we use frequently. We'll keep adding support for new packages
+as we use them in future projects. 
 
 
 Getting MonkeyBones
@@ -217,7 +232,11 @@ If you open the project directory in your IDE, you'll see different folders and 
 on the tools you opted for. A basic front end project might look something like the image below
 if you're using Sublime.
 
-SCREENSHOT: Showing top level directories, "build", "prototype" and "deployment"
+
+
+![MonkeyBones](http://monkeybones.io/img/mb_screen-shot-1.png)
+
+
 
 As you can see, on the top level there are three directories: "build", "prototype" and "deployment".
 We use "prototype" for any early prototypes of the project so that they're in the same repo as the
@@ -226,7 +245,11 @@ You can ignore both folders if you like - or delete them.
 
 The "build" folder is where your project files live:
 
-SCREENSHOT: Showing the build directory open in an IDE
+
+
+![MonkeyBones](http://monkeybones.io/img/mb_screen-shot-2.png)
+
+
 
 Basically, you work in the "/build/web" directory and Grunt compiles everything into the "/build/public" directory.
 
@@ -301,3 +324,4 @@ Monkeybones is created and maintained by:
 [16]: http://php.net/
 [17]: http://dev.mysql.com/
 [18]: http://getcomposer.org/
+[19]: https://github.com/TheMonkeys/MonkeytestJS
