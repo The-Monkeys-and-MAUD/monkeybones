@@ -205,7 +205,9 @@ git remote add origin git://github.com/presentation/MyProject.git
 Working on a MonkeyBones project
 --------------------------------
 
-There are two ways that you might come into posession of a project that has been set up with MonkeyBones - either you set one up using MonkeyBones, or you cloned a git repo. Either way, once you have it, working on it is the same.
+There are two ways that you might come into posession of a project that has been set up with MonkeyBones -
+either you set one up using MonkeyBones, or you cloned a git repo. Either way, once you have it, working
+on it is the same.
 
 Your project will obviously need to be served up using whatever webserver you usually use in your
 local dev environment so you'll need to know which folder to set as your webroot. You might also
@@ -230,14 +232,55 @@ Basically, you work in the "/build/web" directory and Grunt compiles everything 
 
 So your webroot is the "/build/public" directory.
 
-Before you start working, especially if you didn't set up the project, run init.sh to make sure that you have everything you need installed on your machine.
+Run init.sh to make sure that you have everything you need installed on your machine.
 
 ```
 bash ./init.sh
 ```
 
-If you don't have what you need, you'll soon know about it.
+Don't be scared, you can run init.sh as many times as you like and nothing bad will happen. If you haven't used
+MonkeyBones before, you probably won't get through it in one go. Once you're over the initial hurdles, you'll run
+init.sh any time you need to get a project up to date with the packages it needs.
 
+At the very least (for a purely front end project) init.sh will check that you have:
+
+```
+Checking for executable npm...OK
+Checking for executable grunt...OK
+Checking for executable compass...OK
+Checking for executable composer...OK
+```
+
+If you're using PHP, init.sh will check for [PHP][16] and [MySQL][17]
+
+```
+Checking for executable php...OK
+Checking for executable mysql...OK
+```
+
+If you don't have what you need, init.sh will let you know and stop there. You'll have to Google the tool you need and follow the installation instructions for your platform. When you run init.sh again it should get past that point.
+
+Then [Node][13] packages:
+
+```
+Installing npm dependencies...
+```
+
+If you're using PHP, init.sh also checks for any [Composer][18] packages that are required for the project:
+
+```
+Installing composer dependencies...
+```
+
+
+
+
+
+--------------------------------
+
+Monkeybones is created and maintained by:
+
+[![The Monkeys](http://www.themonkeys.com.au/img/monkey_logo.png)](http://www.themonkeys.com.au/)
 
 
 [1]: https://github.com/gruntjs/grunt-init
@@ -255,9 +298,6 @@ If you don't have what you need, you'll soon know about it.
 [13]: http://nodejs.org/
 [14]: https://npmjs.org/
 [15]: http://getcomposer.org/doc/00-intro.md
-
-
-
-Monkeybones is created and maintained by:
-
-[![The Monkeys](http://www.themonkeys.com.au/img/monkey_logo.png)](http://www.themonkeys.com.au/)
+[16]: http://php.net/
+[17]: http://dev.mysql.com/
+[18]: http://getcomposer.org/
