@@ -24,7 +24,7 @@ module.exports = function(grunt) {
     uglify: {
       options: {
         banner: '<%= banner %>',
-        separtor: ';'
+        separator: ';'
       },
       dist: {
         src: '<%= concat.prod.dest %>',
