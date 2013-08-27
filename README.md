@@ -12,30 +12,26 @@ Monkeybones is a [grunt-init][1] template developed and used by
 *NOTE: From now on, when we say "MonkeyBones", we mean "grunt-init, using the monkeybones
 template".*
 
-MonkeyBones automates the setup of tools and packages we like to use and makes it easier
-for new developers to get up to speed with them quickly.
+MonkeyBones automates the setup of tools and packages we like to use. Projects created with MonkeyBones have an
+"init.sh" script that makes it easier for new developers to get up to speed quickly.
 
-Some tools and packages we always use and MonkeyBones will include them in every new project:
+There are some tools and packages we always use and MonkeyBones will include them in every new project:
 
-[HTML5Boilerplate][3]
-[Compass][5]
-[Grunt][8]
+* [HTML5Boilerplate][3]
+* [Compass][5]
+* [Grunt][8]
 
 Others are optional:
 
-[Laravel][7]
-[MonkeyTest][19]
-etc.
-
-For example, we always start with [HTML5Boilerplate][3] and we always use [Compass][5]. One
-of the things Monkeybones does for every new project is to split up the boilerplate CSS across the
-appropriate SASS templates in Compass.
+* [BackboneJS][11]
+* [Laravel][7]
+* [MonkeyTestJS][19]
 
 For a new project, MonkeyBones will ask you questions about the tools you want and will
 generate a project scaffold based on your answers. 
 
 Once the project is set up and checked into git, another developer can clone it
-and run a script ("init.sh") to configure their environment and install the tools
+and run the "init.sh" script to configure their environment and install the tools
 they need for the project.
 
 
@@ -46,8 +42,8 @@ few years. In a nutshell, ["we’re seeing the emphasis shift from valuing trivi
 tools"][9].
 
 The tools we're talking about are everything from boilerplates like [h5bp][3] to
-frameworks like [Compass][5] and [Backbone.js][11] to build tools like [Grunt][6]
-to tesing frameworks like [Mocha][12].
+frameworks like [SASS][21] and [Backbone.js][11] to build tools like [Compass][5] and [Grunt][6]
+to tesing frameworks like [Mocha][12] and [MonkeyTestJS][19].
 
 The problem is that using these tools takes work and time. They come with a learning
 curve and they're updated regularly. We have to spend time learning how to use them,
@@ -65,7 +61,14 @@ isn't. But with MonkeyBones, it is.
 #### Roadmap
 
 MonkeyBones supports the packages that we use frequently. We'll keep adding support for new packages
-as we use them in future projects. 
+as we use them in future projects. If you fork MonkeyBones and add support for new tools, we'll do our
+best to act on pull requests in a timely manner.
+
+Some things have changed in the world since we started developing MonkeyBones. [Yeoman][20], a high profile
+workflow tool for web apps by some high profile peoople, has relaunched as a collection of tools including Yo,
+a scaffolding tool similar to grunt-init. In fact, so similar that [it will we be completely replacing grunt-init
+at some point](https://github.com/gruntjs/grunt-init/issues/31). Before that happens, we'll be porting MonkeyBones
+over to Yeoman as a [generator](http://yeoman.io/community-generators.html).
 
 
 Getting MonkeyBones
@@ -79,13 +82,14 @@ MonkeyBones uses [grunt][1], which uses [node][13] and the node package manager 
 
 If you don't already have them installed, find the instructions for your platform and install them in this order:
 
-[NodeJS][13] - npm is bundled with NodeJS
-[Grunt](http://gruntjs.com/getting-started)
+1. [NodeJS][13] - npm is bundled with NodeJS
+2. [Grunt](http://gruntjs.com/getting-started)
 
 
 #### Step 2: Clone the MonkeyBones repo from GitHub
 
-To make the project template available for use via grunt-init, you need to install it into your ~/.grunt-init/ directory (%USERPROFILE%\.grunt-init\ on Windows).
+To make the project template available for use via grunt-init, you need to install it into your
+~/.grunt-init/ directory (%USERPROFILE%\.grunt-init\ on Windows).
 
 The simplest approach is to use git to clone the template into that directory, ie:
 
@@ -101,7 +105,9 @@ That's it, MonkeyBones is all set up. To make sure, have a look in your .grunt-i
 ls ~/.grunt-init/
 ```
 
-You should see a directory called "monkeybones". There's a bunch of stuff in there which you can look at one day when you have to look busy. For now, just rest assured that the installation of MonkeyBones has all gone according to plan.
+You should see a directory called "monkeybones". There's a bunch of stuff in there which you can look at
+one day when you have to look busy. For now, just rest assured that the installation of MonkeyBones has
+all gone according to plan.
 
 
 
@@ -173,7 +179,9 @@ Please answer the following:
 [?] Project name (MyProject)
 ```
 
-MonkeyBones takes guesses and provides you with default answers. Pressing return without answering a question will automatically choose the default option. If you don't like the default, type in another answer and press return.
+MonkeyBones takes guesses and provides you with default answers. Pressing return without answering a
+question will automatically choose the default option. If you don't like the default, type in another
+answer and press return.
 
 Most of the questions should be pretty self explanatory. One thing that's worth noting is that
 MonkeyBones assumes that you're using git (and suggests a repo name):
@@ -184,18 +192,20 @@ MonkeyBones assumes that you're using git (and suggests a repo name):
 
 You should probably make sure that the repo you specify exists when you get to that point.
 
-When you get to this one, if you don't have a strong opinion about that then the correct answer is probably yes (which is the default):
+When you get to this one, if you don't have a strong opinion about that then the correct answer is
+probably yes (which is the default):
 
 ```
 [?] Do you want me to automatically download dependencies and build after setting up your project? (Y/n)
 ```
-If you amswer "Y", MonkeyBones will run the "init.sh" script automatically after the project is set up. This script checks that you have all the system dependencies that are required to run the tools that MonkeyBones has just downloaded. If you choose not to run init.sh automatically, you should run it manually:
+If you answer "Y", MonkeyBones will run the "init.sh" script automatically after the project is set up.
+This script checks that you have all the system dependencies that are required to run the tools that
+MonkeyBones has just downloaded. If you choose not to run init.sh automatically, you should run it manually
+when MonkeyBones setup is complete. That's covered in the next section, "Working on a MonkeyBones project"
 
-```
-bash ./init.sh
-```
-
-Once you're done with all the questions, MonkeyBones will start setting up your new project based on the answers you gave. It will go off into the internetz and get the packages you need, install them and maybe do a bit of jiggery and pokery to integrate into your project. You'll get progress updates, eg:
+Once you're done with all the questions, MonkeyBones will start setting up your new project based on the
+answers you gave. It will go off into the internetz and get the packages you need, install them and maybe
+do a bit of jiggery and pokery to integrate into your project. You'll get progress updates, eg:
 
 ```
 Writing .gitattributes...OK
@@ -281,7 +291,9 @@ Checking for executable php...OK
 Checking for executable mysql...OK
 ```
 
-If you don't have what you need, init.sh will let you know and stop there. You'll have to Google the tool you need and follow the installation instructions for your platform. When you run init.sh again it should get past that point.
+If you don't have what you need, init.sh will let you know and stop there. You'll have to Google the tool you
+need and follow the installation instructions for your platform. When you run init.sh again it should get past
+that point.
 
 Then [Node][13] packages:
 
@@ -295,7 +307,13 @@ If you're using PHP, init.sh also checks for any [Composer][18] packages that ar
 Installing composer dependencies...
 ```
 
+You may get a few warnings along the way, but if you see this message at the end, you're probably right to go:
 
+```
+Done, without errors.
+```
+
+If you don't see that, look back over the output and correct any issues before running init.sh again.
 
 
 
@@ -325,3 +343,5 @@ Monkeybones is created and maintained by:
 [17]: http://dev.mysql.com/
 [18]: http://getcomposer.org/
 [19]: https://github.com/TheMonkeys/MonkeytestJS
+[20]: http://yeoman.io/
+[21]: http://sass-lang.com/
