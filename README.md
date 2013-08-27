@@ -65,7 +65,7 @@ as we use them in future projects. If you fork MonkeyBones and add support for n
 best to act on pull requests in a timely manner.
 
 Some things have changed in the world since we started developing MonkeyBones. [Yeoman][20], a high profile
-workflow tool for web apps by some high profile peoople, has relaunched as a collection of tools including Yo,
+workflow tool for web apps by some high profile peoople, has relaunched as a collection of tools including [Yo][22],
 a scaffolding tool similar to grunt-init. In fact, so similar that [it will we be completely replacing grunt-init
 at some point](https://github.com/gruntjs/grunt-init/issues/31). Before that happens, we'll be porting MonkeyBones
 over to Yeoman as a [generator](http://yeoman.io/community-generators.html).
@@ -345,3 +345,4 @@ Monkeybones is created and maintained by:
 [19]: https://github.com/TheMonkeys/MonkeytestJS
 [20]: http://yeoman.io/
 [21]: http://sass-lang.com/
+[22]: https://github.com/yeoman/yo
