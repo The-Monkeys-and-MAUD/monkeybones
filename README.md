@@ -4,7 +4,7 @@
 Monkeybones
 ===========
 
-### For the bones of a productive web project
+### The bones of a productive web project
 
 Monkeybones is a [grunt-init][1] template developed and used by
 [The Monkeys][2] when it's time to set up a new project.
