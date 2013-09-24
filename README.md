@@ -311,8 +311,8 @@ isn't. But with [MonkeyBones][10], it is.
 Some things have changed in the world since we started developing [MonkeyBones][10]. [Yeoman][20], a high profile
 workflow tool for web apps by some high profile peoople, has relaunched as a collection of tools including [Yo][22],
 a scaffolding tool similar to [grunt-init][1]. In fact, so similar that [it will we be completely replacing [grunt-init][1]
-at some point](https://github.com/gruntjs/grunt-init/issues/31). Before that happens, we'll be porting MonkeyBones
-over to Yeoman as a [generator](http://yeoman.io/community-generators.html).
+at some point](https://github.com/gruntjs/grunt-init/issues/31). Before that happens, we'll be porting [MonkeyBones][10]
+over to [Yeoman][20] as a [generator](http://yeoman.io/community-generators.html).
 
 The name "MonkeyBones" will basically be a namespace. The current project template, geared as it is towards [Laravel][7]
 and [HTML5Boilerplate][3], will probably become a [Yeoman][20] generator called something like "monkeybones-laravel-html5bp". We'll
