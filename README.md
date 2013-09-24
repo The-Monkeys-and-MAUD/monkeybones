@@ -1,21 +1,21 @@
 [![MonkeyBones](http://monkeybones.io/img/logo_mb_small.png)][10]
 
 
-Monkeybones
+MonkeyBones
 ===========
 
 ### The bones of a productive web project
 
-Monkeybones is a [grunt-init][1] template developed and used by
-[The Monkeys][2] when it's time to set up a new project.
+[MonkeyBones][10] is a [grunt-init][1] template developed and used by
+[The Monkeys][2] when it's time to set up a new [Laravel][7] project.
 
-*NOTE: From now on, when we say "MonkeyBones", we mean "grunt-init, using the monkeybones
+*NOTE: From now on, when we say "MonkeyBones", we mean "grunt-init, using the [MonkeyBones][10]
 template".*
 
-MonkeyBones automates the setup of tools and packages we like to use. Projects created with MonkeyBones have an
+MonkeyBones automates the setup of tools and packages we like to use. Projects created with [MonkeyBones][10] have an
 "init.sh" script that makes it easier for new developers to get up to speed quickly.
 
-There are some tools and packages we always use and MonkeyBones will include them in every new project:
+There are some tools and packages we always use and [MonkeyBones][10] will include them in every new project:
 
 * [HTML5Boilerplate][3]
 * [Compass][5]
@@ -27,58 +27,25 @@ Others are optional:
 * [Laravel][7]
 * [MonkeyTestJS][19]
 
-For a new project, MonkeyBones will ask you questions about the tools you want and will
-generate a project scaffold based on your answers. 
+As you can might infer, [MonkeyBones][10] is particularly geared towards [Laravel][7] sites using [HTML5Boilerplate][3]
+as the starting point for the front end. We've put a lot of work into splitting up the boilerplate CSS across the
+[Compass][5] files and the HTML markup across the [Laravel][7] views.
 
-Once the project is set up and checked into git, another developer can clone it
-and run the "init.sh" script to configure their environment and install the tools
-they need for the project.
+[MonkeyBones][10] will ask you questions about the tools you want and will generate a project scaffold based on
+your answers. 
 
-
-#### Background
-
-There has been a seizemic shift happening in front end web development over the last
-few years. In a nutshell, ["we’re seeing the emphasis shift from valuing trivia to valuing
-tools"][9].
-
-The tools we're talking about are everything from boilerplates like [h5bp][3] to
-frameworks like [SASS][21] and [Backbone.js][11] to build tools like [Compass][5] and [Grunt][6]
-to tesing frameworks like [Mocha][12] and [MonkeyTestJS][19].
-
-The problem is that using these tools takes work and time. They come with a learning
-curve and they're updated regularly. We have to spend time learning how to use them,
-keeping them up to date, managing dependencies and finding out about new tools that
-come online.
-
-That's fine if you're working on a few projects a year, but we do dozens of
-projects every year and some of them are very small. The temptation is to not
-use all the tools for small jobs especially with new developers. For a three
-day front end build, is it really feasible for a new developer to spend the
-time getting up and running with a suite of unfamiliar tools? Unfortunately
-for the developers who have to maintain or extend that project later, it usually
-isn't. But with MonkeyBones, it is.
-
-#### Roadmap
-
-MonkeyBones supports the packages that we use frequently. We'll keep adding support for new packages
-as we use them in future projects. If you fork MonkeyBones and add support for new tools, we'll do our
-best to act on pull requests in a timely manner.
-
-Some things have changed in the world since we started developing MonkeyBones. [Yeoman][20], a high profile
-workflow tool for web apps by some high profile peoople, has relaunched as a collection of tools including [Yo][22],
-a scaffolding tool similar to grunt-init. In fact, so similar that [it will we be completely replacing grunt-init
-at some point](https://github.com/gruntjs/grunt-init/issues/31). Before that happens, we'll be porting MonkeyBones
-over to Yeoman as a [generator](http://yeoman.io/community-generators.html).
+Once the project is set up and checked into git, another developer can clone it and run the "init.sh" script to
+configure their environment and install the tools they need for the project.
 
 
 Getting MonkeyBones
 -------------------
 
-You install MonkeyBones once on your development machine and thereafter you can use it to start new projects.
+You install [MonkeyBones][10] once on your development machine and thereafter you can use it to start new projects.
 
-#### Step 1: Make sure you have what you need to run MonkeyBones
+#### Step 1: Make sure you have what you need to run [MonkeyBones][10]
 
-MonkeyBones uses [grunt][1], which uses [node][13] and the node package manager [npm][14].
+[MonkeyBones][10] uses [grunt][1], which uses [node][13] and the node package manager [npm][14].
 
 If you don't already have them installed, find the instructions for your platform and install them in this order:
 
@@ -86,9 +53,9 @@ If you don't already have them installed, find the instructions for your platfor
 2. [Grunt](http://gruntjs.com/getting-started)
 
 
-#### Step 2: Clone the MonkeyBones repo from GitHub
+#### Step 2: Clone the [MonkeyBones][10] repo from [GitHub][25]
 
-To make the project template available for use via grunt-init, you need to install it into your
+To make the project template available for use via [grunt-init][1], you need to install it into your
 ~/.grunt-init/ directory (%USERPROFILE%\.grunt-init\ on Windows).
 
 The simplest approach is to use git to clone the template into that directory, ie:
@@ -99,38 +66,37 @@ The simplest approach is to use git to clone the template into that directory, i
 
 #### Step 3: There isn't really a step 3
 
-That's it, MonkeyBones is all set up. To make sure, have a look in your .grunt-init directory:
+That's it, [MonkeyBones][10] is all set up. To make sure, have a look in your .grunt-init directory:
 
 ```
 ls ~/.grunt-init/
 ```
 
 You should see a directory called "monkeybones". There's a bunch of stuff in there which you can look at
-one day when you have to look busy. For now, just rest assured that the installation of MonkeyBones has
-all gone according to plan.
+one day when you have to look busy. For now, just rest assured that the installation has gone according to plan.
 
 
 
 
-Setting up a new web project with MonkeyBones
----------------------------------------------
+Setting up a new Laravel web project with MonkeyBones
+-----------------------------------------------------
 
 #### Step 1: Make a new directory for your project
 
-MonkeyBones will generate the files in the current directory, so be sure to make a new directory and then cd into it.
+[MonkeyBones][10] will generate the files in the current directory, so be sure to make a new directory and then cd into it.
 
   ```
   mkdir MyProject
   cd /path/to/MyProject
   ```
 
-#### Step 2: Run grunt-init, specifying MonkeyBones as the project template
+#### Step 2: Run [grunt-init][1], specifying "monkeybones" as the project template
 
   ```
   grunt-init monkeybones
   ```
 
-You'll see some standard messages eg (at the time of writing this):
+You'll see some standard [grunt-init][1] messages, eg:
 
 ```
 Running "init:monkeybones" (init) task
@@ -156,7 +122,7 @@ A web project template with a ready-made Gruntfile to give you javascript
 minification, Sass compilation, unit testing and more, as well as optional
 Laravel 4.0, backbone.js and/or acceptance testing framework.
 ```
-And a message to let you know that npm is about to scour the internetz for the packages MonkeyBones needs:
+And a message to let you know that npm is about to scour the internetz for the packages [MonkeyBones][10] needs:
 
 ```
 Using npm install to get template script dependencies.
@@ -172,19 +138,19 @@ npm http GET https://registry.npmjs.org/pipette/0.9.3
 ```
 etc.
 
-MonkeyBones will then start asking you questions and waiting for answers before continuing:
+[MonkeyBones][10] will then start asking you questions and waiting for answers before continuing:
 
 ```
 Please answer the following:
 [?] Project name (MyProject)
 ```
 
-MonkeyBones takes guesses and provides you with default answers. Pressing return without answering a
+[MonkeyBones][10] takes guesses and provides you with default answers. Pressing return without answering a
 question will automatically choose the default option. If you don't like the default, type in another
 answer and press return.
 
 Most of the questions should be pretty self explanatory. One thing that's worth noting is that
-MonkeyBones assumes that you're using git (and suggests a repo name):
+[MonkeyBones][10] assumes that you're using git (and suggests a repo name):
 
 ```
 [?] Project git repository (git://github.com/presentation/MyProject.git) 
@@ -198,12 +164,12 @@ probably yes (which is the default):
 ```
 [?] Do you want me to automatically download dependencies and build after setting up your project? (Y/n)
 ```
-If you answer "Y", MonkeyBones will run the "init.sh" script automatically after the project is set up.
+If you answer "Y", [MonkeyBones][10] will run the "init.sh" script automatically after the project is set up.
 This script checks that you have all the system dependencies that are required to run the tools that
-MonkeyBones has just downloaded. If you choose not to run init.sh automatically, you should run it manually
+[MonkeyBones][10] has just downloaded. If you choose not to run init.sh automatically, you should run it manually
 when MonkeyBones setup is complete. That's covered in the next section, "Working on a MonkeyBones project"
 
-Once you're done with all the questions, MonkeyBones will start setting up your new project based on the
+Once you're done with all the questions, [MonkeyBones][10] will start setting up your new project based on the
 answers you gave. It will go off into the internetz and get the packages you need, install them and maybe
 do a bit of jiggery and pokery to integrate into your project. You'll get progress updates, eg:
 
@@ -230,17 +196,16 @@ git remote add origin git://github.com/presentation/MyProject.git
 Working on a MonkeyBones project
 --------------------------------
 
-There are two ways that you might come into posession of a project that has been set up with MonkeyBones -
-either you set one up using MonkeyBones, or you cloned a git repo. Either way, once you have it, working
-on it is the same.
+There are two ways that you might come into posession of a project that has been set up with [MonkeyBones][10] -
+either you set it up or you cloned a git repo. Either way, once you have it, working on it is the same.
 
 Your project will obviously need to be served up using whatever webserver you usually use in your
 local dev environment so you'll need to know which folder to set as your webroot. You might also
-be new to some of the tools (like Grunt), so it's worth clarifying what's what.
+be new to some of the tools (like [Grunt][6]), so it's worth clarifying what's what.
 
 If you open the project directory in your IDE, you'll see different folders and files depending
 on the tools you opted for. A basic front end project might look something like the image below
-if you're using Sublime.
+if you're using [Sublime][24].
 
 
 
@@ -261,7 +226,7 @@ The "build" folder is where your project files live:
 
 
 
-Basically, you work in the "/build/web" directory and Grunt compiles everything into the "/build/public" directory.
+Basically, you work in the "/build/web" directory and [Grunt][6] compiles everything into the "/build/public" directory.
 
 So your webroot is the "/build/public" directory.
 
@@ -271,9 +236,9 @@ Run init.sh to make sure that you have everything you need installed on your mac
 bash ./init.sh
 ```
 
-Don't be scared, you can run init.sh as many times as you like and nothing bad will happen. If you haven't used
-MonkeyBones before, you probably won't get through it in one go. Once you're over the initial hurdles, you'll run
-init.sh any time you need to get a project up to date with the packages it needs.
+Don't be scared, you can run init.sh as many times as you like and nothing bad will happen. Once you're over the
+initial hurdles, you'll run init.sh any time you need to get a project up to date with the packages
+it needs.
 
 At the very least (for a purely front end project) init.sh will check that you have:
 
@@ -284,7 +249,7 @@ Checking for executable compass...OK
 Checking for executable composer...OK
 ```
 
-If you're using PHP, init.sh will check for [PHP][16] and [MySQL][17]
+If you're using [Laravel][7], init.sh will check for [PHP][16] and also for [MySQL][17]
 
 ```
 Checking for executable php...OK
@@ -313,13 +278,53 @@ You may get a few warnings along the way, but if you see this message at the end
 Done, without errors.
 ```
 
-If you don't see that, look back over the output and correct any issues before running init.sh again.
+If you don't see that, look back over the output and correct any issues before running init.sh again. If you haven't used
+[MonkeyBones][10] before, you probably won't get through it in one go becuase of the dependencies, so just keep at it.
+
+
+#### Background
+
+There has been a seizemic shift happening in front end web development over the last
+few years. In a nutshell, ["we’re seeing the emphasis shift from valuing trivia to valuing
+tools"][9].
+
+The tools we're talking about are everything from boilerplates like [h5bp][3] to
+frameworks like [SASS][21] and [Backbone.js][11] to build tools like [Compass][5] and [Grunt][6]
+to tesing frameworks like [Mocha][12] and [MonkeyTestJS][19].
+
+The problem is that using these tools takes work and time. They come with a learning
+curve and they're updated regularly. We have to spend time learning how to use them,
+keeping them up to date, managing dependencies and finding out about new tools that
+come online.
+
+That's fine if you're working on a few projects a year, but we do dozens of
+projects every year and some of them are very small. The temptation is to not
+use all the tools for small jobs especially with new developers. For a three
+day front end build, is it really feasible for a new developer to spend the
+time getting up and running with a suite of unfamiliar tools? Unfortunately
+for the developers who have to maintain or extend that project later, it usually
+isn't. But with [MonkeyBones][10], it is.
+
+
+#### Roadmap
+
+Some things have changed in the world since we started developing [MonkeyBones][10]. [Yeoman][20], a high profile
+workflow tool for web apps by some high profile peoople, has relaunched as a collection of tools including [Yo][22],
+a scaffolding tool similar to [grunt-init][1]. In fact, so similar that [it will we be completely replacing [grunt-init][1]
+at some point](https://github.com/gruntjs/grunt-init/issues/31). Before that happens, we'll be porting MonkeyBones
+over to Yeoman as a [generator](http://yeoman.io/community-generators.html).
+
+The name "MonkeyBones" will basically be a namespace. The current project template, geared as it is towards [Laravel][7]
+and [HTML5Boilerplate][3], will probably become a [Yeoman][20] called something like "monkeybones-laravel-html5bp". We'll
+make other generators for different technology stacks - for example, "monkeybones-express-html5bp" for the [NodeJS][13]
+framework [Express][23].
+
 
 
 
 --------------------------------
 
-Monkeybones is created and maintained by:
+[MonkeyBones][10] is created and maintained by:
 
 [![The Monkeys](http://www.themonkeys.com.au/img/monkey_logo.png)](http://www.themonkeys.com.au/)
 
@@ -346,3 +351,6 @@ Monkeybones is created and maintained by:
 [20]: http://yeoman.io/
 [21]: http://sass-lang.com/
 [22]: https://github.com/yeoman/yo
+[23]: http://expressjs.com/
+[24]: http://www.sublimetext.com/
+[25]: http://github.com
