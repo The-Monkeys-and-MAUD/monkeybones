@@ -315,7 +315,7 @@ at some point](https://github.com/gruntjs/grunt-init/issues/31). Before that hap
 over to Yeoman as a [generator](http://yeoman.io/community-generators.html).
 
 The name "MonkeyBones" will basically be a namespace. The current project template, geared as it is towards [Laravel][7]
-and [HTML5Boilerplate][3], will probably become a [Yeoman][20] called something like "monkeybones-laravel-html5bp". We'll
+and [HTML5Boilerplate][3], will probably become a [Yeoman][20] generator called something like "monkeybones-laravel-html5bp". We'll
 make other generators for different technology stacks - for example, "monkeybones-express-html5bp" for the [NodeJS][13]
 framework [Express][23].
 
