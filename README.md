@@ -4,7 +4,7 @@
 MonkeyBones
 ===========
 
-### The bones of a productive web project
+### The bones of a productive Laravel web project
 
 [MonkeyBones][10] is a [grunt-init][1] template developed and used by
 [The Monkeys][2] when it's time to set up a new [Laravel][7] project.
