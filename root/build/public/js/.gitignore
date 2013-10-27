@@ -1,3 +1,5 @@
 *
 !.gitignore
+!/vendor
+!/vendor/modernizr*.js
 
