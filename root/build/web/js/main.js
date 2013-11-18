@@ -9,7 +9,7 @@
     var defaultOrder = 0;
     for (var name in APP) {
 
-      if (APP.hasOwnProperty(name)) {
+      if (APP.hasOwnProperty(name) && typeof APP[name] === "object" && APP[name] !== null) {
         var info = {
           module: APP[name],
           name: name
