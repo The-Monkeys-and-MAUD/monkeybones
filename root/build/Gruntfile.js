@@ -167,23 +167,15 @@ module.exports = function(grunt) {
     }, 
     jsbeautifier : { 
         files : ['<%= concat.prod.src %>'],
-        options : { 
-            indent_size: 4,
-            indent_char: " ",
-            indent_level: 0,
-            indent_with_tabs: false,
-            preserve_newlines: true,
-            max_preserve_newlines: 10, 
-            jslint_happy: true,
-            brace_style: "expand",
-            keep_array_indentation: false,
-            keep_function_indentation: false,
-            space_before_conditional: true,
-            eval_code: false,
-            indent_case: false,
-            wrap_line_length: 80, 
-            unescape_strings: false
-        }   
+        options : {
+            js: {
+                indentSize: 4,
+                jslintHappy: true,
+                braceStyle: "collapse",
+                wrapLineLength: 0,
+                unescapeStrings: false
+            }
+        }
     },  
     connect: {
         server: {
