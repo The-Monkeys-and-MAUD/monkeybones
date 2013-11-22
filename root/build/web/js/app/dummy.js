@@ -1,11 +1,9 @@
 /* dummy */     
-(function(global) {    
-    
-    var APP = global.app = global.app || {},    
-        module = APP.dummy = APP.dummy || {};    
-    
-    module.dummy = function sample() {    
+define(function() {
+    'use strict';
+
+    return function() {
         return 1;    
     };    
     
-}( typeof exports === 'object' && exports || this ));
+});

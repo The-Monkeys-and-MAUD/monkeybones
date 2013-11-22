@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
   // Project configuration.
   grunt.initConfig({
@@ -7,28 +7,45 @@ module.exports = function(grunt) {
     banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
       '<%= grunt.template.today("yyyy-mm-dd") %> */ \n',
     // Task configuration.
-    concat: {
-      prod: {
-        src: ['web/js/vendor/*.js', 'web/js/vendor/**/*.js', 'web/js/lib/**/*.js', 'web/js/app/**/*.js', 'web/js/*.js' ],
-        dest: 'public/js/main.debug.js',
-        banner: '<%= banner %>',
-        stripBanners: true
+    requirejs: {
+      options: {
+        baseUrl: "web/js",
+        name: "main",
+        out: "public/js/main.js",
+        mainConfigFile: "web/js/main.js"
       },
       dev: {
-        src: '<%= concat.prod.src %>',
-        dest: 'public/js/main.js',
-        banner: '<%= banner %>',
-        stripBanners: false
+        options: {
+          optimize: 'none'
+        }
+      },
+      prod: {
+        options: {
+          name: "../bower_components/almond/almond",
+          include: "main"
+        }
       }
     },
-    uglify: {
-      options: {
-        banner: '<%= banner %>',
-        separator: ';'
-      },
-      dist: {
-        src: '<%= concat.prod.dest %>',
-        dest: 'public/js/main.js'
+    copy: {
+      js: {
+        files: [
+          {
+            src: 'web/bower_components/requirejs/require.js',
+            dest: 'public/js/vendor/require.js'
+          },
+          {
+            expand: true,
+            cwd: 'web/',
+            src: 'js/**/*.js',
+            dest: 'public'
+          },
+          {
+            expand: true,
+            cwd: 'web/',
+            src: 'bower_components/**/*.js',
+            dest: 'public'
+          }
+        ]
       }
     },
     jshint: {
@@ -46,90 +63,86 @@ module.exports = function(grunt) {
         eqnull: true,
         browser: true,
         globals: {
-            __dirname: false,
-            require: false,
-            exports: true,
-            module: false,
-            jQuery: false,
-            '$': false,
-            '_': false,
-            'Backbone': false,
-            console: false,
-            Modernizr:false
+          __dirname: false,
+          require: false,
+          define:false,
+          exports: true,
+          module: false,
+          console: false
         }
       },
       gruntfile: {
         src: 'Gruntfile.js'
       },
       lib_test: {
-        src: ['web/js/lib/**/*.js','web/js/app/**/*.js', 'web/js/*.js']
+        src: ['web/js/lib/**/*.js', 'web/js/app/**/*.js', 'web/js/*.js']
       }
     },
     nodeunit: {
-        all: ['web/test/**/*_test.js']
+      all: ['web/test/**/*_test.js']
     },
     phpunit: {
-        classes: {
-            dir: 'app/tests/'
-        },  
-        options: {
-            configuration: 'phpunit.xml'
-        }   
-    }, 
+      classes: {
+        dir: 'app/tests/'
+      },
+      options: {
+        configuration: 'phpunit.xml'
+      }
+    },
     compass: {
+      options: {
+        sassDir: 'web/scss',
+        cssDir: 'public/css',
+        imagesDir: 'public/img',
+        raw: 'http_images_path = "/img"',
+        relativeAssets: false,
+        noLineComments: true,
+        debugInfo: false
+      },
+      prod: {
         options: {
-            sassDir: 'web/scss',
-            cssDir: 'public/css',
-            imagesDir: 'public/img',
-            raw: 'http_images_path = "/img"',
-            relativeAssets: false,
-            noLineComments: true,
-            debugInfo: false
-        },
-        prod: {
-            options: {
-                outputStyle: 'compressed',
-                environment: 'production'
-            }
-        },
-        dev: {
-            options: {
-                outputStyle: 'nested'
-            }
+          outputStyle: 'compressed',
+          environment: 'production'
         }
+      },
+      dev: {
+        options: {
+          outputStyle: 'nested'
+        }
+      }
     },
     reload: {
-        port: 35729, // LR default
-        liveReload: {}, 
-        proxy: {
-            host: 'localhost'
-            //port: '8888'
-        }   
+      port: 35729, // LR default
+      liveReload: {},
+      proxy: {
+        host: 'localhost'
+        //port: '8888'
+      }
     },
     dox: {
-      libdocs : {
-          src: ['<%= jshint.lib_test.src %>', 'web/test/**/*.js'],
-          dest: 'doc/javascript'
+      libdocs: {
+        src: ['<%= jshint.lib_test.src %>', 'web/test/**/*.js'],
+        dest: 'doc/javascript'
       }
     },
     phpdocumentor: {
-        dist : { 
-            directory : ['app'],
-            target : 'doc/php/doc'
-        }   
-    },  
+      dist: {
+        directory: ['app'],
+        target: 'doc/php/doc'
+      }
+    },
     watch: {
       all: {
-          files: ['web/scss/**/*.scss', '<%= jshint.lib_test.src %>'],
-          tasks: ['compass:dev', 'concat:dev', 'reload']
+        files: ['web/scss/**/*.scss', '<%= jshint.lib_test.src %>'],
+        tasks: ['compass:dev', 'copy:js', 'reload']
       },
       css: {
-          files: '<%= compass.dev.sassDir %>',
-          tasks: ['compass:dev', 'reload']
+        files: '<%= compass.dev.sassDir %>',
+        tasks: ['compass:dev', 'reload']
       },
       js: {
-          files: ['<%= concat.prod.src %>'],
-          tasks: ['concat:dev', 'reload']
+        files: ['<%= jshint.lib_test.src %>'],
+        tasks: ['copy:js', 'reload']
       },
       php: {
         files: '<%= phpunit.classes.dir %>',
@@ -143,52 +156,31 @@ module.exports = function(grunt) {
         files: '<%= jshint.lib_test.src %>',
         tasks: ['jshint:lib_test', 'test']
       }
-    },  
-    bowerful: {
-        dist: {
-            store: 'components',
-            dest: 'web/js/vendor',
-            destfile: 'vendor',
-            /*
-             * can specify custom targets
-            customtarget: {
-                'web/js/vendor/jquery.js'
-            },
-            */
-            /*
-            packages: {
-                jquery: ''//, 
-                //underscore: '', 
-                //backbone: ''
-            }   
-            */
-            packages: grunt.file.readJSON('projectDefault.json')
+    },
+    jsbeautifier: {
+      files: ['<%= jshint.lib_test.src %>'],
+      options: {
+        js: {
+          indentSize: 4,
+          jslintHappy: true,
+          braceStyle: "collapse",
+          wrapLineLength: 0,
+          unescapeStrings: false
         }
-    }, 
-    jsbeautifier : { 
-        files : ['<%= concat.prod.src %>'],
-        options : {
-            js: {
-                indentSize: 4,
-                jslintHappy: true,
-                braceStyle: "collapse",
-                wrapLineLength: 0,
-                unescapeStrings: false
-            }
-        }
-    },  
+      }
+    },
     connect: {
-        server: {
-          options: {
-            port: 9000,
-            // this will allow tasks like the W3C validation to be tested to bypass X domain assync.
-            middleware: require('grunt-monkeytestjs/tasks/monkeytestjs.js').proxy,
-            // if you want to run your own personal server uncomment this line
-            //keepalive: true,
-            base: 'public'
-          }   
-        }   
-    }, 
+      server: {
+        options: {
+          port: 9000,
+          // this will allow tasks like the W3C validation to be tested to bypass X domain assync.
+          middleware: require('grunt-monkeytestjs/tasks/monkeytestjs.js').proxy,
+          // if you want to run your own personal server uncomment this line
+          //keepalive: true,
+          base: 'public'
+        }
+      }
+    },
     monkeytestjs: {
       localFileServerUrl: {
         options: {
@@ -208,12 +200,9 @@ module.exports = function(grunt) {
       }
     },
     clean: {
-        install: {
-            src: '<%= bowerful.dist.store.src %>'
-        },
-        debug: {
-            src: '<%= concat.prod.dest %>'
-        }
+      js: {
+        src: ["public/js/**/*", "!**/vendor", "!**/modernizr*.js", "public/bower_components"]
+      }
     }
   });
 
@@ -225,17 +214,18 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-monkeytestjs');
-  grunt.loadNpmTasks('grunt-bowerful');
 
   // Better naming conventions
   grunt.registerTask('lint', 'Lint javascript files with default validator', 'jshint');
-  grunt.registerTask('min',  'Minify files with default minifier', 'uglify');
+  grunt.registerTask('min', 'Minify files with default minifier', 'uglify');
   grunt.registerTask('test', 'Unit testing on the command line with default testing framework', 'nodeunit');
 
   grunt.registerTask('localUrl', ['connect', 'monkeytestjs:localFileServerUrl']);
-  grunt.registerTask('test', ['monkeytestjs:onlineUrl', 'localUrl']);
+  grunt.registerTask('onlinetest', ['monkeytestjs:onlineUrl', 'localUrl']);
   grunt.registerTask('itest', 'Integration testing on the command line using monkeytestjs', ['connect', 'monkeytestjs']);
 
   // reload
@@ -252,17 +242,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-phpdocumentor');
 
   // watch tasks
-  grunt.registerTask('dev',     ['reload', 'watch:all']);
+  grunt.registerTask('dev', ['reload', 'watch:all']);
   grunt.registerTask('dev:css', ['reload', 'watch:css']);
-  grunt.registerTask('dev:js',  ['reload', 'watch:js']);
+  grunt.registerTask('dev:js', ['reload', 'watch:js']);
 
   // generate all docs
-  grunt.registerTask('docs',    ['dox', 'phpdocumentor']);
-
-  // install 
-  grunt.registerTask('install', 'Install javascript components defined on Gruntfile',  ['bowerful', 'clean:install']);
+  grunt.registerTask('docs', ['dox']); // add 'phpdocumentor' after 'dox' here if using php
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'nodeunit', 'concat', 'jsbeautifier', 'uglify', 'clean:debug', 'compass:prod']);
+  grunt.registerTask('default', ['jshint', 'jsbeautifier', 'clean', 'test', 'requirejs:prod', 'compass:prod']);
 
 };

@@ -29,11 +29,16 @@ function checkdependencies() {
         checkcommand $i
         msgsuccess
     done
-
-    installdependencies
 }
 
-# check for project dependencies
+function checkdevdependencies() {
+    checkdependencies
+    echo -n "Checking for executable bower..."
+    checkcommand bower
+    msgsuccess
+}
+
+# install project dependencies
 function installdependencies() {
     # install npm modules
     echo "Installing npm dependencies..."
@@ -85,11 +90,16 @@ function installdependencies() {
         chmod -R 777 public/silverstripe/assets
     fi
 
-    echo "Installing basic javascript files"
-    grunt install
-
     cd ${OLDPWD}
 }
+
+function installdevdependencies() {
+    echo "Installing basic javascript files..."
+    cd ${DIR}/build/
+    bower install
+    cd ${OLDPWD}
+}
+
 
 # Setup building process
 function build() {
@@ -118,7 +128,9 @@ function revertbuild() {
 
 case "$1" in
     "")
-        checkdependencies
+        checkdevdependencies
+        installdevdependencies
+        installdependencies
         build
     ;;
     build)
@@ -130,5 +142,6 @@ case "$1" in
     ;;
     check)
         checkdependencies
+        installdependencies
     ;;
 esac

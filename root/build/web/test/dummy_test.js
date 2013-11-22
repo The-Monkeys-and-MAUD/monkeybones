@@ -48,32 +48,29 @@
 /*
  * '../js/app/dummy.js'
  *
- *(function(global) {    
- *    
- *    var APP = global.app = global.app || {},    
- *       module = APP.dummy = APP.dummy || {};    
- *    
- *   module.dummy = function sample() {    
- *       return 1;    
- *   };    
- *   
- * }( typeof exports === 'object' && exports || this ));
+ * define(function () {
+ *   'use strict';
+ *
+ *   return function () {
+ *     return 1;
+ *   };
+ * });
+ *
  */
 
 //
 
 var path = require("path");
 
-// allow require files within a context
-var requireincontext = require("requireincontext");
-
 // allow to create mocks
 var nodemock = require("nodemock");
 
 // window depedencies
+var requirejs = require("requirejs");
 var jQuery = require("jquery");
 var underscore = require("underscore");
 var backbone = require("backbone");
+
 
 var context = { 
     jQuery: jQuery,
@@ -86,17 +83,23 @@ var context = {
 context.Backbone.$ = jQuery;
 context._.$ = jQuery;
 
-// require the tested file and mock global context
-var testsrc = requireincontext( path.join( __dirname, '../js/app/dummy.js'), context );
+module.exports = {
 
-module.exports = { 
-
-    setUp: function( callback ) {   
+    setUp: function( callback ) {
+        var self = this;
         // setup initial values before any test, this will be called before each test.
-        this._module = testsrc.app.dummy; 
+        requirejs.config({
+            baseUrl: path.join(__dirname, '../js'),
+            nodeRequire: require
+        });
 
-        callback();
-    },  
+        requirejs(['app/dummy'],
+            function (dummy) {
+                self.dummy = dummy;
+                callback();
+            }
+        );
+    },
 
     tearDown: function( callback ) { 
         // revert any value that was overwritten on test cases that used setup values.
@@ -114,16 +117,16 @@ module.exports = {
         test.expect(5);
 
         // should return true
-        test.ok(this._module.dummy() , "Dummy should return true");
+        test.ok(this.dummy() , "Dummy should return true");
 
         // this will test with the == operator
-        test.equal(this._module.dummy(), true, "This should be true since 1 == true");
+        test.equal(this.dummy(), true, "This should be true since 1 == true");
 
         // this will test with the !== operator
-        test.notStrictEqual(this._module.dummy(), true, "This should be false since 1 !== true");
+        test.notStrictEqual(this.dummy(), true, "This should be false since 1 !== true");
 
         // this will test with the === operator
-        test.strictEqual(this._module.dummy(), 1, "This should be true since 1 === 1");
+        test.strictEqual(this.dummy(), 1, "This should be true since 1 === 1");
 
         // should return true
         test.ok(mocked.mockedvalue( 10, [10, 20, 30 ] ) , "mocked should return true");

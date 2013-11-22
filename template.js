@@ -119,8 +119,13 @@
   function template(grunt, init, done) {
     // Here is where we going to specify which files should be downloaded
     // by bower, default is only jquery.
-    init.projectDefaultjson = {
-      jquery: ""
+    init.bowerJson = {
+        "dependencies": {
+            "requirejs": "",
+            "almond": "",
+            "jquery": ""
+        },
+        "private": true
     };
 
 
@@ -150,6 +155,8 @@
     });
 
     init.process({}, prompts, function(err, props) {
+      init.bowerJson.name = props.name;
+      init.bowerJson.version = props.version;
 
       props.keywords = [];
 
@@ -183,20 +190,21 @@
             'grunt-contrib-jshint': 'latest',
             'grunt-contrib-concat': 'latest',
             'grunt-contrib-nodeunit': 'latest',
+            'grunt-contrib-requirejs': 'latest',
             'grunt-contrib-uglify': 'latest',
             'grunt-contrib-watch': 'latest',
             'grunt-contrib-clean': 'latest',
+            'grunt-contrib-copy': 'latest',
             'grunt-contrib-compass': 'latest',
             'grunt-contrib-connect': 'latest',
             'grunt-monkeytestjs': 'latest',
             'grunt-dox': 'latest',
             'grunt-jsbeautifier': 'latest',
-            'requireincontext': 'latest',
             'nodemock': 'latest',
-            'grunt-bowerful': 'latest',
             'backbone': 'latest',
             'underscore': 'latest',
             'jquery': 'latest',
+            'requirejs': 'latest',
             'grunt-phpunit': 'latest',
             'grunt-phpdocumentor': 'git://github.com/gomoob/grunt-phpdocumentor.git',
             'grunt-reload': 'git://github.com/webxl/grunt-reload.git'
@@ -244,12 +252,12 @@
       .add( 'acceptance', require('./lib/acceptance') )
       .add([ 
             {
-              name: 'writeProjectDefaultJson',
+              name: 'writeBowerJson',
               prop: {
                   prompt: false,
                   template: function(grunt, init, done) {
                     // create a project json file on which projects will be read from
-                    fs.writeFileSync('build/projectDefault.json', JSON.stringify(init.projectDefaultjson));
+                    fs.writeFileSync('build/bower.json', JSON.stringify(init.bowerJson));
                     done();
                   }
              }
