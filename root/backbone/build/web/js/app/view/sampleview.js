@@ -1,11 +1,8 @@
 /* dummy */     
-(function(global) {    
-
+define(['underscore', 'backbone'], function(_, Backbone) {
     "use strict";
     
-    var APP = global.app = global.app || {};
-
-    APP.DummyView = Backbone.View.extend({
+    return Backbone.View.extend({
 
         tagName:  'h1',
         
@@ -34,14 +31,12 @@
 
         helloWorld: function() {
         
-            this.model.set("message", global.prompt("New message:") ); 
+            this.model.set("message", window.prompt("New message:") );
         },
 
         updateHash: function() {
 
-            global.location.href = '/#/message/' + this.model.get("message");
+            window.location.href = '/#/message/' + this.model.get("message");
         }
     });
-        
-    
-}( typeof exports === 'object' && exports || this ));
+});

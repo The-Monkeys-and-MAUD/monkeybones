@@ -67,21 +67,6 @@ var nodemock = require("nodemock");
 
 // window depedencies
 var requirejs = require("requirejs");
-var jQuery = require("jquery");
-var underscore = require("underscore");
-var backbone = require("backbone");
-
-
-var context = { 
-    jQuery: jQuery,
-    '$': jQuery,
-    Backbone: backbone,
-    '_': underscore,
-    window: {},
-    document: {}
-};
-context.Backbone.$ = jQuery;
-context._.$ = jQuery;
 
 module.exports = {
 

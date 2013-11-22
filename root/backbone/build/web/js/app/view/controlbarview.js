@@ -1,11 +1,8 @@
 /* dummy */     
-(function(global) {    
-
+define(['underscore', 'jquery', 'backbone'], function(_, $, Backbone) {
     "use strict";
     
-    var APP = global.app = global.app || {};
-
-    APP.ControllBarView = Backbone.View.extend({
+    return Backbone.View.extend({
 
         _editable: true,
 
@@ -52,6 +49,4 @@
         }
 
     });
-        
-    
-}( typeof exports === 'object' && exports || this ));
+});

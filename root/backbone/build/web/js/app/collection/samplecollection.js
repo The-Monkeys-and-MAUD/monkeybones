@@ -1,17 +1,13 @@
-/* dummy */    
-(function(global) {    
-
+/* dummy */
+define(['backbone', 'app/model/samplemodel'], function(Backbone, DummyModel) {
     "use strict";
-    
-    var APP = global.app = global.app || {}; 
-   
-    APP.DummyModelCollection = Backbone.Collection.extend({
-        model: APP.DummyModel,
+
+    return Backbone.Collection.extend({
+        model: DummyModel,
 
         initialize: function() {
             // console.log("collection loaded");
         }   
     }); 
 
-    
-}( typeof exports === 'object' && exports || this )); 
+});

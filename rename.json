@@ -13,7 +13,7 @@
     "backbone/build/web/js/app/app.js": false,
     "backbone/build/web/js/app/router.js": false,
     "backbone/build/web/js/app/view/sampleview.js": false,
-    "backbone/build/web/js/app/view/controllbarview.js": false,
+    "backbone/build/web/js/app/view/controlbarview.js": false,
     "backbone/build/web/js/app/model/samplemodel.js": false,
     "backbone/build/web/js/app/collection/samplecollection.js": false,
     "backbone/build/web/test/backbonemodel_test.js": false

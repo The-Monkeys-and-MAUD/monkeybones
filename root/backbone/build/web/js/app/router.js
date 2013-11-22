@@ -1,22 +1,21 @@
 /* dummy */    
-(function(global) {    
-
+define([
+  'backbone', 'app/model/samplemodel', 'app/collection/samplecollection', 'app/app'
+], function(Backbone, DummyModel, DummyModelCollection, DummyAppView) {
     "use strict";
     
-    var APP = global.app = global.app || {}; 
-   
-    APP.router = Backbone.Router.extend({
+    return Backbone.Router.extend({
 
       initialize: function() {
-          this.messageModel = new APP.DummyModel();
-          this.messageCollection = new APP.DummyModelCollection([ 
+          this.messageModel = new DummyModel();
+          this.messageCollection = new DummyModelCollection([
               this.messageModel, 
-              new APP.DummyModel({
+              new DummyModel({
                 name: "Dummy hidden model", 
                 message: "You dont even know that i exist"
               })  
-          ], { model: APP.DummyModel }); 
-          this.mainView = new APP.DummyAppView({ model: this.messageModel });  
+          ]);
+          this.mainView = new DummyAppView({ model: this.messageModel });
      
           Backbone.history.start();
       },  
@@ -36,6 +35,6 @@
       }   
 
     }); 
-    
-}( typeof exports === 'object' && exports || this )); 
+
+});
 

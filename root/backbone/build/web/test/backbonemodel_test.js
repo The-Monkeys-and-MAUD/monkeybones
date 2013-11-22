@@ -49,107 +49,97 @@
 /*
  * '../app/model/samplemodel.js'
  *
- * (function(global) {    
  *
- *    "use strict";
- *    
- *    var APP = global.app = global.app || {};
- *   
- *    APP.DummyModel = Backbone.Model.extend({
+ * define(['backbone'], function(Backbone) {
+ *   "use strict";
  *
- *        defaults: function() {
- *          return {
- *            name: "Dummy",
- *            message: "Hello world from Backbone",
- *            speed: 100,
- *            size: 20,
- *            visible: false
- *          };
- *        },
+ *   return Backbone.Model.extend({
  *
- *        initialize: function() {         
- *            //console.log( this.defaults().name, ' Model created.' );
- *        }
+ *     defaults: function() {
+ *       return {
+ *         name: "Dummy",
+ *         message: "Hello world from Backbone",
+ *         speed: 100,
+ *         size: 20,
+ *         visible: false
+ *       };
+ *     },
  *
- *  });
- *    
- * }( typeof exports === 'object' && exports || this ));
+ *     initialize: function() {
+ *       //console.log( this.defaults().name, ' Model created.' );
+ *     }
+ *
+ *   });
+ * });
+ *
  */
 
 //
 
 var path = require("path");
 
-// allow require files within a context
-var requireincontext = require("requireincontext");
-
 // allow to create mocks
 var nodemock = require("nodemock");
 
 // window depedencies
-var jQuery = require("jquery");
-var underscore = require("underscore");
-var backbone = require("backbone");
+var requirejs = require("requirejs");
 
-var context = { 
-    jQuery: jQuery,
-    '$': jQuery,
-    Backbone: backbone,
-    '_': underscore,
-    window: {},
-    document: {}
-};
-context.Backbone.$ = jQuery;
-context._.$ = jQuery;
+module.exports = {
 
-var testsrc = requireincontext( path.join( __dirname, '../js/app/model/samplemodel.js'), context );
-
-module.exports = { 
-
-    setUp: function( callback ) {   
+    setUp: function (callback) {
         // setup initial values before any test, this will be called before each test.
-        this._module = testsrc.app.DummyModel;
+        var self = this;
+        // setup initial values before any test, this will be called before each test.
+        requirejs.config({
+            baseUrl: path.join(__dirname, '../js'),
+            nodeRequire: require
+        });
 
-        callback();
-    },  
+        requirejs(['app/model/samplemodel'],
+            function (DummyModel) {
+                self.DummyModel = DummyModel;
+                callback();
+            }
+        );
+    },
 
-    tearDown: function( callback ) { 
+    tearDown: function (callback) {
         // revert any value that was overwritten on test cases that used setup values.
         // this will be called after each test is finished.
 
         callback();
-    },  
+    },
 
-    'Dummy test case': function( test ) { 
+    'Dummy test case': function (test) {
 
         // number of expected tests to be run
         test.expect(6);
 
-        var fixture = new this._module({ message: "bom dia" });
+        var fixture = new this.DummyModel({ message: "bom dia" });
 
-        // mock a function 
+        // mock a function
         var fixture2 = nodemock.mock("get").takes("name").returns("Surprise");
 
         // When model is created with an argument should overwritte defaults
-        test.equal( fixture.get("message"), "bom dia", "Model message should be 'bom dia'" );
-        
+        test.equal(fixture.get("message"), "bom dia", "Model message should be 'bom dia'");
+
         // this will test with the == operator
-        test.equal( fixture.get("visible"), 0, "Visible should be set to false by default");
-        
+        test.equal(fixture.get("visible"), 0, "Visible should be set to false by default");
+
         // should return true
         fixture.set("visible", true); // updating model value
-        test.ok( fixture.get("visible"), "Visible property should be now set to true");
+        test.ok(fixture.get("visible"), "Visible property should be now set to true");
 
         // this will test with the !== operator
-        test.notStrictEqual( fixture.get("name") , "undefined", "Name property should be defined by default");
+        test.notStrictEqual(fixture.get("name"), "undefined", "Name property should be defined by default");
 
         // this will test with the === operator
-        test.strictEqual( fixture.get("size"), 20, "Default size should be 20");
+        test.strictEqual(fixture.get("size"), 20, "Default size should be 20");
 
         // should return 'Surpise'
-        test.strictEqual( fixture2.get("name"), "Surprise", "Mocked fixture function get should return 'Surprise'");
+        test.strictEqual(fixture2.get("name"), "Surprise", "Mocked fixture function get should return 'Surprise'");
 
         // this needs to be called after each test case
         test.done();
-    }   
+    }
 };

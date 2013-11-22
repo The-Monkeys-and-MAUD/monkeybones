@@ -1,11 +1,8 @@
 /* dummy */     
-(function(global) {    
-
+define(['backbone'], function(Backbone) {
     "use strict";
     
-    var APP = global.app = global.app || {};
-   
-    APP.DummyModel = Backbone.Model.extend({
+    return Backbone.Model.extend({
 
         defaults: function() {
           return {
@@ -22,6 +19,4 @@
         }
 
   });
-
-    
-}( typeof exports === 'object' && exports || this ));
+});
