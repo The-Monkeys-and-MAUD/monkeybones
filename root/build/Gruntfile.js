@@ -107,7 +107,8 @@ module.exports = function (grunt) {
       },
       dev: {
         options: {
-          outputStyle: 'nested'
+          outputStyle: 'nested',
+          sourcemap: true
         }
       }
     },
