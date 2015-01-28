@@ -197,7 +197,6 @@
             'grunt-contrib-copy': 'latest',
             'grunt-contrib-compass': 'latest',
             'grunt-contrib-connect': 'latest',
-            'grunt-monkeytestjs': 'latest',
             'grunt-dox': 'latest',
             'grunt-jsbeautifier': 'latest',
             'nodemock': 'latest',
