@@ -170,36 +170,6 @@ module.exports = function (grunt) {
         }
       }
     },
-    connect: {
-      server: {
-        options: {
-          port: 9000,
-          // this will allow tasks like the W3C validation to be tested to bypass X domain assync.
-          middleware: require('grunt-monkeytestjs/tasks/monkeytestjs.js').proxy,
-          // if you want to run your own personal server uncomment this line
-          //keepalive: true,
-          base: 'public'
-        }
-      }
-    },
-    monkeytestjs: {
-      localFileServerUrl: {
-        options: {
-          urls: [
-            // you can run a server to test local files
-            'http://localhost:9000/tests/index.html'
-          ]
-        }
-      },
-      onlineUrl: {
-        options: {
-          urls: [
-            // you can test external urls
-            'http://themonkeys.github.io/MonkeytestJS/tests/index.html'
-          ]
-        }
-      }
-    },
     clean: {
       js: {
         src: ["public/js/**/*", "!**/vendor", "!**/modernizr*.js", "public/bower_components"]
@@ -218,16 +188,11 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
-  grunt.loadNpmTasks('grunt-monkeytestjs');
 
   // Better naming conventions
   grunt.registerTask('lint', 'Lint javascript files with default validator', 'jshint');
   grunt.registerTask('min', 'Minify files with default minifier', 'uglify');
   grunt.registerTask('test', 'Unit testing on the command line with default testing framework', 'nodeunit');
-
-  grunt.registerTask('localUrl', ['connect', 'monkeytestjs:localFileServerUrl']);
-  grunt.registerTask('onlinetest', ['monkeytestjs:onlineUrl', 'localUrl']);
-  grunt.registerTask('itest', 'Integration testing on the command line using monkeytestjs', ['connect', 'monkeytestjs']);
 
   // reload
   grunt.loadNpmTasks('grunt-reload');
