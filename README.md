@@ -340,7 +340,7 @@ framework [Express][23].
 [9]: http://rmurphey.com/blog/2012/04/12/a-baseline-for-front-end-developers/
 [10]: http://monkeybones.io/
 [11]: http://backbonejs.org/
-[12]: http://visionmedia.github.io/mocha/
+[12]: http://mochajs.org/
 [13]: http://nodejs.org/
 [14]: https://npmjs.org/
 [15]: http://getcomposer.org/doc/00-intro.md
